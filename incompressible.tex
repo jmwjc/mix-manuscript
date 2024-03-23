@@ -1,0 +1,90 @@
+\section{Mixed formulation for incompressible elasticity problems}
+Consider a body $\Omega \in \mathbb R^2$ with boundary $\Gamma$ in 2D as shown in Fig. \ref{}, in which the $\Gamma_t$ and $\Gamma_g$ denotes its natural boundary and essential boundary such that $\Gamma_t \cup \Gamma_g = \Gamma$, $\Gamma_t \cap \Gamma_g = \varnothing$. The corresponding governing equations are given by:
+\begin{equation}\label{strong}
+\begin{cases}
+    \nabla \cdot \boldsymbol \sigma + \boldsymbol b = \boldsymbol 0 & \mathrm{in} \; \Omega \\
+    \frac{p}{\kappa} + \nabla \cdot \boldsymbol u = 0 & \mathrm{in} \; \Omega \\
+    \boldsymbol \sigma \cdot \boldsymbol n = \boldsymbol t & \mathrm{on} \; \Gamma_t \\
+    \boldsymbol u = \boldsymbol g & \mathrm{on} \; \Gamma_g \\
+\end{cases}
+\end{equation}
+where $\boldsymbol u$ stands for the displacement and the $\boldsymbol \sigma$ is the stress tensor. For isotropic linear elastic material, the constitutive relationship 
+\begin{equation}
+\boldsymbol \sigma = 3\kappa \boldsymbol \varepsilon^v + 2\mu \boldsymbol \varepsilon^d 
+= -p \boldsymbol 1 + 2\mu \boldsymbol \varepsilon^d
+\end{equation}
+where $\kappa$, $\mu$ are the bulk modulus and shear modulus, and they can be represented by Young's modulus $E$ and Poisson's ratio $\nu$:
+\begin{equation}
+\kappa = \frac{E}{2(1-2\nu)}, \quad \mu = \frac{E}{2(1+\nu)}
+\end{equation}
+It's obvious that, for a nearly-incompressible material, i.e. $\nu \rightarrow 0.5$, $\kappa \rightarrow 0$ and $\nabla \cdot \boldsymbol u \rightarrow 0$.
+The strain tensor $\boldsymbol \varepsilon$ is depicted by the small deformation assumption as:
+\begin{equation}
+\boldsymbol \varepsilon = \frac{1}{2}(\boldsymbol u \nabla + \nabla \boldsymbol u)
+\end{equation}
+For further development, the spaces 
+\begin{align}
+    \mathcal V &= \{\boldsymbol v \in H^1(\Omega)^2 \vert \boldsymbol v = \boldsymbol g, \; \mathrm{on} \; \Gamma_g\} \\
+    \mathcal Q &= \{q \in L^2(\Omega) \vert \int_{\Omega} q d\Omega = 0\}
+\end{align}
+where $L^2$ and $H^1$ are the standard Sobolev spaces of $W^{0,2}$ and $W^{1,2}$ in $\Omega$. At this circumstance, the strong form of Eq.\eqref{strong} is equivalent to the variational problem that finding $\boldsymbol u \in \mathcal V$, $p \in \mathcal Q$ such that:
+\begin{equation}\label{weak}
+    \begin{split}
+        a(\boldsymbol v, \boldsymbol u) + b(\boldsymbol v, p) &= f(\boldsymbol v)  \quad \forall \boldsymbol v \in \mathcal V \\
+        b(\boldsymbol u,q) &= 0 \qquad \;\; \forall q \in \mathcal Q
+    \end{split}
+\end{equation}
+in which $a:\mathcal V \times \mathcal V \rightarrow \mathbb R$ and $b:\mathcal V \times \mathcal Q \rightarrow \mathbb R$ are bilinear forms defined by:
+\begin{equation}
+a(\boldsymbol v, \boldsymbol u) = \int_{\Omega} 2\mu \boldsymbol \varepsilon^d(\boldsymbol v) : \boldsymbol \varepsilon^d(\boldsymbol u) d\Omega
+\end{equation}
+\begin{equation}
+b(\boldsymbol v, q) = \int_{\Omega} q \nabla \cdot \boldsymbol v d\Omega
+\end{equation}
+and $f:\mathcal V \rightarrow \mathbb R$ is a linear form:
+\begin{equation}
+f(\boldsymbol v) = \int_{\Gamma_t} \boldsymbol v \cdot \boldsymbol t d\Gamma + \int_{\Omega} \boldsymbol v \cdot \boldsymbol b d\Omega
+\end{equation}
+
+In traditional mixed formulations, the displacement tensor $\boldsymbol u$ and the pressure $p$ are discretized by different sets of controlled nodes, namely displacement nodes $\{\boldsymbol x_I\}_{I=1}^{n_d}$ and pressure nodes $\{\boldsymbol x_K\}_{K=1}^{n_p}$, where $n_d$ and $n_p$ are the total number of displacement nodes and pressure nodes. And then the approximate displacement denoted by $\boldsymbol u_h$ and approximate pressure denoted by $p_h$ can be expressed by  
+\begin{equation}\label{approx}
+    \boldsymbol u_h(\boldsymbol x) = \sum_{I=1}^{n_d} N_I^d(\boldsymbol x) \boldsymbol d_I, \quad
+    p_h(\boldsymbol x) = \sum_{K=1}^{n_p} N_K^p(\boldsymbol x) p_K
+\end{equation}
+where $\boldsymbol d_I$, $p_K$ are the nodal coefficients at nodes of $\boldsymbol x_I$ and $\boldsymbol x_K$, respectively, and $N_I^d$, $N_K^p$ are the corresponding shape functions.
+\begin{align}
+    \Vert \boldsymbol u - \Pi_u \boldsymbol u \Vert_k &\le Ch^{n-k+1} \Vert \boldsymbol u \Vert_{m-k+1} \\
+    \Vert p - \Pi_p p \Vert_k &\le Ch^{n-k+1} \Vert p \Vert_{m-k+1}
+\end{align}
+Leading this approximates into the weak form of Eq.\eqref{weak} yields the problem that finding $\boldsymbol u_h \in \mathcal V_h$, $\boldsymbol p_h \in \mathcal Q_h$ such that:
+\begin{equation}\label{approxweak}
+    \begin{split}
+        a(\boldsymbol v_h, \boldsymbol u_h) + b(\boldsymbol v_h, p_h) &= f(\boldsymbol v_h)  \quad \forall \boldsymbol v_h \in \mathcal V_h \\
+        b(\boldsymbol u_h,q_h) &= 0 \qquad \;\; \forall q_h \in \mathcal Q_h
+    \end{split}
+\end{equation}
+where the approximate spaces $\mathcal V_h \subseteq \mathcal V$, $\mathcal Q_h \subseteq \mathcal Q$ are defined by:
+\begin{align}
+    \mathcal V_h &= \{\boldsymbol v_h \in (\mathrm{span}\{N_I^d\}_{I=1}^{n_d})^2 \vert \boldsymbol v^h = \boldsymbol g,\; \mathrm{on} \; \Gamma_g\} \\
+    \mathcal Q_h &= \{q_h \in \mathrm{span}\{N_K^p\}_{K=1}^{n_p} \vert \int_{\Omega} q_h d\Omega = 0\}
+\end{align}
+Thus, $\dim \mathcal V_h = 2n_d$ and $\dim \mathcal Q_h = n_p$.
+
+With the arbitrariness of $\boldsymbol v_h$ and $q_h$, the Eq.\eqref{approxweak} leads to the following discrete governing equations:
+\begin{equation}
+    \begin{bmatrix}
+        \boldsymbol K^{dd} & \boldsymbol K^{pdT} \\ \boldsymbol K^{pd} & \boldsymbol 0
+    \end{bmatrix}
+    \begin{Bmatrix}
+        \boldsymbol d \\ \boldsymbol p 
+    \end{Bmatrix} =
+    \begin{Bmatrix}
+        \boldsymbol f \\ \boldsymbol 0 
+    \end{Bmatrix}
+\end{equation}
+where 
+\begin{align}
+    \boldsymbol K^{dd}_{IJ} &= \int_{\Omega} 2\mu \boldsymbol B_I^T \boldsymbol B_J d\Omega \\
+    \boldsymbol K^{pd}_{KJ} &= \int_{\Omega} N_K^p d\Omega \\
+    \boldsymbol f_I &= \int_{\Gamma_g} \boldsymbol N_I^{dT} \boldsymbol t d\Gamma
+\end{align}

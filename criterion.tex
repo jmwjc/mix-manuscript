@@ -1,0 +1,64 @@
+\section{Polynomail-wise constraint count}
+The problem of Eqs.\eqref{approxweak} the approximations of Eq.\eqref{approx} should satisfy the so-call Ladyzhenskaya–Babuška–Brezzi(LBB) condition or inf-sup condition:
+\begin{equation}
+    \inf_{q_h \in \mathcal Q_h} \sup_{\boldsymbol v_h \in \mathcal V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert \Vert \boldsymbol v_h \Vert} = \beta_h \ge \beta > 0
+\end{equation}
+in which $\beta_h$ is said inf-sup value, $\beta$ is a constant independent of characterized element size $h$.
+The space $\ker \mathcal B_h$ and its counterpart $\ker \mathcal B_h^*$ defined by:
+\begin{align}
+    \ker \mathcal B_h &= \{q_h \in \mathcal Q_h \vert \int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega = 0,\; \forall \boldsymbol v_h \in \mathcal V_h\} \\
+    \ker \mathcal B_h^* &= \{\boldsymbol v_h \in \mathcal V_h \vert \int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega = 0,\; \forall q_h \in \mathcal Q_h\}
+\end{align} \par
+For a sufficient smooth $\boldsymbol v \in \mathcal V$ satisfied with problem of Eq.\eqref{weak}, and its dimension $n_u = \dim \mathcal V \ge 2 n_d$.
+As $\mathcal Q_h \subseteq \mathcal Q$, the following relationship hold true:
+\begin{equation}\label{b2}
+b(\boldsymbol v,q_h) = \int_{\Omega} q_h \nabla \cdot \boldsymbol v d\Omega = 0, \quad \forall q_h \in \mathcal Q_h
+\end{equation}
+A direct subtraction between the second equation of Eq.\eqref{approxweak} and Eq.\eqref{b2} yields: 
+\begin{equation}
+b(\boldsymbol v - \boldsymbol v_h, q_h) = \int_{\Omega} q_h (\nabla\cdot \boldsymbol v - \nabla \cdot \boldsymbol v_h)d\Omega = 0, \quad \forall q_h \in \mathcal Q_h
+\end{equation}
+This means that $\nabla \cdot \boldsymbol v_h$ is the elliptic projection of $\nabla \cdot \boldsymbol v$ onto $\mathcal Q_h$, $\nabla \cdot \boldsymbol v_h$ can be spanned by $\{N_I^p\}_{I=1}^{n_p}$, $\dim(\Pi_h(\nabla \cdot \boldsymbol v_h)) =$
+\begin{equation}
+\nabla \cdot \boldsymbol v_h = \Pi_h (\nabla \cdot \boldsymbol v)
+\end{equation}
+To further development of this methodology, the inf-sup value $\beta_h$ can be firstly derived as follows:
+\begin{equation}
+\begin{split}
+\beta_h &= \inf_{q_h \in \mathcal Q_h} \sup_{\boldsymbol v_h \in \mathcal V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert \Vert \boldsymbol v_h \Vert} \\
+    &= \inf_{\boldsymbol w_h \in \bar{\mathcal Q}_h(\mathcal V_h)} \sup_{\boldsymbol v_h \in \bar{\mathcal Q}_h(\mathcal V_h)} \frac{\int_{\Omega} \nabla \cdot \boldsymbol w_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert \boldsymbol w_h \Vert \Vert \boldsymbol v_h \Vert} \\ 
+    &= \inf_{\mathcal W \subset \bar{\mathcal Q}_h(\mathcal V_h)} \sup_{\boldsymbol v_h \in \mathcal W} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v_h)^2 d\Omega}{\Vert \boldsymbol v_h \Vert^2} \\
+\end{split}
+\end{equation}
+\begin{equation}
+\begin{split}
+    \lambda^{(k)}_h &= \max_{\boldsymbol v_h \in \mathcal V_h^{(k)}} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v_h)^2 d\Omega}{\Vert \boldsymbol v_h \Vert_1^2} \\
+                    &= \max_{\boldsymbol v \in \mathcal V^{(k)}} \frac{\int_{\Omega} (\nabla \cdot \Pi_h \boldsymbol v)^2 d\Omega}{\Vert \Pi_h \boldsymbol v \Vert_1^2} \\
+                    &\le \max_{\boldsymbol v \in \mathcal V^{(k)}} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v)^2 d\Omega}{\Vert \Pi_h \boldsymbol v \Vert_1^2} \\
+                    &= \max_{\boldsymbol v \in \mathcal V^{(k)}} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v)^2 d\Omega}{\Vert \boldsymbol v \Vert_1^2} \frac{\Vert \boldsymbol v \Vert_1^2}{\Vert \Pi_h \boldsymbol v \Vert_1^2} \\
+                    &= \lambda^{(k)}\max_{\boldsymbol v \in \mathcal V^{(k)}} \frac{\Vert \boldsymbol v \Vert^2}{\Vert \Pi_h \boldsymbol v \Vert^2} \\
+\end{split}
+\end{equation}
+\begin{equation}
+\Vert \boldsymbol v - \Pi_h \boldsymbol v \Vert_1 \le \Vert \boldsymbol v \Vert_1 - \Vert \Pi_h \boldsymbol v \Vert_1 \le Ch^{p}\Vert \boldsymbol v \Vert_1
+\end{equation}
+
+\begin{equation}
+\frac{\Vert \boldsymbol v \Vert_1^2}{\Vert \Pi_h \boldsymbol v \Vert_1^2} \le \frac{1}{(1-Ch^p)^2} \approx 1 + 2Ch^p
+\end{equation}
+
+\begin{table}[ht!]
+\centering
+\caption{Degrees of freedom and volumetric constraint}
+\begin{tabular}{ccc}
+\toprule
+$p$ & $2n_u$ & $c$ \\
+\midrule
+1 & 6 & 5 \\
+2 & 12 & 9 \\
+3 & 20 & 14 \\
+4 & 30 & 20 \\
+p & $\sum_{i=1}^{p+1}2i$ & $\sum_{i=1}^{p+1}i+1$ \\
+\bottomrule
+\end{tabular}
+\end{table}
