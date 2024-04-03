@@ -1,16 +1,34 @@
-\section{Polynomail-wise constraint count}
-The problem of Eqs.\eqref{approxweak} the approximations of Eq.\eqref{approx} should satisfy the so-call Ladyzhenskaya–Babuška–Brezzi(LBB) condition or inf-sup condition:
+\section{Optimal polynomial-wise constraint count}
+\subsection{Inf-sup value estimator}
+The problem of Eqs.\eqref{approxweak} the approximations of Eq.\eqref{approx} should satisfy the so-call Ladyzhenskaya–Babuška–Brezzi(LBB) condition or inf-sup condition \cite{bathe1996} to ensure the formulation's accuracy:
 \begin{equation}
-    \inf_{q_h \in \mathcal Q_h} \sup_{\boldsymbol v_h \in \mathcal V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert \Vert \boldsymbol v_h \Vert} = \beta_h \ge \beta > 0
+    \inf_{q_h \in \mathcal Q_h} \sup_{\boldsymbol v_h \in \mathcal V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} = \beta_h \ge \beta > 0
 \end{equation}
-in which $\beta_h$ is said inf-sup value, $\beta$ is a constant independent of characterized element size $h$.
-The space $\ker \mathcal B_h$ and its counterpart $\ker \mathcal B_h^*$ defined by:
-\begin{align}
-    \ker \mathcal B_h &= \{q_h \in \mathcal Q_h \vert \int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega = 0,\; \forall \boldsymbol v_h \in \mathcal V_h\} \\
-    \ker \mathcal B_h^* &= \{\boldsymbol v_h \in \mathcal V_h \vert \int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega = 0,\; \forall q_h \in \mathcal Q_h\}
-\end{align} \par
-For a sufficient smooth $\boldsymbol v \in \mathcal V$ satisfied with problem of Eq.\eqref{weak}, and its dimension $n_u = \dim \mathcal V \ge 2 n_d$.
-As $\mathcal Q_h \subseteq \mathcal Q$, the following relationship hold true:
+in which $\beta_h$ is namely inf-sup value, $\beta$ stands for a constant independent of characterized element size $h$.
+
+% FIXME: find a ref for polynomial interpolation.
+For further development, the polynomial space of degree at most $k$, $\mathcal L_{(k)}$ is defined as follows:
+\begin{equation}
+    \mathcal L_{(k)} := ??
+\end{equation}
+such that, the inf-sup value $\beta_h$
+\begin{thm}
+    Inf-sup value has the following relationship:
+\begin{equation}
+    \beta_h \le \lambda^{(n_d n_u-n_p+1)} + C h \Vert \boldsymbol v \Vert
+\end{equation}
+with
+\begin{equation}
+    \lambda^{(k)} = \inf_{\mathcal W \in \mathcal L_{(2n_u)}^{(k)}} \sup_{\boldsymbol v \in \mathcal W} 
+    \frac{\int_\Omega (\nabla \cdot \boldsymbol v)^2 d\Omega}{\Vert \boldsymbol v \Vert_{H^1}^2}
+\end{equation}
+\end{thm}
+\begin{pf}
+
+\end{pf}
+assuming that, $\boldsymbol v$ is a polynomial in polynomial space $\mathcal L$ of degree at most $2n_u$, i.e. $\boldsymbol v \in \mathcal L_{(2n_u)}$. 
+As $\mathcal L_{2n_u} \subset \mathcal V$, $\boldsymbol v$ can satisfied with problem of Eq.\eqref{weak}.
+In accordance with $\mathcal Q_h \subseteq \mathcal Q$, the following relationship hold true:
 \begin{equation}\label{b2}
 b(\boldsymbol v,q_h) = \int_{\Omega} q_h \nabla \cdot \boldsymbol v d\Omega = 0, \quad \forall q_h \in \mathcal Q_h
 \end{equation}
@@ -18,10 +36,8 @@ A direct subtraction between the second equation of Eq.\eqref{approxweak} and Eq
 \begin{equation}
 b(\boldsymbol v - \boldsymbol v_h, q_h) = \int_{\Omega} q_h (\nabla\cdot \boldsymbol v - \nabla \cdot \boldsymbol v_h)d\Omega = 0, \quad \forall q_h \in \mathcal Q_h
 \end{equation}
-This means that $\nabla \cdot \boldsymbol v_h$ is the elliptic projection of $\nabla \cdot \boldsymbol v$ onto $\mathcal Q_h$, $\nabla \cdot \boldsymbol v_h$ can be spanned by $\{N_I^p\}_{I=1}^{n_p}$, $\dim(\Pi_h(\nabla \cdot \boldsymbol v_h)) =$
-\begin{equation}
-\nabla \cdot \boldsymbol v_h = \Pi_h (\nabla \cdot \boldsymbol v)
-\end{equation}
+The above relation means that $\nabla \cdot \boldsymbol v_h$ is the elliptic projection of $\nabla \cdot \boldsymbol v$ onto $\mathcal Q_h$, 
+$\nabla \cdot \boldsymbol v \in \mathcal Q_h(\mathcal V_h)$
 To further development of this methodology, the inf-sup value $\beta_h$ can be firstly derived as follows:
 \begin{equation}
 \begin{split}
@@ -30,23 +46,57 @@ To further development of this methodology, the inf-sup value $\beta_h$ can be f
     &= \inf_{\mathcal W \subset \bar{\mathcal Q}_h(\mathcal V_h)} \sup_{\boldsymbol v_h \in \mathcal W} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v_h)^2 d\Omega}{\Vert \boldsymbol v_h \Vert^2} \\
 \end{split}
 \end{equation}
+
+The space $\ker \mathcal B_h$ and its counterpart $\ker \mathcal B_h^*$ defined by:
+\begin{align}
+    \ker \mathcal B_h &= \{q_h \in \mathcal Q_h \vert \int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega = 0,\; \forall \boldsymbol v_h \in \mathcal V_h\} \\
+    \ker \mathcal B_h^* &= \{\boldsymbol v_h \in \mathcal V_h \vert \int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega = 0,\; \forall q_h \in \mathcal Q_h\}
+\end{align} \par
+
+% TODO: add the estimator of interpolation approximation
+
 \begin{equation}
 \begin{split}
-    \lambda^{(k)}_h &= \max_{\boldsymbol v_h \in \mathcal V_h^{(k)}} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v_h)^2 d\Omega}{\Vert \boldsymbol v_h \Vert_1^2} \\
-                    &= \max_{\boldsymbol v \in \mathcal V^{(k)}} \frac{\int_{\Omega} (\nabla \cdot \Pi_h \boldsymbol v)^2 d\Omega}{\Vert \Pi_h \boldsymbol v \Vert_1^2} \\
-                    &\le \max_{\boldsymbol v \in \mathcal V^{(k)}} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v)^2 d\Omega}{\Vert \Pi_h \boldsymbol v \Vert_1^2} \\
-                    &= \max_{\boldsymbol v \in \mathcal V^{(k)}} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v)^2 d\Omega}{\Vert \boldsymbol v \Vert_1^2} \frac{\Vert \boldsymbol v \Vert_1^2}{\Vert \Pi_h \boldsymbol v \Vert_1^2} \\
-                    &= \lambda^{(k)}\max_{\boldsymbol v \in \mathcal V^{(k)}} \frac{\Vert \boldsymbol v \Vert^2}{\Vert \Pi_h \boldsymbol v \Vert^2} \\
+    \lambda^{(k)}_h &= \inf_{\mathcal W \subset \mathcal Q_h^{(k)}(\mathcal V_h)} \sup_{\boldsymbol v_h \in \mathcal W} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v_h)^2 d\Omega}{\Vert \boldsymbol v_h \Vert^2} \\
+    &\le \inf_{\mathcal W \subset \mathcal L^{(k)}_{(n_u)}(\mathcal V)} \sup_{\boldsymbol v \in \mathcal W} \frac{\int_{\Omega} (\nabla \cdot (\Pi_h \boldsymbol v))^2 d\Omega}{\Vert \Pi_h \boldsymbol v \Vert^2} \\
+    &= \inf_{\mathcal W \subset \mathcal L^{(k)}_{(n_u)}(\mathcal V)} \sup_{\boldsymbol v \in \mathcal W} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v)^2 d\Omega}{\Vert \boldsymbol v \Vert^2}
+    \frac{\Vert \boldsymbol v \Vert^2}{\Vert \Pi \boldsymbol v \Vert^2}\\
 \end{split}
 \end{equation}
+
 \begin{equation}
-\Vert \boldsymbol v - \Pi_h \boldsymbol v \Vert_1 \le \Vert \boldsymbol v \Vert_1 - \Vert \Pi_h \boldsymbol v \Vert_1 \le Ch^{p}\Vert \boldsymbol v \Vert_1
+\Vert \Pi_h \boldsymbol v - \boldsymbol v \Vert \le \Vert \Pi_h \boldsymbol v \Vert - \Vert \boldsymbol v \Vert \le Ch^{p+1}\Vert \boldsymbol v \Vert
 \end{equation}
 
 \begin{equation}
-\frac{\Vert \boldsymbol v \Vert_1^2}{\Vert \Pi_h \boldsymbol v \Vert_1^2} \le \frac{1}{(1-Ch^p)^2} \approx 1 + 2Ch^p
+    \Vert \Pi_h \boldsymbol v \Vert \le (1+Ch^{p+1})\Vert \boldsymbol v \Vert
 \end{equation}
 
+\begin{equation}
+    \Vert \boldsymbol v - \Pi_h \boldsymbol v \Vert_{H(div)} \le \Vert \boldsymbol v \Vert - \Vert \Pi_h \boldsymbol v \Vert \le Ch^{p}\Vert \boldsymbol v \Vert
+\end{equation}
+
+\begin{equation}
+\frac{\Vert \boldsymbol v \Vert_1^2}{\Vert \Pi_h \boldsymbol v \Vert_1^2} \le \frac{1}{(1-Ch^{p+1})^2} \approx 1 + 2Ch^{p+1}
+\end{equation}
+
+\begin{equation}
+    \mathcal L^{(n_u)}
+\end{equation}
+\begin{equation}
+    \Vert \sum_{k=1}^{n_u} \mathcal L^{(k)} \boldsymbol v \Vert \le C h
+\end{equation}
+Interpolation error for polynomials, 
+
+Triangular inequality
+\begin{equation}
+\Vert \Pi_h \boldsymbol v \Vert - \Vert \boldsymbol v \Vert \le \Vert \boldsymbol v - \Pi_h \boldsymbol v \Vert \le Ch^{p} \Vert \boldsymbol v \Vert
+\end{equation}
+\begin{equation}
+\Vert \boldsymbol v \Vert - \Vert \Pi_h \boldsymbol v \Vert \le \Vert \boldsymbol v - \Pi_h \boldsymbol v \Vert \le Ch^{p} \Vert \boldsymbol v \Vert
+\end{equation}
+
+\subsection{Optimal constraint count}
 \begin{table}[ht!]
 \centering
 \caption{Degrees of freedom and volumetric constraint}

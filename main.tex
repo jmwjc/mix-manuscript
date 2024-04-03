@@ -1,16 +1,22 @@
 %! TEX program = xelatex
 %! TEX encoding = UTF-8 Unicode
 
-\documentclass{article}
-\usepackage{amsmath,amssymb,amsfonts,amsthm,bm}
-\usepackage{hyperref}
-\usepackage{booktabs,multirow}
-\usepackage{lineno}
-\linenumbers
-
+\documentclass{elsarticle}
 \bibliographystyle{elsarticle-num}
 
+% ── Package ───────────────────────────────────────────────────────────
+\usepackage{amsmath,amssymb,amsfonts,amsthm,bm} % mathamatics
+\usepackage{graphicx} % figures
+\usepackage{booktabs,multirow} % tables
+\usepackage{hyperref} % hyperlinks
+\usepackage{lineno} % line number
+\newtheorem{thm}{Theorem}
+\newproof{pf}{Proof}
+\linenumbers % turn on line number
+
+% ── Main ──────────────────────────────────────────────────────────────
 \begin{document}
+\include{frontmatter}
 
 \section{Introduction}
 
@@ -20,7 +26,7 @@
 \include{example}
 \include{conclusion}
 
-\subsection{Kinematics}
-
-\bibliography{reference}
+\bibliography{references}
+\appendix
+\include{hilbert}
 \end{document}
