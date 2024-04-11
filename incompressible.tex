@@ -1,6 +1,108 @@
-\section{Mixed formulation for incompressible elasticity problems}
-Consider a body $\Omega \in \mathbb R^2$ with boundary $\Gamma$ in 2D as shown in Fig. \ref{}, in which the $\Gamma_t$ and $\Gamma_g$ denotes its natural boundary and essential boundary such that $\Gamma_t \cup \Gamma_g = \Gamma$, $\Gamma_t \cap \Gamma_g = \varnothing$. The corresponding governing equations are given by:
-\begin{equation}\label{strong}
+\section{Mixed and penalty formulations for nearly-incompressible elasticity problems}
+\subsection{Penalty formulation}
+Consider a body $\Omega \in \mathbb R^{n_d}$ with boundary $\Gamma$ in $n_d$-dimension, where the $\Gamma_t$ and $\Gamma_g$ denotes its natural boundary and essential boundary such that $\Gamma_t \cup \Gamma_g = \Gamma$, $\Gamma_t \cap \Gamma_g = \varnothing$. The corresponding governing equations are given by:
+\begin{equation}\label{strong_penalty}
+\begin{cases}
+    \nabla \cdot \boldsymbol \sigma + \boldsymbol b = \boldsymbol 0 & \mathrm{in} \; \Omega \\
+    \boldsymbol \sigma \cdot \boldsymbol n = \boldsymbol t & \mathrm{on} \; \Gamma_t \\
+    \boldsymbol u = \boldsymbol g & \mathrm{on} \; \Gamma_g \\
+\end{cases}
+\end{equation}
+in which $\boldsymbol \sigma$ denotes to stress tensor and, for isotropic linear elastic material, can be expressed by: 
+\begin{equation}\label{stress_penalty}
+\boldsymbol \sigma(\boldsymbol u) = 3\kappa \boldsymbol \varepsilon^v(\boldsymbol u) + 2\mu \boldsymbol \varepsilon^d(\boldsymbol u) 
+\end{equation}
+where $\boldsymbol \varepsilon^v$ and $\boldsymbol \varepsilon^d$ are the volumetric(dilatation) and deviatoric parts of strain tensor $\boldsymbol \varepsilon$, and these are evaluated by:
+\begin{equation}
+\boldsymbol \varepsilon^v(\boldsymbol u) =\frac{1}{3} \nabla \cdot \boldsymbol u \; \boldsymbol 1,  \quad
+\boldsymbol \varepsilon^d(\boldsymbol u) =\frac{1}{2}(\boldsymbol u \nabla + \nabla \boldsymbol u) - \boldsymbol \varepsilon^v, \quad
+\boldsymbol \varepsilon^v : \boldsymbol \varepsilon^d = 0
+\end{equation}
+where $\boldsymbol 1 = \delta_{ij} \boldsymbol e_i \otimes \boldsymbol e_j$ is second order identity tensor.
+$\kappa$, $\mu$ are the bulk modulus and shear modulus, and they can be represented by Young's modulus $E$ and Poisson's ratio $\nu$:
+\begin{equation}\label{modulus}
+\kappa = \frac{E}{2(1-2\nu)}, \quad \mu = \frac{E}{2(1+\nu)}
+\end{equation}
+And $\boldsymbol b$ denotes to prescribed body force in $\Omega$. $\boldsymbol t$, $\boldsymbol g$ are prescribed traction and displacement on natural and essential boundaries respectively. 
+
+In accordance with Galerkin formulation, the displacement denoted by $\boldsymbol u$ can be got by the following weak problem: 
+Find $\boldsymbol u \in V$
+\begin{equation}\label{weak_penalty}
+% \textrm{find} \; \boldsymbol u \in V, \\
+\int_\Omega 2\mu \delta \boldsymbol \varepsilon^d : \boldsymbol \varepsilon^d d\Omega +
+\int_\Omega 3\kappa \delta \boldsymbol \varepsilon^v : \boldsymbol \varepsilon^v d\Omega =
+\int_{\Gamma_t} \delta \boldsymbol u \cdot \boldsymbol t d\Gamma + \int_\Omega \delta \boldsymbol u \cdot \boldsymbol b d\Omega,  \quad
+\forall \delta \boldsymbol u \in V
+\end{equation}
+where $V$ is the spaces defined by $V=\{\boldsymbol v \in H^1(\Omega)^2\;\vert\;\boldsymbol v = \boldsymbol g, \; \textrm{on} \; \Gamma_g\}$. $\delta \boldsymbol u$ is the virtual counterpart of $\boldsymbol u$, and $\delta \boldsymbol \varepsilon^v$ and $\delta \boldsymbol \varepsilon^d$ are the corresponding volumetric and deviatoric strain evaluated by $\delta \boldsymbol u$.
+
+% TODO: check construct mesh 
+In traditional finite element formulation, the entire domain $\Omega$ is discretized by a set of construct mesh with vertices $\{\boldsymbol x_I\}_{I=1}^{n_p}$ \cite{hughes2000}, where $n_p$ is the total number of vertices. Then, the displacement and its virtual counterpart can be approximated by the nodal coefficient and shape functions at $\boldsymbol x_I$'s, the approximated displacement and its virtual counterpart, namely $\boldsymbol u_h, \delta \boldsymbol u_h$ have the following form: 
+\begin{equation}\label{u_h}
+\boldsymbol u_h(\boldsymbol x) = \sum_{I=1}^{n_p} N_I(\boldsymbol x) \boldsymbol u_I, \quad
+\delta \boldsymbol u_h(\boldsymbol x) = \sum_{I=1}^{n_p} N_I(\boldsymbol x) \delta \boldsymbol u_I
+\end{equation}
+where $N_I$ and $\boldsymbol u_I$ are the shape function and nodal coefficient tensor at node $\boldsymbol x_I$.
+Introducing Eq. \eqref{u_h} to weak form of Eq. \eqref{weak_penalty} leads to the following Ritz-Galerkin problem:
+Find $\boldsymbol u_h \in V_h$,
+\begin{equation}\label{ritz_penalty}
+\int_\Omega 2\mu \delta \boldsymbol \varepsilon^d_h : \boldsymbol \varepsilon^d_h d\Omega +
+\int_\Omega 3\kappa \delta \boldsymbol \varepsilon^v_h : \boldsymbol \varepsilon^v_h d\Omega =
+\int_{\Gamma_t} \delta \boldsymbol u_h \cdot \boldsymbol t d\Gamma + \int_\Omega \delta \boldsymbol u_h \cdot \boldsymbol b d\Omega,  \quad
+\forall \delta \boldsymbol u_h \in V_h
+\end{equation}
+For the arbitrariness of $\delta \boldsymbol u_h$, the above equation can be reduced by elimination of $\delta \boldsymbol u_I$'s as the following discrete equilibrium equation:
+\begin{equation}
+(\boldsymbol K^d + \boldsymbol K^v) \boldsymbol d^u = \boldsymbol f
+\end{equation}
+where $\boldsymbol K^v$ and $\boldsymbol K^d$ are the volumetric and deviatoric stiffness matrices, and their components has the following forms:
+\begin{equation}\label{stiffness_vol}
+\boldsymbol K^v_{IJ} = \int_{\Omega} 3\kappa \boldsymbol B^{vT}_I \boldsymbol B^v_J d\Omega
+\end{equation}
+\begin{equation}
+\boldsymbol K^d_{IJ} = \int_{\Omega} 2\mu \boldsymbol B^{dT}_I \boldsymbol B^d_J d\Omega
+\end{equation}
+with
+\begin{equation}
+\boldsymbol B^v_I =
+\begin{bmatrix}
+    \frac{1}{3}N_{I,x} & \frac{1}{3}N_{I,y} & \frac{1}{3}N_{I,z} \\
+    \frac{1}{3}N_{I,x} & \frac{1}{3}N_{I,y} & \frac{1}{3}N_{I,z} \\
+    \frac{1}{3}N_{I,x} & \frac{1}{3}N_{I,y} & \frac{1}{3}N_{I,z} \\
+    0 & 0 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0 \\
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+\boldsymbol B^d_I = 
+\begin{bmatrix}
+     \frac{2}{3}N_{I,x} & -\frac{1}{3}N_{I,y} & -\frac{1}{3}N_{I,z} \\
+    -\frac{1}{3}N_{I,x} &  \frac{2}{3}N_{I,y} & -\frac{1}{3}N_{I,z} \\
+    -\frac{1}{3}N_{I,x} & -\frac{1}{3}N_{I,y} &  \frac{2}{3}N_{I,z} \\
+     \frac{1}{2}N_{I,y} &  \frac{1}{2}N_{I,x} & 0 \\
+     \frac{1}{2}N_{I,z} & 0                   &  \frac{1}{2}N_{I,x} \\
+    0                   &  \frac{1}{2}N_{I,z} &  \frac{1}{2}N_{I,y} \\
+\end{bmatrix}
+\end{equation}
+and $\boldsymbol f$ is the force vector and its components can be expressed by:
+\begin{equation}
+\boldsymbol f_I = \int_{\Gamma_t} N_I \boldsymbol t d\Gamma + \int_{\Omega} N_I \boldsymbol b d\Omega
+\end{equation}
+$\boldsymbol d^u$ is the coefficient vector containning $\boldsymbol u_I$'s.
+
+% TODO: improve the expression.
+It can be observed from Eq. \eqref{modulus} that, for a nearly-incompressible material, i.e. $\nu \rightarrow 0.5$, $\kappa \rightarrow \infty$. As a result, the volumetric stiffness matrix $\boldsymbol K^v$ of \eqref{stiffness_vol} services as an enforcement like penalty method to enforce the volumetric deformation to be zero, $\nabla \cdot \boldsymbol u = 0$, while the bulking modulus $\kappa$ can be regarded as a penalty parameter.
+Traditional finite element formulations suffer severe volumetric locking due to this enforcement, and this is so-called volumetric locking. 
+To reduce the burden of volumetric locking, the reduced the integration points in volumetric stiffness matrix. 
+
+\subsection{Mixed formulation}
+Another approach to alleviate the volumetric locking is using the mixed-formulation. In this approach, the pressure is approximated by another way. The strong form for mixed-formulation is rephrased as follows:
+\begin{equation}
+\boldsymbol \sigma = 3\kappa \boldsymbol \varepsilon^v + 2\mu \boldsymbol \varepsilon^d 
+= -p \boldsymbol 1 + 2\mu \boldsymbol \varepsilon^d
+\end{equation}
+\begin{equation}\label{strong_mix}
 \begin{cases}
     \nabla \cdot \boldsymbol \sigma + \boldsymbol b = \boldsymbol 0 & \mathrm{in} \; \Omega \\
     \frac{p}{\kappa} + \nabla \cdot \boldsymbol u = 0 & \mathrm{in} \; \Omega \\
@@ -9,14 +111,6 @@ Consider a body $\Omega \in \mathbb R^2$ with boundary $\Gamma$ in 2D as shown i
 \end{cases}
 \end{equation}
 where $\boldsymbol u$ stands for the displacement and the $\boldsymbol \sigma$ is the stress tensor. For isotropic linear elastic material, the constitutive relationship 
-\begin{equation}
-\boldsymbol \sigma = 3\kappa \boldsymbol \varepsilon^v + 2\mu \boldsymbol \varepsilon^d 
-= -p \boldsymbol 1 + 2\mu \boldsymbol \varepsilon^d
-\end{equation}
-where $\kappa$, $\mu$ are the bulk modulus and shear modulus, and they can be represented by Young's modulus $E$ and Poisson's ratio $\nu$:
-\begin{equation}
-\kappa = \frac{E}{2(1-2\nu)}, \quad \mu = \frac{E}{2(1+\nu)}
-\end{equation}
 It's obvious that, for a nearly-incompressible material, i.e. $\nu \rightarrow 0.5$, $\kappa \rightarrow 0$ and $\nabla \cdot \boldsymbol u \rightarrow 0$.
 The strain tensor $\boldsymbol \varepsilon$ is depicted by the small deformation assumption as:
 \begin{equation}
@@ -24,24 +118,24 @@ The strain tensor $\boldsymbol \varepsilon$ is depicted by the small deformation
 \end{equation}
 For further development, the spaces 
 \begin{align}
-    \mathcal V &= \{\boldsymbol v \in H^1(\Omega)^2 \vert \boldsymbol v = \boldsymbol g, \; \mathrm{on} \; \Gamma_g\} \\
-    \mathcal Q &= \{q \in L^2(\Omega) \vert \int_{\Omega} q d\Omega = 0\}
+    V &= \{\boldsymbol v \in H^1(\Omega)^2 \vert \boldsymbol v = \boldsymbol g, \; \mathrm{on} \; \Gamma_g\} \\
+    Q &= \{q \in L^2(\Omega) \vert \int_{\Omega} q d\Omega = 0\}
 \end{align}
-where $L^2$ and $H^1$ are the standard Sobolev spaces of $W^{0,2}$ and $W^{1,2}$ in $\Omega$. At this circumstance, the strong form of Eq.\eqref{strong} is equivalent to the variational problem that finding $\boldsymbol u \in \mathcal V$, $p \in \mathcal Q$ such that:
+where $L^2$ and $H^1$ are the standard Sobolev spaces of $W^{0,2}$ and $W^{1,2}$ in $\Omega$. At this circumstance, the strong form of Eq.\eqref{strong} is equivalent to the variational problem that finding $\boldsymbol u \in V$, $p \in Q$ such that:
 \begin{equation}\label{weak}
     \begin{split}
-        a(\boldsymbol v, \boldsymbol u) + b(\boldsymbol v, p) &= f(\boldsymbol v)  \quad \forall \boldsymbol v \in \mathcal V \\
-        b(\boldsymbol u,q) &= 0 \qquad \;\; \forall q \in \mathcal Q
+        a(\boldsymbol v, \boldsymbol u) + b(\boldsymbol v, p) &= f(\boldsymbol v)  \quad \forall \boldsymbol v \in V \\
+        b(\boldsymbol u,q) &= 0 \qquad \;\; \forall q \in Q
     \end{split}
 \end{equation}
-in which $a:\mathcal V \times \mathcal V \rightarrow \mathbb R$ and $b:\mathcal V \times \mathcal Q \rightarrow \mathbb R$ are bilinear forms defined by:
+in which $a: V \times V \rightarrow \mathbb R$ and $b: V \times Q \rightarrow \mathbb R$ are bilinear forms defined by:
 \begin{equation}
 a(\boldsymbol v, \boldsymbol u) = \int_{\Omega} 2\mu \boldsymbol \varepsilon^d(\boldsymbol v) : \boldsymbol \varepsilon^d(\boldsymbol u) d\Omega
 \end{equation}
 \begin{equation}
 b(\boldsymbol v, q) = \int_{\Omega} q \nabla \cdot \boldsymbol v d\Omega
 \end{equation}
-and $f:\mathcal V \rightarrow \mathbb R$ is a linear form:
+and $f: V \rightarrow \mathbb R$ is a linear form:
 \begin{equation}
 f(\boldsymbol v) = \int_{\Gamma_t} \boldsymbol v \cdot \boldsymbol t d\Gamma + \int_{\Omega} \boldsymbol v \cdot \boldsymbol b d\Omega
 \end{equation}
@@ -56,19 +150,19 @@ where $\boldsymbol d_I$, $p_K$ are the nodal coefficients at nodes of $\boldsymb
     \Vert \boldsymbol u - \Pi_u \boldsymbol u \Vert_k &\le Ch^{n-k+1} \Vert \boldsymbol u \Vert_{m-k+1} \\
     \Vert p - \Pi_p p \Vert_k &\le Ch^{n-k+1} \Vert p \Vert_{m-k+1}
 \end{align}
-Leading this approximates into the weak form of Eq.\eqref{weak} yields the problem that finding $\boldsymbol u_h \in \mathcal V_h$, $\boldsymbol p_h \in \mathcal Q_h$ such that:
+Leading this approximates into the weak form of Eq.\eqref{weak} yields the problem that finding $\boldsymbol u_h \in V_h$, $\boldsymbol p_h \in Q_h$ such that:
 \begin{equation}\label{approxweak}
     \begin{split}
-        a(\boldsymbol v_h, \boldsymbol u_h) + b(\boldsymbol v_h, p_h) &= f(\boldsymbol v_h)  \quad \forall \boldsymbol v_h \in \mathcal V_h \\
-        b(\boldsymbol u_h,q_h) &= 0 \qquad \;\; \forall q_h \in \mathcal Q_h
+        a(\boldsymbol v_h, \boldsymbol u_h) + b(\boldsymbol v_h, p_h) &= f(\boldsymbol v_h)  \quad \forall \boldsymbol v_h \in V_h \\
+        b(\boldsymbol u_h,q_h) &= 0 \qquad \;\; \forall q_h \in Q_h
     \end{split}
 \end{equation}
-where the approximate spaces $\mathcal V_h \subseteq \mathcal V$, $\mathcal Q_h \subseteq \mathcal Q$ are defined by:
+where the approximate spaces $V_h \subseteq V$, $Q_h \subseteq Q$ are defined by:
 \begin{align}
-    \mathcal V_h &= \{\boldsymbol v_h \in (\mathrm{span}\{N_I^d\}_{I=1}^{n_d})^2 \vert \boldsymbol v^h = \boldsymbol g,\; \mathrm{on} \; \Gamma_g\} \\
-    \mathcal Q_h &= \{q_h \in \mathrm{span}\{N_K^p\}_{K=1}^{n_p} \vert \int_{\Omega} q_h d\Omega = 0\}
+    V_h &= \{\boldsymbol v_h \in (\mathrm{span}\{N_I^d\}_{I=1}^{n_d})^2 \vert \boldsymbol v^h = \boldsymbol g,\; \mathrm{on} \; \Gamma_g\} \\
+    Q_h &= \{q_h \in \mathrm{span}\{N_K^p\}_{K=1}^{n_p} \vert \int_{\Omega} q_h d\Omega = 0\}
 \end{align}
-Thus, $\dim \mathcal V_h = 2n_d$ and $\dim \mathcal Q_h = n_p$.
+Thus, $\dim V_h = 2n_d$ and $\dim Q_h = n_p$.
 
 With the arbitrariness of $\boldsymbol v_h$ and $q_h$, the Eq.\eqref{approxweak} leads to the following discrete governing equations:
 \begin{equation}
