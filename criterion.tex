@@ -97,6 +97,17 @@ Triangular inequality
 \Vert \boldsymbol v \Vert - \Vert \Pi_h \boldsymbol v \Vert \le \Vert \boldsymbol v - \Pi_h \boldsymbol v \Vert \le Ch^{p} \Vert \boldsymbol v \Vert
 \end{equation}
 
+
+% HACK: New version of inf-sup condition
+\begin{equation}
+\begin{split}
+\beta_h &= \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
+    &\le \inf_{q_h \in Q_h} \sup_{\nabla \cdot \boldsymbol v_h \in Q_h(V_h)} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
+\end{split}
+\end{equation}
+
+
+
 \subsection{Optimal constraint count}
 \begin{table}[ht!]
 \centering

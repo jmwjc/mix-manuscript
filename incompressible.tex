@@ -51,16 +51,23 @@ Find $\boldsymbol u_h \in V_h$,
 \int_{\Gamma_t} \delta \boldsymbol u_h \cdot \boldsymbol t d\Gamma + \int_\Omega \delta \boldsymbol u_h \cdot \boldsymbol b d\Omega,  \quad
 \forall \delta \boldsymbol u_h \in V_h
 \end{equation}
-For the arbitrariness of $\delta \boldsymbol u_h$, the above equation can be reduced by elimination of $\delta \boldsymbol u_I$'s as the following discrete equilibrium equation:
+where the approximate spaces $V_h \subseteq V$,
 \begin{equation}
+V_h = \{\boldsymbol v_h \in (\mathrm{span}\{N_I\}_{I=1}^{n_u})^2 \vert \boldsymbol v^h = \boldsymbol g,\; \mathrm{on} \; \Gamma_g\}
+\end{equation}
+
+For the arbitrariness of $\delta \boldsymbol u_h$, the above equation can be reduced by elimination of $\delta \boldsymbol u_I$'s as the following discrete equilibrium equation:
+\begin{equation}\label{equilibrium_penalty}
 (\boldsymbol K^d + \boldsymbol K^v) \boldsymbol d^u = \boldsymbol f
 \end{equation}
 where $\boldsymbol K^v$ and $\boldsymbol K^d$ are the volumetric and deviatoric stiffness matrices, and their components has the following forms:
 \begin{equation}\label{stiffness_vol}
-\boldsymbol K^v_{IJ} = \int_{\Omega} 3\kappa \boldsymbol B^{vT}_I \boldsymbol B^v_J d\Omega
+    \boldsymbol K^v_{IJ}  = 3\kappa \bar{\boldsymbol K}^v_{IJ},  \quad 
+    \bar{\boldsymbol K}^v_{IJ}= \int_{\Omega} \boldsymbol B^{vT}_I \boldsymbol B^v_J d\Omega
 \end{equation}
 \begin{equation}
-\boldsymbol K^d_{IJ} = \int_{\Omega} 2\mu \boldsymbol B^{dT}_I \boldsymbol B^d_J d\Omega
+    \boldsymbol K^d_{IJ} = 2\mu \bar{\boldsymbol K}^d_{IJ}, \quad
+    \bar{\boldsymbol K}^d_{IJ}= \int_{\Omega} \boldsymbol B^{dT}_I \boldsymbol B^d_J d\Omega
 \end{equation}
 with
 \begin{equation}
@@ -97,11 +104,11 @@ Traditional finite element formulations suffer severe volumetric locking due to 
 To reduce the burden of volumetric locking, the reduced the integration points in volumetric stiffness matrix. 
 
 \subsection{Mixed formulation}
-Another approach to alleviate the volumetric locking is using the mixed-formulation. In this approach, the pressure is approximated by another way. The strong form for mixed-formulation is rephrased as follows:
-\begin{equation}
-\boldsymbol \sigma = 3\kappa \boldsymbol \varepsilon^v + 2\mu \boldsymbol \varepsilon^d 
-= -p \boldsymbol 1 + 2\mu \boldsymbol \varepsilon^d
+Another approach to alleviate the volumetric locking is using the mixed-formulation. In this approach, the pressure is approximated by another way as follows:
+\begin{equation}\label{stress_mix}
+\boldsymbol \sigma(\boldsymbol u, p) = -p \boldsymbol 1 + 2\mu \boldsymbol \varepsilon^d(\boldsymbol u)
 \end{equation}
+The strong form for mixed-formulation can be rephrased as:
 \begin{equation}\label{strong_mix}
 \begin{cases}
     \nabla \cdot \boldsymbol \sigma + \boldsymbol b = \boldsymbol 0 & \mathrm{in} \; \Omega \\
@@ -110,75 +117,85 @@ Another approach to alleviate the volumetric locking is using the mixed-formulat
     \boldsymbol u = \boldsymbol g & \mathrm{on} \; \Gamma_g \\
 \end{cases}
 \end{equation}
-where $\boldsymbol u$ stands for the displacement and the $\boldsymbol \sigma$ is the stress tensor. For isotropic linear elastic material, the constitutive relationship 
-It's obvious that, for a nearly-incompressible material, i.e. $\nu \rightarrow 0.5$, $\kappa \rightarrow 0$ and $\nabla \cdot \boldsymbol u \rightarrow 0$.
-The strain tensor $\boldsymbol \varepsilon$ is depicted by the small deformation assumption as:
-\begin{equation}
-\boldsymbol \varepsilon = \frac{1}{2}(\boldsymbol u \nabla + \nabla \boldsymbol u)
-\end{equation}
-For further development, the spaces 
-\begin{align}
-    V &= \{\boldsymbol v \in H^1(\Omega)^2 \vert \boldsymbol v = \boldsymbol g, \; \mathrm{on} \; \Gamma_g\} \\
-    Q &= \{q \in L^2(\Omega) \vert \int_{\Omega} q d\Omega = 0\}
-\end{align}
-where $L^2$ and $H^1$ are the standard Sobolev spaces of $W^{0,2}$ and $W^{1,2}$ in $\Omega$. At this circumstance, the strong form of Eq.\eqref{strong} is equivalent to the variational problem that finding $\boldsymbol u \in V$, $p \in Q$ such that:
-\begin{equation}\label{weak}
-    \begin{split}
-        a(\boldsymbol v, \boldsymbol u) + b(\boldsymbol v, p) &= f(\boldsymbol v)  \quad \forall \boldsymbol v \in V \\
-        b(\boldsymbol u,q) &= 0 \qquad \;\; \forall q \in Q
-    \end{split}
-\end{equation}
-in which $a: V \times V \rightarrow \mathbb R$ and $b: V \times Q \rightarrow \mathbb R$ are bilinear forms defined by:
-\begin{equation}
-a(\boldsymbol v, \boldsymbol u) = \int_{\Omega} 2\mu \boldsymbol \varepsilon^d(\boldsymbol v) : \boldsymbol \varepsilon^d(\boldsymbol u) d\Omega
-\end{equation}
-\begin{equation}
-b(\boldsymbol v, q) = \int_{\Omega} q \nabla \cdot \boldsymbol v d\Omega
-\end{equation}
-and $f: V \rightarrow \mathbb R$ is a linear form:
-\begin{equation}
-f(\boldsymbol v) = \int_{\Gamma_t} \boldsymbol v \cdot \boldsymbol t d\Gamma + \int_{\Omega} \boldsymbol v \cdot \boldsymbol b d\Omega
-\end{equation}
+where $p\in Q$, $Q = \{q \in L^2(\Omega) \vert \int_{\Omega} q d\Omega = 0\}$.
 
-In traditional mixed formulations, the displacement tensor $\boldsymbol u$ and the pressure $p$ are discretized by different sets of controlled nodes, namely displacement nodes $\{\boldsymbol x_I\}_{I=1}^{n_d}$ and pressure nodes $\{\boldsymbol x_K\}_{K=1}^{n_p}$, where $n_d$ and $n_p$ are the total number of displacement nodes and pressure nodes. And then the approximate displacement denoted by $\boldsymbol u_h$ and approximate pressure denoted by $p_h$ can be expressed by  
-\begin{equation}\label{approx}
-    \boldsymbol u_h(\boldsymbol x) = \sum_{I=1}^{n_d} N_I^d(\boldsymbol x) \boldsymbol d_I, \quad
-    p_h(\boldsymbol x) = \sum_{K=1}^{n_p} N_K^p(\boldsymbol x) p_K
+In traditional mixed formulations, the pressure $p$ are discretized by different sets of controlled nodes, namely displacement nodes $\{\boldsymbol x_I\}_{I=1}^{n_d}$ and pressure nodes $\{\boldsymbol x_K\}_{K=1}^{n_p}$, where $n_d$ and $n_p$ are the total number of displacement nodes and pressure nodes. And then the approximate displacement denoted by $\boldsymbol u_h$ and approximate pressure denoted by $p_h$ can be expressed by  
+\begin{equation}\label{p_h}
+    p_h(\boldsymbol x) = \sum_{K=1}^{n_p} \Psi_K(\boldsymbol x) p_K, \quad
+    \delta p_h(\boldsymbol x) = \sum_{K=1}^{n_p} \Psi_K(\boldsymbol x) \delta p_K
 \end{equation}
-where $\boldsymbol d_I$, $p_K$ are the nodal coefficients at nodes of $\boldsymbol x_I$ and $\boldsymbol x_K$, respectively, and $N_I^d$, $N_K^p$ are the corresponding shape functions.
-\begin{align}
-    \Vert \boldsymbol u - \Pi_u \boldsymbol u \Vert_k &\le Ch^{n-k+1} \Vert \boldsymbol u \Vert_{m-k+1} \\
-    \Vert p - \Pi_p p \Vert_k &\le Ch^{n-k+1} \Vert p \Vert_{m-k+1}
-\end{align}
-Leading this approximates into the weak form of Eq.\eqref{weak} yields the problem that finding $\boldsymbol u_h \in V_h$, $\boldsymbol p_h \in Q_h$ such that:
-\begin{equation}\label{approxweak}
-    \begin{split}
-        a(\boldsymbol v_h, \boldsymbol u_h) + b(\boldsymbol v_h, p_h) &= f(\boldsymbol v_h)  \quad \forall \boldsymbol v_h \in V_h \\
-        b(\boldsymbol u_h,q_h) &= 0 \qquad \;\; \forall q_h \in Q_h
-    \end{split}
+where $p_K$'s are the coefficients. and $N_I^d$, $N_K^p$ are the corresponding shape functions.
+the corresponding Ritz-Galerkin problem is that:
+Find $\boldsymbol u_h \in V_h$, $p_h \in Q_h$
+\begin{subequations}\label{ritz_mix}
+\begin{alignat}{2}
+\label{ritz_mix_1}
+\int_\Omega 2\mu \delta \boldsymbol \varepsilon^d_h : \boldsymbol \varepsilon^d_h d\Omega +
+\int_\Omega \nabla \cdot \delta \boldsymbol u_h p d\Omega &=
+\int_{\Gamma_t} \delta \boldsymbol u_h \cdot \boldsymbol t d\Gamma + \int_\Omega \delta \boldsymbol u_h \cdot \boldsymbol b d\Omega,  \quad
+&\forall \delta \boldsymbol u_h \in V_h \\
+\label{ritz_mix_2}
+\int_\Omega \delta p_h \nabla \cdot \boldsymbol u_h d\Omega - \int_\Omega \frac{1}{3\kappa} \delta p_h p_h d\Omega &= 0, &\forall \delta p_h \in Q_h
+\end{alignat}
+\end{subequations}
+where $Q_h \subseteq Q$ are defined by:
+\begin{equation}
+Q_h = \{q_h \in \mathrm{span}\{\Psi_K\}_{K=1}^{n_p} \vert \int_{\Omega} q_h d\Omega = 0\}
 \end{equation}
-where the approximate spaces $V_h \subseteq V$, $Q_h \subseteq Q$ are defined by:
-\begin{align}
-    V_h &= \{\boldsymbol v_h \in (\mathrm{span}\{N_I^d\}_{I=1}^{n_d})^2 \vert \boldsymbol v^h = \boldsymbol g,\; \mathrm{on} \; \Gamma_g\} \\
-    Q_h &= \{q_h \in \mathrm{span}\{N_K^p\}_{K=1}^{n_p} \vert \int_{\Omega} q_h d\Omega = 0\}
-\end{align}
 Thus, $\dim V_h = 2n_d$ and $\dim Q_h = n_p$.
+Eq. \eqref{ritz_mix_2} implies that $p_h$ is an orthogenal projection of $\nabla \cdot \boldsymbol u $
+\begin{equation}
+\Vert \nabla \cdot \boldsymbol u_h - p_h \Vert = \inf_{q_h \in Q_h} \Vert \nabla \cdot \boldsymbol u - q_h \Vert
+\end{equation}
+$p_h \in Q_h(V_h)$, $P(V_h) \subset V_h$.
+\begin{equation}
+    P_h(V_h) = \{\boldsymbol v_h \in V_h \vert \; \exists p_h \in P_h, \; \int_\Omega q_h(\nabla \cdot \boldsymbol v_h - p_h) d\Omega = 0, \; \forall q_h \in P_h \}
+\end{equation}
 
 With the arbitrariness of $\boldsymbol v_h$ and $q_h$, the Eq.\eqref{approxweak} leads to the following discrete governing equations:
-\begin{equation}
+\begin{equation}\label{equilibrium_mix}
     \begin{bmatrix}
-        \boldsymbol K^{dd} & \boldsymbol K^{pdT} \\ \boldsymbol K^{pd} & \boldsymbol 0
+        \boldsymbol K^{uu} & \boldsymbol K^{up} \\ (\boldsymbol K^{up})^T & -\boldsymbol K^{pp}
     \end{bmatrix}
     \begin{Bmatrix}
-        \boldsymbol d \\ \boldsymbol p 
+        \boldsymbol d^u \\ \boldsymbol d^p 
     \end{Bmatrix} =
     \begin{Bmatrix}
         \boldsymbol f \\ \boldsymbol 0 
     \end{Bmatrix}
 \end{equation}
-where 
+where $\boldsymbol K^{uu} = \boldsymbol K^d$. The components of $\boldsymbol K^{up}$ and $\boldsymbol K^{pp}$ yield:
 \begin{align}
-    \boldsymbol K^{dd}_{IJ} &= \int_{\Omega} 2\mu \boldsymbol B_I^T \boldsymbol B_J d\Omega \\
-    \boldsymbol K^{pd}_{KJ} &= \int_{\Omega} N_K^p d\Omega \\
-    \boldsymbol f_I &= \int_{\Gamma_g} \boldsymbol N_I^{dT} \boldsymbol t d\Gamma
+    \boldsymbol K^{up}_{IK} &= \int_{\Omega} 
+    \begin{Bmatrix}
+    N_{I,x} \\ N_{I,y}
+    \end{Bmatrix} \Psi_K d\Omega \\
+    K^{pp}_{KL} &= \int_\Omega\frac{1}{3\kappa} N_K N_L d\Omega
 \end{align}
+
+From the second equation of governing equilibrium equations in Eq. \eqref{equilibrium_mix}, the coefficient vector $\boldsymbol d^p$ can be expressed by $\boldsymbol d^u$ as follows:
+\begin{equation}
+    \boldsymbol d^p = (\boldsymbol K^{pp})^{-1} (\boldsymbol K^{up})^T \boldsymbol d^u
+\end{equation}
+Further substituting the above equation into first equation of Eq. \eqref{equilibrium_mix} leads to:
+\begin{equation}
+    (\underbrace{\boldsymbol K^{uu}}_{\boldsymbol K^d} + \underbrace{\boldsymbol K^{up}(\boldsymbol K^{pp})^{-1}(\boldsymbol K^{up})^{T}}_{3\kappa \tilde{\boldsymbol K}^v}) \boldsymbol d^u = \boldsymbol f
+\end{equation}
+
+% TODO: orthogenal projection
+
+\begin{equation}
+\begin{split}
+    \boldsymbol K^v_{IJ} &= \sum_{K,L=1}^{n_p}\boldsymbol K^{up}_{IK} K^{pp-1}_{KL} \boldsymbol K^{upT}_{LJ} \\
+    &= \sum_{K,L=1}^{n_p}\boldsymbol K^{up}_{IK} K^{pp-1}_{KL} \boldsymbol K^{upT}_{LJ} \\
+    &= \sum_{K,L,M,N=1}^{n_p} \boldsymbol K^{up}_{IK} K^{pp-1}_{KM}  K^{pp}_{MN} K^{pp-1}_{NL} \boldsymbol K^{upT}_{LJ} \\
+    &= \int_\Omega (\sum_{K,M=1}^{n_p} \Psi_M K^{pp-1}_{KM} \boldsymbol K^{up}_{IK}) (\sum_{L,N=1}^{n_p}\Psi_N K^{pp-1}_{NL} \boldsymbol K^{upT}_{LJ}) d\Omega \\
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+    \boldsymbol K^v &= \boldsymbol K^{up} \boldsymbol K^{pp-1} \boldsymbol K^{upT} \\
+    &= \boldsymbol K^{up} \boldsymbol K^{pp-1} \boldsymbol K^{pp} (\boldsymbol K^{pp-1} \boldsymbol K^{up})^T \\
+\end{split}
+\end{equation}
