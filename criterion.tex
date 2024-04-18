@@ -1,4 +1,4 @@
-\section{Optimal polynomial-wise constraint count}
+\section{Optimal polynomial--wise constraint count}
 \subsection{Inf-sup value estimator}
 The problem of Eqs.\eqref{approxweak} the approximations of Eq.\eqref{approx} should satisfy the so-call Ladyzhenskaya–Babuška–Brezzi(LBB) condition or inf-sup condition \cite{bathe1996} to ensure the formulation's accuracy:
 \begin{equation}
@@ -8,18 +8,18 @@ in which $\beta_h$ is namely inf-sup value, $\beta$ stands for a constant indepe
 
 \begin{thm}
 % FIXME: find a ref for polynomial interpolation.
-    Let the polynomial space of degree at most $k$, $\mathcal L_{(k)}$ is defined as follows:
+    Let $L$ the polynomial space of degree at most $k$, $\mathcal L_{(k)}$ is defined as follows:
 \begin{equation}
     \mathcal L_{(k)} := ??
 \end{equation}
 such that, the inf-sup value $\beta_h$
     Inf-sup value has the following relationship:
 \begin{equation}
-    \beta_h \le \sqrt{\lambda^{(n_d n_u-n_p+1)}} + C h \Vert \boldsymbol v \Vert
+    \beta_h \le \sqrt{\lambda_{n_{\textrm{dof}}-n_p+1}} + C h \Vert \boldsymbol v \Vert
 \end{equation}
 with
 \begin{equation}
-    \lambda^{(k)} = \inf_{W \in \mathcal L_{(2n_u)}^{(k)}} \sup_{\boldsymbol v \in W} 
+    \lambda_k = \inf_{U \subset (W^{n_{u}})^2_k} \sup_{\boldsymbol v \in W} 
     \frac{\int_\Omega (\nabla \cdot \boldsymbol v)^2 d\Omega}{\Vert \boldsymbol v \Vert_{H^1}^2}
 \end{equation}
 \end{thm}
@@ -48,11 +48,6 @@ To further development of this methodology, the inf-sup value $\beta_h$ can be f
 \end{split}
 \end{equation}
 
-The space $\ker B_h$ and its counterpart $\ker  B_h^*$ defined by:
-\begin{align}
-    \ker B_h &= \{q_h \in Q_h \vert \int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega = 0,\; \forall \boldsymbol v_h \in V_h\} \\
-    \ker B_h^* &= \{\boldsymbol v_h \in V_h \vert \int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega = 0,\; \forall q_h \in Q_h\}
-\end{align} \par
 
 % TODO: add the estimator of interpolation approximation
 
@@ -102,10 +97,34 @@ Triangular inequality
 \begin{equation}
 \begin{split}
 \beta_h &= \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
-    &\le \inf_{q_h \in Q_h} \sup_{\nabla \cdot \boldsymbol v_h \in Q_h(V_h)} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
+    &\le \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
+    &= \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\underbrace{\int_{\Omega} q_h (\nabla \cdot \boldsymbol v_h - \tilde{\nabla} \cdot \boldsymbol v_h) d\Omega}_{0} + \int_\Omega q_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
+    &= \inf_{\boldsymbol u_h \in V_h\setminus \ker P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\int_{\Omega} \tilde \nabla \cdot \boldsymbol u_h \tilde \nabla \cdot \boldsymbol v_h d\Omega}{\Vert \tilde \nabla \cdot \boldsymbol u_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
+    &\le
 \end{split}
 \end{equation}
 
+As $\textrm{Im} P_h \subseteq Q_h$, the discrete inf-sup value $\beta_h$ can be rephrased as:
+\begin{equation}\label{beta_1}
+\beta_h = \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} 
+    \le \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} 
+\end{equation}
+In accordance with Hilbert projection theorem \cite{philippeg.2013}, there exists an orthgonal projection of $\nabla \cdot \boldsymbol v_h$, namely $\tilde \nabla \boldsymbol v_h = P_h \nabla \boldsymbol v_h$, such that: 
+\begin{equation}
+    \int_\Omega q_h (\nabla \boldsymbol v - \tilde \nabla \boldsymbol v) d\Omega = 0
+\end{equation}
+for the above relationship, the Eq. \eqref{beta_1} is restated by:
+\begin{equation}
+\begin{split}
+    &\inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
+    =& \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h} \frac{\underbrace{\int_{\Omega} q_h (\nabla \cdot \boldsymbol v_h - \tilde{\nabla} \cdot \boldsymbol v_h) d\Omega}_{0} + \int_\Omega q_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
+    =& \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\int_\Omega q_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}}
+\end{split}
+\end{equation}
+Assuming that a $\boldsymbol u_h \in V_h$ such that 
+\begin{equation}
+    \inf_{\boldsymbol  \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\int_\Omega q_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}}
+\end{equation}
 
 
 \subsection{Optimal constraint count}
