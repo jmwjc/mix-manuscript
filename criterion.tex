@@ -2,7 +2,7 @@
 \subsection{Inf-sup value estimator}
 The problem of Eqs.\eqref{approxweak} the approximations of Eq.\eqref{approx} should satisfy the so-call Ladyzhenskaya–Babuška–Brezzi(LBB) condition or inf-sup condition \cite{bathe1996} to ensure the formulation's accuracy:
 \begin{equation}
-    \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} = \beta_h \ge \beta > 0
+    \beta_h = \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \ge \beta > 0
 \end{equation}
 in which $\beta_h$ is namely inf-sup value, $\beta$ stands for a constant independent of characterized element size $h$.
 
@@ -39,17 +39,7 @@ b(\boldsymbol v - \boldsymbol v_h, q_h) = \int_{\Omega} q_h (\nabla\cdot \boldsy
 The above relation means that $\nabla \cdot \boldsymbol v_h$ is the elliptic projection of $\nabla \cdot \boldsymbol v$ onto $Q_h$, 
 $\nabla \cdot \boldsymbol v \in Q_h(V_h)$
 To further development of this methodology, the inf-sup value $\beta_h$ can be firstly derived as follows:
-\begin{equation}
-\begin{split}
-\beta_h &= \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
-    &= \inf_{\boldsymbol w_h \in \bar{Q}_h(V_h)} \sup_{\boldsymbol v_h \in \bar{Q}_h(V_h)} \frac{\int_{\Omega} \nabla \cdot \boldsymbol w_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert \boldsymbol w_h \Vert_{H(\textrm{div})} \Vert \boldsymbol v_h \Vert_{H^1}} \\ 
-    &= \inf_{W \subset \bar{Q}_h(V_h)} \sup_{\boldsymbol v_h \in  W} \frac{\sqrt{ \int_{\Omega} (\nabla \cdot \boldsymbol v_h)^2 d\Omega}}{\Vert \boldsymbol v_h \Vert_{H^1}} \\
-    &= \sqrt{\inf_{W \subset \bar{Q}_h(V_h)} \sup_{\boldsymbol v_h \in W} \frac{ \int_{\Omega} (\nabla \cdot \boldsymbol v_h)^2 d\Omega}{\Vert \boldsymbol v_h \Vert^2_{H^1}}} \\
-\end{split}
-\end{equation}
 
-
-% TODO: add the estimator of interpolation approximation
 
 \begin{equation}
 \begin{split}
@@ -82,15 +72,6 @@ To further development of this methodology, the inf-sup value $\beta_h$ can be f
 \begin{equation}
     \Vert \sum_{k=1}^{n_u} \mathcal L^{(k)} \boldsymbol v \Vert \le C h
 \end{equation}
-Interpolation error for polynomials, 
-
-Triangular inequality
-\begin{equation}
-\Vert \Pi_h \boldsymbol v \Vert - \Vert \boldsymbol v \Vert \le \Vert \boldsymbol v - \Pi_h \boldsymbol v \Vert \le Ch^{p} \Vert \boldsymbol v \Vert
-\end{equation}
-\begin{equation}
-\Vert \boldsymbol v \Vert - \Vert \Pi_h \boldsymbol v \Vert \le \Vert \boldsymbol v - \Pi_h \boldsymbol v \Vert \le Ch^{p} \Vert \boldsymbol v \Vert
-\end{equation}
 
 
 % HACK: New version of inf-sup condition
@@ -121,12 +102,61 @@ for the above relationship, the Eq. \eqref{beta_1} is restated by:
     =& \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\int_\Omega q_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}}
 \end{split}
 \end{equation}
-Assuming that a $\boldsymbol u_h \in V_h$ such that 
+Assuming that a $\boldsymbol u_h \in V_h\setminus \ker P_h$ such that 
 \begin{equation}
-    \inf_{\boldsymbol  \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\int_\Omega q_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}}
+    \inf_{\boldsymbol u_h \in V_h \setminus \ker P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\int_\Omega \tilde \nabla \cdot \boldsymbol u_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert \tilde \nabla \cdot \boldsymbol u_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}}
 \end{equation}
 
+Since $V_h$ is a finite dimensional Hilbert space, there always an orthogonal basis $\{\boldsymbol v_h^{(k)}\}_{k=1}^{2n_p}$ for $V_h$ (Bryan2008 P61). Let $V_h^{(n)} = \textrm{span} \{\boldsymbol v_h^{(k)}\}_{k=1}^{n}$. Let $\boldsymbol u^h = \sum_{i=1}^{n} c_i \boldsymbol v_h^{(i)}$, such that:
+\begin{equation}
+\begin{split}
+    \inf_{\boldsymbol u_h \in \bar V_h} \sup_{\boldsymbol v_h \in \bar V_h} \frac{\int_\Omega \tilde \nabla \cdot \boldsymbol u_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert \tilde \nabla \cdot \boldsymbol u_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} 
+    &= \inf_{\boldsymbol u_h \in \bar V_h} \sup_{\boldsymbol v_h \in \bar V_h} \frac{\sum_{k=1}^{n} \int_\Omega \tilde \nabla \cdot \boldsymbol u_h^{(k)} \tilde \nabla \cdot \boldsymbol v_h d\Omega}{\Vert \tilde \nabla \cdot \boldsymbol u_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
+    &= \inf_{\boldsymbol u_h \in \bar V_h} \sup_{\boldsymbol v_h \in \bar V_h} \frac{\sum_{k=1}^{n} \int_\Omega \tilde \nabla \cdot \boldsymbol u_h^{(k)} \tilde \nabla \cdot \boldsymbol v_h^{(k)} d\Omega}{\Vert \tilde \nabla \cdot \boldsymbol u_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
+    &\le \inf_{W_h \subset V_h^{(n_p+1)}} \sup_{\boldsymbol v_h \in W_h} \frac{\Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2}}{\Vert \boldsymbol v_h \Vert_{H^1}} \\
+\end{split}
+\end{equation}
 
+% TODO: add the estimator of interpolation approximation
+
+\begin{equation}
+\Vert \nabla \cdot \boldsymbol v - \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2} \le C h 
+\end{equation}
+
+Interpolation error for polynomials, 
+
+Triangular inequality
+\begin{equation}
+\begin{split}
+    &\Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2} - \Vert \nabla \cdot \boldsymbol v \Vert_{L^2} \\ 
+    \le& \Vert \nabla \cdot \boldsymbol v - \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2}
+    \le Ch^{p} \Vert \nabla \cdot \boldsymbol v \Vert_{H^{p+1}} 
+    \le C' h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2} \\
+    \Rightarrow& \Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2} \le (1+C') h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2} = C'' h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2}
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+    &\Vert \nabla \cdot \boldsymbol v \Vert_{L^2} - \Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2} \\ 
+    \le& \Vert \nabla \cdot \boldsymbol v - \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2}
+    \le Ch^{p} \Vert \nabla \cdot \boldsymbol v \Vert_{H^{p+1}} 
+    \le C' h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2} \\
+    \Rightarrow& \Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2} \ge (1-C') h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2} = C'' h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2}
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+    \frac{\Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2}}{\Vert \boldsymbol v_h \Vert_{H^1}} &=
+    \frac{\Vert \nabla \cdot \boldsymbol v \Vert_{L^2}}{\Vert \boldsymbol v \Vert_{H^1}}
+    \frac{\Vert \tilde \nabla \cdot \boldsymbol v \Vert_{L^2}}{\Vert \nabla \cdot \boldsymbol v \Vert_{L^2}}
+    \frac{\Vert \boldsymbol v \Vert_{H^1}}{\Vert \boldsymbol v_h \Vert_{H^1}} \\
+    & \le
+    \frac{\Vert \nabla \cdot (\mathcal L \boldsymbol v) \Vert_{L^2}}{\Vert \mathcal L \boldsymbol v \Vert_{H^1}}
+    (C_1 + C_2 h^{p}) \\
+\end{split}
+\end{equation}
 \subsection{Optimal constraint count}
 \begin{table}[ht!]
 \centering
@@ -142,6 +172,5 @@ $p$ & $2n_u$ & $c$ \\
 p & $\sum_{i=1}^{p+1}2i$ & $\sum_{i=1}^{p+1}i+1$ \\
 \bottomrule
 \end{tabular}
-
-\subsection{Equivalence with inf-sup test}
 \end{table}
+\subsection{Equivalence with inf-sup test}
