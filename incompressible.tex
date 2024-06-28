@@ -14,7 +14,7 @@ in which $\boldsymbol \sigma$ denotes to stress tensor and, for isotropic linear
 \end{equation}
 where $\boldsymbol \varepsilon^v$ and $\boldsymbol \varepsilon^d$ are the volumetric(dilatation) and deviatoric parts of strain tensor $\boldsymbol \varepsilon$, and these are evaluated by:
 \begin{equation}
-\boldsymbol \varepsilon^v(\boldsymbol u) =\frac{1}{3} \nabla \cdot \boldsymbol u \; \boldsymbol 1,  \quad
+\boldsymbol \varepsilon^v(\boldsymbol u) =\frac{1}{3} \nabla \cdot \boldsymbol u \; \boldsymbol 1, \quad
 \boldsymbol \varepsilon^d(\boldsymbol u) =\frac{1}{2}(\boldsymbol u \nabla + \nabla \boldsymbol u) - \boldsymbol \varepsilon^v, \quad
 \boldsymbol \varepsilon^v : \boldsymbol \varepsilon^d = 0
 \end{equation}
@@ -31,7 +31,7 @@ Find $\boldsymbol u \in V$
 % \textrm{find} \; \boldsymbol u \in V, \\
 \int_\Omega 2\mu \delta \boldsymbol \varepsilon^d : \boldsymbol \varepsilon^d d\Omega +
 \int_\Omega 3\kappa \delta \boldsymbol \varepsilon^v : \boldsymbol \varepsilon^v d\Omega =
-\int_{\Gamma_t} \delta \boldsymbol u \cdot \boldsymbol t d\Gamma + \int_\Omega \delta \boldsymbol u \cdot \boldsymbol b d\Omega,  \quad
+\int_{\Gamma_t} \delta \boldsymbol u \cdot \boldsymbol t d\Gamma + \int_\Omega \delta \boldsymbol u \cdot \boldsymbol b d\Omega, \quad
 \forall \delta \boldsymbol u \in V
 \end{equation}
 where $V$ is the spaces defined by $V=\{\boldsymbol v \in H^1(\Omega)^2\;\vert\;\boldsymbol v = \boldsymbol g, \; \textrm{on} \; \Gamma_g\}$. $\delta \boldsymbol u$ is the virtual counterpart of $\boldsymbol u$, and $\delta \boldsymbol \varepsilon^v$ and $\delta \boldsymbol \varepsilon^d$ are the corresponding volumetric and deviatoric strain evaluated by $\delta \boldsymbol u$.
@@ -48,7 +48,7 @@ Find $\boldsymbol u_h \in V_h$,
 \begin{equation}\label{ritz_penalty}
 \int_\Omega 2\mu \delta \boldsymbol \varepsilon^d_h : \boldsymbol \varepsilon^d_h d\Omega +
 \int_\Omega 3\kappa \delta \boldsymbol \varepsilon^v_h : \boldsymbol \varepsilon^v_h d\Omega =
-\int_{\Gamma_t} \delta \boldsymbol u_h \cdot \boldsymbol t d\Gamma + \int_\Omega \delta \boldsymbol u_h \cdot \boldsymbol b d\Omega,  \quad
+\int_{\Gamma_t} \delta \boldsymbol u_h \cdot \boldsymbol t d\Gamma + \int_\Omega \delta \boldsymbol u_h \cdot \boldsymbol b d\Omega, \quad
 \forall \delta \boldsymbol u_h \in V_h
 \end{equation}
 where the approximate spaces $V_h \subseteq V$,
@@ -117,7 +117,7 @@ Find $\boldsymbol u_h \in V_h$, $p_h \in Q_h$
 \label{ritz_mix_1}
 \int_\Omega 2\mu \delta \boldsymbol \varepsilon^d_h : \boldsymbol \varepsilon^d_h d\Omega +
 \int_\Omega \nabla \cdot \delta \boldsymbol u_h p_h d\Omega &=
-\int_{\Gamma_t} \delta \boldsymbol u_h \cdot \boldsymbol t d\Gamma + \int_\Omega \delta \boldsymbol u_h \cdot \boldsymbol b d\Omega,  \quad
+\int_{\Gamma_t} \delta \boldsymbol u_h \cdot \boldsymbol t d\Gamma + \int_\Omega \delta \boldsymbol u_h \cdot \boldsymbol b d\Omega, \quad
 &\forall \delta \boldsymbol u_h \in V_h \\
 \label{ritz_mix_2}
 \int_\Omega \delta p_h \nabla \cdot \boldsymbol u_h d\Omega - \int_\Omega \frac{1}{3\kappa} \delta p_h p_h d\Omega &= 0, &\forall \delta p_h \in Q_h

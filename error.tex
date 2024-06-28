@@ -1,0 +1,105 @@
+\section{Error estimator for mixed--formulation}
+In this appendix, the traditional error estimators for mixed-formulation are illustrated herein, the proof is referred to \cite{brenner2008}. The weak formula for mixed-formulation is given by:
+find $u_h \in V_h, p_h \in Q_h$,
+\begin{equation}\label{ap:weak}
+\begin{split}
+    a(v_h,u_h) + b(v_h,p_h) &= f(v_h), \quad \forall v_h \in V_h \\
+    b(u_h,q_h) &= g(q_h), \quad \forall q_h \in Q_h
+\end{split}
+\end{equation}
+The error estimator of Eq. \eqref{ap:weak} is presented under two cases, $g(q_h)=0$ or $g(q_h) \ne 0$ for all $q_h \in Q_h$.
+
+For $g(q_h)=0$, the variational problem \eqref{ap:weak} becomes to the following equivalent one: find $u_h \in Z^0_h$,
+\begin{equation}
+u_h \in Z^0_h \quad a(v_h,u_h) = f(v_h), \quad \forall v_h \in Z^0_h
+\end{equation}
+where $Z^0_h = \ker P_h \subset V_h$. The bilinear form $a$ covers the continuity, coercivity and orthogonality on space $Z^0_h$, thus the following Céa inequality \cite{brenner2008} should be held true:
+\begin{equation}\label{ap:cea}
+\Vert u-u_h \Vert_V \le \frac{C}{\alpha} \inf_{w_h \in Z^0_h}\Vert u-w_h \Vert_V
+\end{equation}
+
+Furthermore, suppose $v_h \in V_h$ to satisfy that:
+\begin{equation}
+\inf_{q_h \in Q_h} \frac{b(w_h-v_h,q_h)}{\Vert w_h-v_h \Vert_V \Vert q_h \Vert_Q} =
+\inf_{q_h \in Q_h} \sup_{v'_h \in V_h} \frac{b(v'_h,q_h)}{\Vert v'_h \Vert_V \Vert q_h \Vert_Q} = \beta
+\end{equation}
+or
+\begin{equation}\label{ap:infsupvalue}
+\Vert w_h-v_h \Vert_V =\frac{1}{\beta} \inf_{q_h \in Q_h} \frac{b(w_h-v_h,q_h)}{\Vert q_h \Vert_Q}
+\end{equation}
+According to $u, w_h\in Z^0_h$ leads to following orthogonality for $b$:
+\begin{equation}\label{ap:orthogonality}
+b(u-w_h,q_h) = 0 ,\quad \forall q_h \in Q_h
+\end{equation}
+Thus, with the combination of Eqs. \eqref{ap:infsupvalue}, \eqref{ap:orthogonality} and continuity of $b$ yields:
+\begin{equation}\label{ap:r3}
+\begin{aligned}
+    \Vert v_h - w_h \Vert_V &=\frac{1}{\beta} \inf_{q_h \in Q_h} \frac{b(w_h-v_h,q_h)}{\Vert q_h \Vert_Q} & \textrm{(Eq.}\eqref{ap:infsupvalue} \textrm{)} \\
+    &=\frac{1}{\beta} \inf_{q_h \in Q_h} \frac{b(w_h-v_h,q_h) + b(u-w_h,q_h)}{\Vert q_h \Vert_Q} & \textrm{(orthogonality)}\\
+&=\frac{1}{\beta}\inf_{q_h \in Q_h} \frac{b(u-v_h,q_h)}{\Vert q_h \Vert_Q} & \\
+&\le\frac{C}{\beta} \Vert u-v_h \Vert_V & \textrm{(continuity)}
+\end{aligned}
+\end{equation}
+then
+\begin{equation}\label{ap:estimatorwh}
+    \Vert u-w_h \Vert_V \le \Vert u-v_h \Vert_V + \Vert v_h-w_h \Vert_V \le (1+\frac{C}{\beta})\Vert u-v_h \Vert_V 
+\end{equation}
+
+Finally, plugging Eq. \eqref{ap:estimatorwh} into Eq. \eqref{ap:cea}, the error estimator for the case of $g(q_h)=0, \; \forall q_h \in Q_h$ turns to that:
+\begin{equation}
+\Vert u-u_h \Vert_V \le \frac{C}{\alpha} \inf_{w_h \in Z_h}\Vert u-w_h \Vert_V\le \frac{C}{\alpha} (1+\frac{C}{\beta}) \inf_{v_h \in V_h} \Vert u-v_h \Vert_V
+\end{equation}
+
+For the problem with $g(q)\ne0,\; \forall q \in Q$, the $u_h$ can be split into two parts, $u_h=u^0_h + u^g_h$, where $u^0_h \in Z^0_h$ \cite{arnold1987}. Now, the problem of variational problem becomes the following equivalent form: find $u^0_h \in Z^0_h$,
+\begin{equation} \label{ap:r2}
+\quad a(v_h,u^0_h) = f(v_h) - a(v_h,u^g_h), \quad \forall v_h \in Z^0_h
+\end{equation}
+
+Under this circumstance, it obviously has the following relationship:
+\begin{equation}
+b(u^0_h,q_h) = b(u_h-u^g_h,q_h) = 0 \Rightarrow
+b(u_h,q_h) = b(u^g_h,q_h) = g(q_h), \quad \forall q_h \in Q_h
+\end{equation}
+and then $u_h, u^g_h \in Z_h$. For a result, the coercivity for bilinear form turns to that:
+\begin{equation}
+\alpha \Vert v_h \Vert_V \le \sup_{w_h \in Z^0_h} \frac{a(v_h,w_h)}{\Vert w_h \Vert_V}, \quad \forall v_h \in Z_h
+\end{equation}
+As $Z^0_h \nsubseteq Z_h$, the orthogonality and Céa inequality is no longer held true, the error estimator is bounded by the following \cite{brenner2008}:
+\begin{equation}\label{ap:r4}
+\Vert u-u_h \Vert_V \le (1+\frac{C}{\alpha}) \inf_{w_h \in Z_h}\Vert u-w_h \Vert_V + \frac{1}{\alpha}\sup_{w^0_h \in Z^0_h} \frac{\vert a(u-u_h,w^0_h) \vert}{\Vert w^0_h \Vert_V}
+\end{equation}
+
+Since $Z^0_h \subset V_h$, 
+\begin{equation} \label{ap:r1}
+    a(w^0_h,u) + b(w^0_h,p) = f(w^0_h),\quad \forall w^0_h \in Z^0_h 
+\end{equation}
+With a subtraction between Eq. \eqref{ap:r1} and Eq. \eqref{ap:r2} and the definition of space $Z^0_h$, we have:
+\begin{equation}
+    a(w^0_h,u-u_h) + b(w^0_h,p-q_h) = 0,\quad \forall w^0_h \in Z^0_h,\; \forall q_h \in Q_h
+\end{equation}
+thus,
+\begin{equation}\label{ap:r5}
+\vert a(u-u_h,w^0_h)\vert = \vert b(w^0_h,p-q_h)\vert \le C \Vert p-q_h \Vert_Q \Vert w^0_h \Vert_V,\quad \forall w^0_h \in Z^0_h
+\end{equation}
+
+Moreover, for $w_h \in Z^g_h$, let $v_h\in V_h$ satisfies that:
+\begin{equation}
+    \Vert w_h-v_h \Vert_V =\frac{1}{\beta} \inf_{q_h \in Q_h} \frac{b(w_h-v_h,q_h)}{\Vert q_h \Vert_Q}
+\end{equation}
+Following the same path of Eq. \eqref{ap:r3} can obtain that:
+\begin{equation}
+\Vert v_h-w_h \Vert_V \le\frac{C}{\beta} \Vert u-v_h \Vert_V
+\end{equation}
+Thus, for $w_h \in Z_h$,
+\begin{equation}\label{ap:r6}
+\Vert u-w_h \Vert_V \le \Vert u-v_h \Vert_V + \Vert v_h-w_h \Vert_V \le (1+\frac{C}{\beta})\Vert u-v_h \Vert_V
+\end{equation}
+Consequently, subsituting Eqs. \eqref{ap:r5}, \eqref{ap:r6} into Eq. \eqref{ap:r4} leads to:
+\begin{equation}
+\begin{split}
+\Vert u-u_h \Vert_V &\le (1+\frac{C}{\alpha}) \inf_{w_h \in Z_h}\Vert u-w_h \Vert_V + \frac{1}{\alpha}\sup_{w^0_h \in Z^0_h} \frac{\vert a(u-u_h,w^0_h) \vert}{\Vert w^0_h \Vert_V} \\
+&\le(1+\frac{C}{\alpha})(1+\frac{C}{\beta}) \inf_{v_h \in V_h} \Vert u-v_h \Vert_V +\frac{C}{\alpha} \inf_{q_h \in Q_h} \Vert p-q_h \Vert_Q
+\end{split}
+\end{equation}
+
+
