@@ -42,137 +42,20 @@ And the following relationship can be evidenced:
 
     Consequently, with a combination of Eqs. \eqref{r11} and \eqref{r12}, Eq. \eqref{r1} can be obtain.
 \end{pf}
-assuming that, $\boldsymbol v$ is a polynomial in polynomial space $\mathcal L$ of degree at most $2n_u$, i.e. $\boldsymbol v \in \mathcal L_{(2n_u)}$. 
-As $\mathcal L_{2n_u} \subset V$, $\boldsymbol v$ can satisfied with problem of Eq.\eqref{weak}.
-In accordance with $Q_h \subseteq Q$, the following relationship hold true:
-\begin{equation}\label{b2}
-b(\boldsymbol v,q_h) = \int_{\Omega} q_h \nabla \cdot \boldsymbol v d\Omega = 0, \quad \forall q_h \in Q_h
-\end{equation}
-A direct subtraction between the second equation of Eq.\eqref{approxweak} and Eq.\eqref{b2} yields: 
+
+Suppose that $P_{n_p}$ is a polynomial space with $n_p$ dimensions, such that, there is an unique $v \in V'$, $V'=P_{n_p}\times P_{n_p}$, satisfies that $v_h = \mathcal L_h v$. And the above equation becomes:
 \begin{equation}
-b(\boldsymbol v - \boldsymbol v_h, q_h) = \int_{\Omega} q_h (\nabla\cdot \boldsymbol v - \nabla \cdot \boldsymbol v_h)d\Omega = 0, \quad \forall q_h \in Q_h
+\sup_{v_h \in V_h'} \frac{\Vert \mathcal P_h v_h \Vert_Q}{\Vert v_h \Vert_V} = \sup_{v \in V'} \frac{\Vert \mathcal P_h \mathcal L_h v \Vert_Q}{\Vert \mathcal L_h v \Vert_V}
 \end{equation}
-The above relation means that $\nabla \cdot \boldsymbol v_h$ is the elliptic projection of $\nabla \cdot \boldsymbol v$ onto $Q_h$, 
-$\nabla \cdot \boldsymbol v \in Q_h(V_h)$
-To further development of this methodology, the inf-sup value $\beta_h$ can be firstly derived as follows:
-
-
 \begin{equation}
 \begin{split}
-    \lambda^{(k)}_h &= \inf_{W \subset Q_h^{(k)}(V_h)} \sup_{\boldsymbol v_h \in W} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v_h)^2 d\Omega}{\Vert \boldsymbol v_h \Vert^2} \\
-    &\le \inf_{W \subset L^{(k)}_{(n_u)}(V)} \sup_{\boldsymbol v \in W} \frac{\int_{\Omega} (\nabla \cdot (\Pi_h \boldsymbol v))^2 d\Omega}{\Vert \Pi_h \boldsymbol v \Vert^2} \\
-    &= \inf_{W \subset L^{(k)}_{(n_u)}(V)} \sup_{\boldsymbol v \in W} \frac{\int_{\Omega} (\nabla \cdot \boldsymbol v)^2 d\Omega}{\Vert \boldsymbol v \Vert^2}
-    \frac{\Vert \boldsymbol v \Vert^2}{\Vert \Pi \boldsymbol v \Vert^2}\\
+    \Vert \mathcal P_h \mathcal I^u_h v \Vert_Q &\le \Vert \mathcal P v \Vert_Q + \Vert \mathcal P v - \mathcal P_h \mathcal I^u_h v \Vert_Q \\
+    &\le \Vert \mathcal P v \Vert_Q + \Vert \mathcal P v - \mathcal P \mathcal I^u_h v \Vert_Q + \Vert \mathcal P \mathcal I^u_h v - \mathcal P_h \mathcal I^u_h v \Vert_Q \\
+    &\le \Vert \mathcal P v \Vert_Q + \Vert \mathcal P(\mathcal I - \mathcal I^u_h) v \Vert_Q + \Vert (\mathcal P - \mathcal P_h) \mathcal L_h v \Vert_Q \\
+    &\le \Vert \mathcal P v \Vert_Q + \Vert \mathcal P(\mathcal I - \mathcal I^u_h) v \Vert_Q + \Vert \mathcal P(\mathcal I - \mathcal I^p_h) \mathcal L_h v \Vert_Q \\
 \end{split}
 \end{equation}
 
-\begin{equation}
-\Vert \Pi_h \boldsymbol v - \boldsymbol v \Vert \le \Vert \Pi_h \boldsymbol v \Vert - \Vert \boldsymbol v \Vert \le Ch^{p+1}\Vert \boldsymbol v \Vert
-\end{equation}
-
-\begin{equation}
-    \Vert \Pi_h \boldsymbol v \Vert \le (1+Ch^{p+1})\Vert \boldsymbol v \Vert
-\end{equation}
-
-\begin{equation}
-    \Vert \boldsymbol v - \Pi_h \boldsymbol v \Vert_{H(div)} \le \Vert \boldsymbol v \Vert - \Vert \Pi_h \boldsymbol v \Vert \le Ch^{p}\Vert \boldsymbol v \Vert
-\end{equation}
-
-\begin{equation}
-\frac{\Vert \boldsymbol v \Vert_1^2}{\Vert \Pi_h \boldsymbol v \Vert_1^2} \le \frac{1}{(1-Ch^{p+1})^2} \approx 1 + 2Ch^{p+1}
-\end{equation}
-
-\begin{equation}
-    \mathcal L^{(n_u)}
-\end{equation}
-\begin{equation}
-    \Vert \sum_{k=1}^{n_u} \mathcal L^{(k)} \boldsymbol v \Vert \le C h
-\end{equation}
-
-
-% HACK: New version of inf-sup condition
-\begin{equation}
-\begin{split}
-\beta_h &= \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
-    &\le \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
-    &= \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\underbrace{\int_{\Omega} q_h (\nabla \cdot \boldsymbol v_h - \tilde{\nabla} \cdot \boldsymbol v_h) d\Omega}_{0} + \int_\Omega q_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
-    &= \inf_{\boldsymbol u_h \in V_h\setminus \ker P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\int_{\Omega} \tilde \nabla \cdot \boldsymbol u_h \tilde \nabla \cdot \boldsymbol v_h d\Omega}{\Vert \tilde \nabla \cdot \boldsymbol u_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
-    &\le
-\end{split}
-\end{equation}
-
-As $\textrm{Im} P_h \subseteq Q_h$, the discrete inf-sup value $\beta_h$ can be rephrased as:
-\begin{equation}\label{beta_1}
-\beta_h = \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} 
-    \le \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} 
-\end{equation}
-In accordance with Hilbert projection theorem \cite{philippeg.2013}, there exists an orthgonal projection of $\nabla \cdot \boldsymbol v_h$, namely $\tilde \nabla \boldsymbol v_h = P_h \nabla \boldsymbol v_h$, such that: 
-\begin{equation}
-    \int_\Omega q_h (\nabla \boldsymbol v - \tilde \nabla \boldsymbol v) d\Omega = 0
-\end{equation}
-for the above relationship, the Eq. \eqref{beta_1} is restated by:
-\begin{equation}
-\begin{split}
-    &\inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h} \frac{\int_{\Omega} q_h \nabla \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
-    =& \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h} \frac{\underbrace{\int_{\Omega} q_h (\nabla \cdot \boldsymbol v_h - \tilde{\nabla} \cdot \boldsymbol v_h) d\Omega}_{0} + \int_\Omega q_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
-    =& \inf_{q_h \in \textrm{Im} P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\int_\Omega q_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert q_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}}
-\end{split}
-\end{equation}
-Assuming that a $\boldsymbol u_h \in V_h\setminus \ker P_h$ such that 
-\begin{equation}
-    \inf_{\boldsymbol u_h \in V_h \setminus \ker P_h} \sup_{\boldsymbol v_h \in V_h\setminus \ker P_h} \frac{\int_\Omega \tilde \nabla \cdot \boldsymbol u_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert \tilde \nabla \cdot \boldsymbol u_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}}
-\end{equation}
-
-Since $V_h$ is a finite dimensional Hilbert space, there always an orthogonal basis $\{\boldsymbol v_h^{(k)}\}_{k=1}^{2n_p}$ for $V_h$ (Bryan2008 P61). Let $V_h^{(n)} = \textrm{span} \{\boldsymbol v_h^{(k)}\}_{k=1}^{n}$. Let $\boldsymbol u^h = \sum_{i=1}^{n} c_i \boldsymbol v_h^{(i)}$, such that:
-\begin{equation}
-\begin{split}
-    \inf_{\boldsymbol u_h \in \bar V_h} \sup_{\boldsymbol v_h \in \bar V_h} \frac{\int_\Omega \tilde \nabla \cdot \boldsymbol u_h \tilde{\nabla} \cdot \boldsymbol v_h d\Omega}{\Vert \tilde \nabla \cdot \boldsymbol u_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} 
-    &= \inf_{\boldsymbol u_h \in \bar V_h} \sup_{\boldsymbol v_h \in \bar V_h} \frac{\sum_{k=1}^{n} \int_\Omega \tilde \nabla \cdot \boldsymbol u_h^{(k)} \tilde \nabla \cdot \boldsymbol v_h d\Omega}{\Vert \tilde \nabla \cdot \boldsymbol u_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
-    &= \inf_{\boldsymbol u_h \in \bar V_h} \sup_{\boldsymbol v_h \in \bar V_h} \frac{\sum_{k=1}^{n} \int_\Omega \tilde \nabla \cdot \boldsymbol u_h^{(k)} \tilde \nabla \cdot \boldsymbol v_h^{(k)} d\Omega}{\Vert \tilde \nabla \cdot \boldsymbol u_h \Vert_{L^2} \Vert \boldsymbol v_h \Vert_{H^1}} \\
-    &\le \inf_{W_h \subset V_h^{(n_p+1)}} \sup_{\boldsymbol v_h \in W_h} \frac{\Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2}}{\Vert \boldsymbol v_h \Vert_{H^1}} \\
-\end{split}
-\end{equation}
-
-% TODO: add the estimator of interpolation approximation
-
-\begin{equation}
-\Vert \nabla \cdot \boldsymbol v - \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2} \le C h 
-\end{equation}
-
-Interpolation error for polynomials, 
-
-Triangular inequality
-\begin{equation}
-\begin{split}
-    &\Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2} - \Vert \nabla \cdot \boldsymbol v \Vert_{L^2} \\ 
-    \le& \Vert \nabla \cdot \boldsymbol v - \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2}
-    \le Ch^{p} \Vert \nabla \cdot \boldsymbol v \Vert_{H^{p+1}} 
-    \le C' h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2} \\
-    \Rightarrow& \Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2} \le (1+C') h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2} = C'' h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2}
-\end{split}
-\end{equation}
-
-\begin{equation}
-\begin{split}
-    &\Vert \nabla \cdot \boldsymbol v \Vert_{L^2} - \Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2} \\ 
-    \le& \Vert \nabla \cdot \boldsymbol v - \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2}
-    \le Ch^{p} \Vert \nabla \cdot \boldsymbol v \Vert_{H^{p+1}} 
-    \le C' h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2} \\
-    \Rightarrow& \Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2} \ge (1-C') h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2} = C'' h^p \Vert \nabla \cdot \boldsymbol v \Vert_{L^2}
-\end{split}
-\end{equation}
-
-\begin{equation}
-\begin{split}
-    \frac{\Vert \tilde \nabla \cdot \boldsymbol v_h \Vert_{L^2}}{\Vert \boldsymbol v_h \Vert_{H^1}} &=
-    \frac{\Vert \nabla \cdot \boldsymbol v \Vert_{L^2}}{\Vert \boldsymbol v \Vert_{H^1}}
-    \frac{\Vert \tilde \nabla \cdot \boldsymbol v \Vert_{L^2}}{\Vert \nabla \cdot \boldsymbol v \Vert_{L^2}}
-    \frac{\Vert \boldsymbol v \Vert_{H^1}}{\Vert \boldsymbol v_h \Vert_{H^1}} \\
-    & \le
-    \frac{\Vert \nabla \cdot (\mathcal L \boldsymbol v) \Vert_{L^2}}{\Vert \mathcal L \boldsymbol v \Vert_{H^1}}
-    (C_1 + C_2 h^{p}) \\
-\end{split}
-\end{equation}
 \subsection{Optimal constraint count}
 \begin{table}[ht!]
 \centering
@@ -185,7 +68,7 @@ $p$ & $2n_u$ & $c$ \\
 2 & 12 & 9 \\
 3 & 20 & 14 \\
 4 & 30 & 20 \\
-p & $\sum_{i=1}^{p+1}2i$ & $\sum_{i=1}^{p+1}i+1$ \\
+$p$ & $\sum_{i=1}^{p+1}2i$ & $\sum_{i=1}^{p+1}i+1$ \\
 \bottomrule
 \end{tabular}
 \end{table}
