@@ -1,60 +1,105 @@
 \section{Optimal polynomial--wise constraint count}
 \subsection{Inf--sup value estimator}
-The problem of Eqs.\eqref{approxweak} the approximations of Eq.\eqref{approx} should satisfy the so-call Ladyzhenskaya–Babuška–Brezzi(LBB) condition or inf-sup condition \cite{bathe1996} to ensure the formulation's accuracy:
+% Consider a general mixed-formulation problem, namely, find $u\in V, p\in Q$,
+% \begin{equation}
+% \begin{aligned}
+%     a(v, u) + b(v, p) &= f(v) \quad &\forall v \in V \\
+%     b(u, q) &= g(q) \quad &\forall q \in Q
+% \end{aligned}
+% \end{equation}
+% where 
+Without loss generality, the nearly-incompressible elasticity problem is considered herein to illustrate the proposed methodology.
+The approximations of Eq.\eqref{approx} should satisfy the so-call Ladyzhenskaya–Babuška–Brezzi(LBB) condition or inf-sup condition \cite{bathe1996} to ensure the formulation's accuracy:
 \begin{equation}\label{infsup}
-    \inf_{q_h \in Q_h} \sup_{v_h \in V_h} \frac{\vert b(q_h,v_h) \vert}{\Vert q_h \Vert_Q \Vert v_h \Vert_V} \ge \beta > 0
+    \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\vert b(q_h,\boldsymbol v_h) \vert}{\Vert q_h \Vert_Q \Vert \boldsymbol v_h \Vert_V} \ge \beta > 0
 \end{equation}
 in which $\beta$, namely inf-sup value, is a constant independent of characterized element size $h$.
 
-\begin{thm}
-    Let $L$ the polynomial space of degree at most $k$, $\mathcal L_{(k)}$ is defined as follows:
+\begin{thm}\label{thm1}
+    Suppose $\mathcal P_h:V_h \rightarrow Q_h$ is the orthogonal projection operator of $\mathcal P$ defined by:
+\begin{equation}
+    b(q_h,\boldsymbol v_h) = (q_h, \mathcal P \boldsymbol v_h) = (q_h, \mathcal P_h \boldsymbol v_h), \quad \forall q_h \in Q_h
+\end{equation}
+    where $\mathcal P$ is the divergence operator, $\mathcal P = \nabla \cdot$. And the inf-sup value can be estimated by:
 \begin{equation}\label{r1}
-    \beta \le \inf_{V'_h \subset V_h \setminus \ker P_h} \sup_{v_h \in V'_h} \frac{\Vert P_h v_h \Vert_Q}{\Vert v_h \Vert_V}
+    \beta \le \inf_{V'_h \subset V_h \setminus \ker \mathcal P_h} \sup_{v_h \in V'_h} \frac{\Vert \mathcal P_h \boldsymbol v_h \Vert_Q}{\Vert \boldsymbol v_h \Vert_V}
 \end{equation}
 \end{thm}
 \begin{pf}
-    As $\mathrm{Im}P_h \in Q_h$,
+    As the definition of  $\mathcal P_h$, we have $\mathrm{Im}\mathcal P_h \in Q_h$. And the Eq. \eqref{infsup} can be rewritten as:
 \begin{equation} \label{r11}
 \begin{split}
-    \beta &\le \inf_{q_h \in Q_h} \sup_{v_h \in V_h} \frac{\vert b(q_h,v_h) \vert}{\Vert q_h \Vert_Q \Vert v_h \Vert_V} \\
-    & \le \inf_{q_h \in \mathrm{Im}P_h} \sup_{v_h \in V_h} \frac{\vert b(q_h,v_h) \vert}{\Vert q_h \Vert_Q \Vert v_h \Vert_V} 
-    = \inf_{q_h \in \mathrm{Im}P_h} \sup_{v_h \in V_h} \frac{\vert (q_h,P_h v_h) \vert}{\Vert q_h \Vert_Q \Vert v_h \Vert_V} 
+    \beta &\le \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\vert b(q_h,\boldsymbol v_h) \vert}{\Vert q_h \Vert_Q \Vert \boldsymbol v_h \Vert_V} 
+    \le \inf_{q_h \in \mathrm{Im}\mathcal P_h} \sup_{\boldsymbol v_h \in V_h} \frac{\vert (q_h,\mathcal P_h \boldsymbol v_h) \vert}{\Vert q_h \Vert_Q \Vert \boldsymbol v_h \Vert_V} \\
 \end{split}
 \end{equation}
 
-    For a given $q_h\in \mathrm{Im}P_h$, suppose a space $V'_h \subseteq V_h\setminus \ker P_h$ defined by:
+    For a given $q_h\in \mathrm{Im}\mathcal P_h$, suppose a space $V'_h \subseteq V_h\setminus \ker P_h$ defined by:
 \begin{equation}
-    V'_h = \{ v_h \in V_h \; \vert \; P_h v_h = q_h \}
+    V'_h = \{ \boldsymbol v_h \in V_h \; \vert \; \mathcal P_h \boldsymbol v_h = q_h \}
 \end{equation}
-    Since $\mathrm{Im}P_h \in Q_h$, in accordance with Cauchy-Schwarz inequality, we have:
+    Since $\mathrm{Im}\mathcal P_h \in Q_h$, in accordance with Cauchy-Schwarz inequality, we have:
 \begin{equation}
-    \vert (q_h,P_h v_h) \vert \le \Vert q_h \Vert_Q \Vert P_h v_h \Vert_Q
+    \vert (q_h,\mathcal P_h \boldsymbol v_h) \vert \le \Vert q_h \Vert_Q \Vert \mathcal P_h \boldsymbol v_h \Vert_Q
 \end{equation}
-where this equality is holding if and only if $q_h=P_h v_h$, i.e.,
+where this equality is holding if and only if $q_h=\mathcal P_h \boldsymbol v_h$, i.e.,
 \begin{equation}
-    \vert (q_h,P_h v_h) \vert = \Vert q_h \Vert_Q \Vert P_h v_h \Vert_Q, \quad \forall v_h \in V'_h
+    \vert (q_h,\mathcal P_h \boldsymbol v_h) \vert = \Vert q_h \Vert_Q \Vert \mathcal P_h \boldsymbol v_h \Vert_Q, \quad \forall \boldsymbol v_h \in V'_h
 \end{equation}
 And the following relationship can be evidenced:
     \begin{equation}\label{r12}
-    \sup_{v_h\in V_h} \frac{\vert (q_h,P_h v_h) \vert}{\Vert q_h \Vert_Q \Vert v_h \Vert_V} =
-    \sup_{v_h\in V'_h} \frac{\Vert P_h v_h \Vert_Q}{\Vert v_h \Vert_V} 
+    \sup_{\boldsymbol v_h\in V_h} \frac{\vert (q_h,\mathcal P_h \boldsymbol v_h) \vert}{\Vert q_h \Vert_Q \Vert \boldsymbol v_h \Vert_V} =
+    \sup_{\boldsymbol v_h\in V'_h} \frac{\Vert \mathcal P_h \boldsymbol v_h \Vert_Q}{\Vert \boldsymbol v_h \Vert_V} 
 \end{equation}
 
     Consequently, with a combination of Eqs. \eqref{r11} and \eqref{r12}, Eq. \eqref{r1} can be obtain.
 \end{pf}
 
-Suppose that $P_{n_p}$ is a polynomial space with $n_p$ dimensions, such that, there is an unique $v \in V'$, $V'=P_{n_p}\times P_{n_p}$, satisfies that $v_h = \mathcal L_h v$. And the above equation becomes:
-\begin{equation}
-\sup_{v_h \in V_h'} \frac{\Vert \mathcal P_h v_h \Vert_Q}{\Vert v_h \Vert_V} = \sup_{v \in V'} \frac{\Vert \mathcal P_h \mathcal L_h v \Vert_Q}{\Vert \mathcal L_h v \Vert_V}
+\begin{rmk}
+    Theorem \ref{thm1} is consistance with the traditional numerical inf-sup test \cite{malkus1981}, while, according to minimum-maximum principle \cite{babuskaa}, the Eq. \eqref{r1} evaluates the general non-zero eigenvalue of metrics $\boldsymbol K^v$ and $\boldsymbol K^d$.
+\end{rmk}
+
+In order to further figure out the optimal constraint counting ,
+\begin{thm}
+    Suppose that $P_{n_u}$ is a polynomial space with $n_u$ dimensions, and $V_{n_u}$ is the polynomial displacement space, $V_{n_u} = \{\boldsymbol v \in P_{n_u}^2 \vert \boldsymbol v=\boldsymbol g,\;\mathrm{on}\; \Gamma_g\}$. And then, the inf-sup can be further bounded by:
+\begin{equation}\label{r2}
+    \beta \le C \inf_{V'\in V_{n_u}\setminus\ker \mathcal P}\sup_{\boldsymbol v \in V'}\frac{\Vert \mathcal P \boldsymbol v\Vert_Q}{\Vert\boldsymbol v\Vert_V} + Ch^{\min\{k,l\}}
 \end{equation}
-\begin{equation}
+where $C$ stands for an arbitrary constant.
+\end{thm}
+\begin{pf}
+    As the dimensions of $V_h$ and $V_{n_u}$ is identical, $\dim V_{n_u}=\dim V_h = n_d\times n_u$. There exists a unique $\boldsymbol v \in V_{n_u}$ satisfing $v_h = \mathcal I_h v$. And the right side of Eq. \eqref{r1} becomes:
+\begin{equation}\label{r21}
+\inf_{V'_h \in V_h\setminus \ker \mathcal P_h}\sup_{\boldsymbol v_h \in V_h'} \frac{\Vert \mathcal P_h \boldsymbol v_h \Vert_Q}{\Vert \boldsymbol v_h \Vert_V} = 
+\inf_{V'\in V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h}\sup_{\boldsymbol v \in V'} \frac{\Vert \mathcal P_h \mathcal I_h \boldsymbol v \Vert_Q}{\Vert \mathcal I_h \boldsymbol v \Vert_V}
+\end{equation}
+Since $\ker \mathcal P_h \mathcal I_h \subseteq \ker \mathcal P$, the above equation can be rewritten as:
+\begin{equation}\label{r22}
+\inf_{V'_h \in V_h\setminus \ker \mathcal P_h}\sup_{\boldsymbol v_h \in V_h'} \frac{\Vert \mathcal P_h \boldsymbol v_h \Vert_Q}{\Vert \boldsymbol v_h \Vert_V} \le 
+\inf_{V'\in V_{n_u}\setminus \ker \mathcal P}\sup_{\boldsymbol v \in V'} \frac{\Vert \mathcal P_h \mathcal I_h \boldsymbol v \Vert_Q}{\Vert \mathcal I_h \boldsymbol v \Vert_V}
+\end{equation}
+In accordance with triangular inequality, we have:
+\begin{equation}\label{interpolation1}
 \begin{split}
-    \Vert \mathcal P_h \mathcal I^u_h v \Vert_Q &\le \Vert \mathcal P v \Vert_Q + \Vert \mathcal P v - \mathcal P_h \mathcal I^u_h v \Vert_Q \\
-    &\le \Vert \mathcal P v \Vert_Q + \Vert \mathcal P v - \mathcal P \mathcal I^u_h v \Vert_Q + \Vert \mathcal P \mathcal I^u_h v - \mathcal P_h \mathcal I^u_h v \Vert_Q \\
-    &\le \Vert \mathcal P v \Vert_Q + \Vert \mathcal P(\mathcal I - \mathcal I^u_h) v \Vert_Q + \Vert (\mathcal P - \mathcal P_h) \mathcal L_h v \Vert_Q \\
-    &\le \Vert \mathcal P v \Vert_Q + \Vert \mathcal P(\mathcal I - \mathcal I^u_h) v \Vert_Q + \Vert \mathcal P(\mathcal I - \mathcal I^p_h) \mathcal L_h v \Vert_Q \\
+    \Vert \mathcal P_h \mathcal I_h \boldsymbol v \Vert_Q &\le \Vert \mathcal P \boldsymbol v \Vert_Q + \Vert \mathcal P \boldsymbol v - \mathcal P_h \mathcal I_h \boldsymbol v \Vert_Q \\
+    &\le \Vert \mathcal P \boldsymbol v \Vert_Q + \Vert \mathcal P \boldsymbol v - \mathcal P \mathcal I_h \boldsymbol v \Vert_Q + \Vert \mathcal P \mathcal I_h \boldsymbol v - \mathcal P_h \mathcal I_h \boldsymbol v \Vert_Q \\
+    &\le \Vert \mathcal P \boldsymbol v \Vert_Q + \Vert \mathcal P(\mathcal I - \mathcal I_h) \boldsymbol v \Vert_Q + \Vert (\mathcal P - \mathcal P_h) \mathcal I_h \boldsymbol v \Vert_Q \\
 \end{split}
 \end{equation}
+Obviously, the second and third terms on the right side of Eq. \eqref{interpolation1} are the interpolation error and the orthogonal projection error for approximations in $V_h$ and $Q_h$, and can be evaluated by \cite{yosida1995}:
+\begin{align}
+    &\Vert \mathcal P(\mathcal I - \mathcal I_h) \boldsymbol v \Vert_Q \le C h^k \Vert \boldsymbol v \Vert_V \\
+    &\Vert(\mathcal P - \mathcal P_h)\mathcal I_h \boldsymbol v \Vert_Q \le Ch^l \Vert \mathcal I_h \boldsymbol v \Vert_V
+\label{interpolation2}
+\end{align}
+    It can be obtained that $\Vert \mathcal I_h \boldsymbol v\Vert_V \ge C\Vert \boldsymbol v \Vert_V$ from close graph theorem \cite{quarteroni1994}. And considering it with Eqs. \eqref{interpolation1}-\eqref{interpolation2}, the right side of Eq. \eqref{r22} can be represented as:
+\begin{equation}\label{r23}
+\inf_{V'\in V_{n_u}\setminus \ker \mathcal P} \sup_{\boldsymbol v \in V'} \frac{\Vert \mathcal P_h\mathcal I_h\boldsymbol v\Vert_Q}{\Vert \mathcal I_h \boldsymbol v\Vert_V} \le
+    C \inf_{V'\in V_{n_u}\setminus \ker \mathcal P} \sup_{\boldsymbol v \in V'} \frac{\Vert \mathcal P\boldsymbol v\Vert_Q}{\Vert \boldsymbol v\Vert_V} + Ch^{\min\{k,l\}}
+\end{equation}
+
+    Consequently, substituting Eqs. \eqref{r21},\eqref{r22},\eqref{r23} into \eqref{r1} can get the desired Eq. \eqref{r2}.
+\end{pf}
 
 \subsection{Optimal constraint count}
 \begin{table}[ht!]
