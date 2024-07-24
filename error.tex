@@ -46,7 +46,7 @@ then
 \end{equation}
 
 Finally, plugging Eq. \eqref{ap:estimatorwh} into Eq. \eqref{ap:cea}, the error estimator for the case of $g(q_h)=0, \; \forall q_h \in Q_h$ turns to that:
-\begin{equation}
+\begin{equation}\label{ap:estimator1}
 \Vert u-u_h \Vert_V \le \frac{C}{\alpha} \inf_{w_h \in Z_h}\Vert u-w_h \Vert_V\le \frac{C}{\alpha} (1+\frac{C}{\beta}) \inf_{v_h \in V_h} \Vert u-v_h \Vert_V
 \end{equation}
 
@@ -95,7 +95,7 @@ Thus, for $w_h \in Z_h$,
 \Vert u-w_h \Vert_V \le \Vert u-v_h \Vert_V + \Vert v_h-w_h \Vert_V \le (1+\frac{C}{\beta})\Vert u-v_h \Vert_V
 \end{equation}
 Consequently, subsituting Eqs. \eqref{ap:r5}, \eqref{ap:r6} into Eq. \eqref{ap:r4} leads to:
-\begin{equation}
+\begin{equation}\label{ap:estimator2}
 \begin{split}
 \Vert u-u_h \Vert_V &\le (1+\frac{C}{\alpha}) \inf_{w_h \in Z_h}\Vert u-w_h \Vert_V + \frac{1}{\alpha}\sup_{w^0_h \in Z^0_h} \frac{\vert a(u-u_h,w^0_h) \vert}{\Vert w^0_h \Vert_V} \\
 &\le(1+\frac{C}{\alpha})(1+\frac{C}{\beta}) \inf_{v_h \in V_h} \Vert u-v_h \Vert_V +\frac{C}{\alpha} \inf_{q_h \in Q_h} \Vert p-q_h \Vert_Q
