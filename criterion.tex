@@ -1,8 +1,8 @@
-\section{Optimal polynomial--wise constraint count}
+\section{Optimal polynomial--wise constraint ratio}
 \subsection{Inf--sup value estimator}
 
-Without loss generality, the nearly-incompressible elasticity problem is considered herein to illustrate the proposed methodology.
-The approximations of Eq.\eqref{approx} should satisfy the so-call Ladyzhenskaya–Babuška–Brezzi(LBB) condition or inf-sup condition \cite{bathe1996} to ensure the formulation's accuracy:
+Without loss generality, the incompressible elasticity problem is considered herein to illustrate the proposed methodology.
+The approximations of Eq.\eqref{approx} should satisfy the inf-sup condition, or as known Ladyzhenskaya–Babuška–Brezzi condition \cite{bathe1996}, to ensure the formulation's accuracy:
 \begin{equation}\label{infsup}
     \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\vert b(q_h,\boldsymbol v_h) \vert}{\Vert q_h \Vert_Q \Vert \boldsymbol v_h \Vert_V} \ge \beta > 0
 \end{equation}
@@ -117,7 +117,7 @@ where
 \begin{itemize}
     \item As $n_p > n_c$, there must exists a subspace in space $V_{n_u}\ker \mathcal P_h \mathcal I_h$ belong to $\ker \mathcal P$, resulting $\beta_2 = 0$. At this circumstance, the LBB condition cannot be satisfied.
     \item As $n_h < n_p \le n_c$, the $\beta_1$ equals to zero, the $\beta$ is bounded appended with $h$. However, considering both the first and second lines of Eq. \eqref{r23}, the reminder $Ch^k$ in first line is not so small and should not be ignored due to $\ker \mathcal P_h \mathcal I_h \subset \ker P$ and $\beta_2 \ne 0$. 
-    It will lead to that $\beta$ depend on $h$, $1+\frac{C}{\beta} \approx 1$, thus, from the Eqs. \eqref{ap:estimator1}, \eqref{ap:estimator2}, the solution error will not be polluted by volumetric locking.
+        It will lead to that $\beta$ depend on $h$, $1+\frac{C}{\beta} \approx 1$, thus, from the Eqs. \eqref{ap:estimator1}, \eqref{ap:estimator2}, the solution error will not be polluted by volumetric locking. \cite{bathe2001}
 
     This case is the typical spurious pressure mode or checkbox mode, a series of stabilization \cite{vadala-roth2020} is proposed to make $\ker \mathcal P \mathcal I_h = \ker \mathcal P$ to eliminate the spurious pressure mode.
 \item As $n_p \le n_c$, $(V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h) \subseteq (V_{n_u}\setminus \ker \mathcal P \mathcal I_h) \subseteq (V_{n_u}\setminus \mathcal P)$, now, $\beta$ is a constant independent with $h,s$.
@@ -126,7 +126,7 @@ where
     Consequently, the dofs of pressure should remain $n_p\le n_h$ or $n_p\le n_c$ with a stabilizer to release the locking burden. Neitherless, the value of $n_h$ is hard to determine in practice, so the subgrid scale model \cite{hughes1986} is introduced in this work as a stabilization. And $n_c$ can be regarded as the optimal number of optimal volumetric constraint.
 \end{pf}
 
-\subsection{Optimal constraint count}
+\subsection{Polynomial--wise constraint counting}
 
 For now, $n_c$ can be considered as the optimal pressure's dofs, and the way to determine $n_c$ is shown as follows. For instance, in two dimensional nearly-incompressible elasticity problem, for linear polynomial space with dimension is 3 namely $P_3$, the counterpart displacement space $V_3$ is given by:
 \begin{equation}
@@ -199,3 +199,5 @@ $n$ & $(n+1)(n+2)$ & $\frac{n(n+1)}{2}$ \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+% TODO: discuss about union-jack element arrangement
