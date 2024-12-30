@@ -1,0 +1,33 @@
+
+
+\documentclass{elsarticle}
+\bibliographystyle{elsarticle-num}
+
+% ── Package ───────────────────────────────────────────────────────────
+\usepackage{amsmath,amssymb,amsfonts,amsthm,bm} % mathamatics
+\usepackage{graphicx, subcaption} % figures
+\usepackage{booktabs,multirow} % tables
+\usepackage{hyperref} % hyperlinks
+\usepackage{lineno} % line number
+\newtheorem{thm}{Theorem}
+\newtheorem{rmk}{Remark}
+\newproof{pf}{Proof}
+\linenumbers % turn on line number
+
+% ── Main ──────────────────────────────────────────────────────────────
+\begin{document}
+\include{frontmatter}
+
+\include{introduction}
+\include{incompressible}
+\include{mix}
+\include{criterion}
+\include{meshfree}
+\include{example}
+\include{conclusion}
+
+\bibliography{references}
+\appendix
+% \include{hilbert}
+\include{error}
+\end{document}

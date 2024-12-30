@@ -1,0 +1,16 @@
+.aux/
+.build/
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.out
+*.toc
+*.xdv
+*.xml
+*.gz
+*.log
+*.dgraph
+.DS_Store
+.vscode

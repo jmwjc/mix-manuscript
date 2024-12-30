@@ -1,0 +1,71 @@
+\section{Mixed--formulation}
+\subsection{Nearly--incompressible elasticity}
+Consider a body $\Omega \in \mathbb R^{n_d}$ with boundary $\Gamma$ in $n_d$-dimension, where the $\Gamma_t$ and $\Gamma_g$ denotes its natural boundary and essential boundary such that $\Gamma_t \cup \Gamma_g = \Gamma$, $\Gamma_t \cap \Gamma_g = \varnothing$. The corresponding governing equations for mixed-formulation are given by:
+\begin{equation}\label{strong}
+\begin{cases}
+    \nabla \cdot \boldsymbol \sigma + \boldsymbol b = \boldsymbol 0 & \mathrm{in} \; \Omega \\
+    \frac{p}{\kappa} + \nabla \cdot \boldsymbol u = 0 & \mathrm{in} \; \Omega \\
+    \boldsymbol \sigma \cdot \boldsymbol n = \boldsymbol t & \mathrm{on} \; \Gamma_t \\
+    \boldsymbol u = \boldsymbol g & \mathrm{on} \; \Gamma_g \\
+\end{cases}
+\end{equation}
+where $\boldsymbol u$ and $p$, stand for displacement and hydrostatic pressure respectively, are the variables of this problem. $\boldsymbol \sigma$ denotes to stress tensor and has the following form: 
+\begin{equation}\label{stress}
+    \boldsymbol \sigma(\boldsymbol u, p) = p \boldsymbol 1 + 2\mu \nabla^s \boldsymbol u
+\end{equation}
+in which $\boldsymbol 1 = \delta_{ij} \boldsymbol e_i \otimes \boldsymbol e_j$ is second order identity tensor.
+$\boldsymbol \varepsilon$ and $\mathrm{tr}\,\boldsymbol \varepsilon$ are strain tensor and its trace counterpart evaluated by:
+\begin{equation}
+\nabla^s \boldsymbol u = \frac{1}{2}(\boldsymbol u \nabla + \nabla \boldsymbol u) -\frac{1}{3} \boldsymbol \varepsilon : \boldsymbol 1
+\end{equation}
+and $\kappa$, $\mu$ are the bulk modulus and shear modulus, and they can be represented by Young's modulus $E$ and Poisson's ratio $\nu$:
+\begin{equation}\label{modulus}
+\kappa = \frac{E}{2(1-2\nu)}, \quad \mu = \frac{E}{2(1+\nu)}
+\end{equation}
+
+Moreover, $\boldsymbol b$ denotes to prescribed body force in $\Omega$. $\boldsymbol t$, $\boldsymbol g$ are prescribed traction and displacement on natural and essential boundaries respectively. 
+
+In accordance with Galerkin formulation, the weak form can be given by: 
+Find $\boldsymbol u \in V$, $p \in Q$,
+\begin{equation}
+\begin{aligned}
+    a(\boldsymbol v, \boldsymbol u) + b(\boldsymbol v, p) &= f(\boldsymbol v) \quad &\forall \boldsymbol v \in V \\
+    b(\boldsymbol u, q) &= \boldsymbol 0 \quad &\forall q \in Q
+\end{aligned}
+\end{equation}
+with the spaces $V, Q$ defined by:
+\begin{equation}
+V=\{\boldsymbol v \in H^1(\Omega)^2\;\vert\;\boldsymbol v = \boldsymbol g, \; \textrm{on} \; \Gamma_g\}
+\end{equation}
+\begin{equation}
+Q = \{q \in L^2(\Omega) \vert \int_{\Omega} q d\Omega = 0\}
+\end{equation}
+where $a:V\times V\rightarrow \mathbb R$ and $b:V\times Q\rightarrow \mathbb R$ are bilinear form, and $f:V\rightarrow V$ is the linear form. In elasticity problem, they has the following forms:
+\begin{equation}
+    a(\boldsymbol v, \boldsymbol u) = \int_\Omega \nabla^s \boldsymbol v : \nabla^s \boldsymbol u d\Omega
+\end{equation}
+\begin{equation}
+    b(\boldsymbol v, q) = \int_\Omega \nabla \cdot \boldsymbol v q d\Omega
+\end{equation}
+\begin{equation}
+    f(\boldsymbol v) = \int_{\Gamma_t} \boldsymbol v \cdot \boldsymbol t d\Gamma + \int_{\Omega} \boldsymbol v \cdot \boldsymbol b d\Omega
+\end{equation}
+
+\subsection{Heat diffusion}
+Another traditional mixed-formulation problem considered in this work is heat diffusion problem, while the problem domain denotes to $\Omega \in \mathbb R^{n_d}$ with boundary $\Gamma$. The strong form of this problem is given by:
+\begin{equation}\label{strong_heat}
+\begin{cases}
+    \nabla \cdot \boldsymbol p + b = 0 & \mathrm{in} \; \Omega \\
+    \boldsymbol p + \nabla u = 0 & \mathrm{in} \; \Omega \\
+    \boldsymbol p \cdot \boldsymbol n = t & \mathrm{on} \; \Gamma_t \\
+    u = g & \mathrm{on} \; \Gamma_g \\
+\end{cases}
+\end{equation}
+
+The corresponding weak formulation can be stated as:
+\begin{equation}
+\begin{aligned}
+    a(\boldsymbol q, \boldsymbol p) + b(\boldsymbol q, u) &= \boldsymbol 0 \quad &\forall \boldsymbol q \in Q \\
+    b(\boldsymbol p, v) &= g(v) \quad &\forall v \in V
+\end{aligned}
+\end{equation}

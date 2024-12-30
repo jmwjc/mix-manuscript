@@ -2,7 +2,7 @@
 \subsection{Inf--sup value estimator}
 
 Without loss generality, the incompressible elasticity problem is considered herein to illustrate the proposed methodology.
-The approximations of Eq.\eqref{approx} should satisfy the inf-sup condition, or as known Ladyzhenskaya–Babuška–Brezzi condition \cite{bathe1996}, to ensure the formulation's accuracy:
+The approximations of Eq.\eqref{} should satisfy the inf-sup condition, or as known Ladyzhenskaya–Babuška–Brezzi condition \cite{bathe1996}, to ensure the formulation's accuracy:
 \begin{equation}\label{infsup}
     \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\vert b(q_h,\boldsymbol v_h) \vert}{\Vert q_h \Vert_Q \Vert \boldsymbol v_h \Vert_V} \ge \beta > 0
 \end{equation}
@@ -50,7 +50,7 @@ Consequently, with a combination of Eqs. \eqref{r11} and \eqref{r12}, Eq. \eqref
 \end{pf}
 
 \begin{rmk}
-Theorem \ref{thm1} is consistance with the traditional numerical inf-sup test \cite{malkus1981}, while, according to minimum-maximum principle \cite{babuskaa}, the Eq. \eqref{r1} evaluates the general non-zero eigenvalue of metrics $\boldsymbol K^v$ and $\boldsymbol K^d$.
+Theorem \ref{thm1} is consistance with the traditional numerical inf-sup test \cite{malkus1981}, while, according to minimum-maximum principle \cite{babuska1991a}, the Eq. \eqref{r1} evaluates the general non-zero eigenvalue of metrics $\boldsymbol K^v$ and $\boldsymbol K^d$.
 \end{rmk}
 
 In order to further figure out the optimal constraint counting ,
