@@ -1,4 +1,9 @@
-size(300,300);
+import graph;
+
+settings.outformat = "png";
+settings.render = 16;
+defaultpen(fontsize(10pt));
+size(200);
 
 real a = 10;
 path shadow = box((-1,-a/2-1),(0,a/2+1));

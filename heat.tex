@@ -1,0 +1,18 @@
+\subsection{Heat diffusion}
+Another traditional mixed-formulation problem considered in this work is heat diffusion problem, while the problem domain denotes to $\Omega \in \mathbb R^{n_d}$ with boundary $\Gamma$. The strong form of this problem is given by:
+\begin{equation}\label{strong_heat}
+\begin{cases}
+    \nabla \cdot \boldsymbol p + b = 0 & \mathrm{in} \; \Omega \\
+    \boldsymbol p + \nabla u = 0 & \mathrm{in} \; \Omega \\
+    \boldsymbol p \cdot \boldsymbol n = t & \mathrm{on} \; \Gamma_t \\
+    u = g & \mathrm{on} \; \Gamma_g \\
+\end{cases}
+\end{equation}
+
+The corresponding weak formulation can be stated as:
+\begin{equation}
+\begin{aligned}
+    a(\boldsymbol q, \boldsymbol p) + b(\boldsymbol q, u) &= \boldsymbol 0 \quad &\forall \boldsymbol q \in Q \\
+    b(\boldsymbol p, v) &= g(v) \quad &\forall v \in V
+\end{aligned}
+\end{equation}
