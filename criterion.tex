@@ -1,4 +1,4 @@
-\section{Optimal polynomial--wise constraint ratio}
+\section{Optimal volumetric constraint ratio}\label{sec:constraint_ratio}
 \subsection{Inf--sup condition and its eigenvalue problem}
 
 To ensure surjectivity of othogonal projection and the result's accuracy, the approximations of Eq.\eqref{mix_formulation} should satisfy the inf-sup condition, also known as the Ladyzhenskaya–Babuška–Brezzi condition \cite{bathe1996}:
@@ -132,9 +132,9 @@ If $\beta_s > 0$, as the mesh refining, the second term in the right-hand side o
 
 \subsection{Polynomial--wise constraint counting}
 
-From the above subsection, we can know that whether the $\beta_s$ is zero or not determines whether the mixed formulation can fulfill the inf--sup condition.
+From the above subsection, we can know that whether the $\beta_s$ is zero or not determines whether the mixed--formulation can fulfill the inf--sup condition.
 According to the expression of $beta_s$ in Eq. \eqref{beta_s},
-as $\beta_s = 0$, the variable $\boldsymbol v$ should belong to $\ker \mathcal P$, so we defined a stabilized number $n_s$ as follow:
+as $\beta_s = 0$, the variable $\boldsymbol v$ should belong to $\ker \mathcal P$, so the dimensions of the subspace in which $\beta_s \ne 0$, namely $n_s$, can be evaluated by:
 \begin{equation}
     n_s = \dim(V_{n_s}\setminus \ker \mathcal P)
 \end{equation}
@@ -150,30 +150,45 @@ With well-pose nodal distributions of displacement and pressure, the number of p
     n_p = \dim Q_h = \dim (\mathrm{Im} \mathcal P_h)
     = \dim (V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h)
 \end{equation}
-For now, according to above definitions of $n_s$, $n_p$ and $n_u$, we have the following relationship:
+
+Fig. \ref{fg:space} illustrates how the relationship between $n_s$, $n_p$ and $n_u$ influence the fulfillment of inf--sup conditon:
+\begin{itemize}
+    \item As $n_p > n_s$, there must exist a subspace in space $V_{n_u} \setminus \ker \mathcal P_h \mathcal I_h$ belong to $\ker \mathcal P$, resulting $\beta_s = 0$, i.e. $V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h \cap \ker \mathcal P \neq \varnothing$. At this circumstance, the inf--sup condition cannot be satisfied and the formulation will suffer from volumetric locking.
+
+    \item As $n_p \le n_s$, for a well--pose nodal distributions, the space $\boldsymbol V_{n_u} \setminus \ker \mathcal P_h \mathcal I_h$ may be a subset of $V_{n_u} \setminus \ker \mathcal P$. Then, the $\beta_s$ will remain to be nonzero, and the formulation will be locking--free.
+\end{itemize}
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.8\textwidth]{png/space.png}
     \caption{Illustration of estimator}\label{fg:space}
 \end{figure}
-\begin{itemize}
-    \item As $n_p > n_s$, there must exist a subspace in space $V_{n_u}\ker \mathcal P_h \mathcal I_h$ belong to $\ker \mathcal P$, resulting $\beta_s = 0$. At this circumstance, the LBB condition cannot be satisfied.
 
-    \item As $n_p \le n_s$, $(V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h) \subseteq (V_{n_u}\setminus \mathcal P)$, now, $\beta$ is a constant independent with $h$.
-\end{itemize}
+Summarily, the formulation can satisfy the inf--sup condition and alleviates the volumetric locking at least the number of pressure nodes $n_p$ should be less than $n_s$, so we name $n_s$ as stabilized number of pressure nodes. At this moment, the volumetric constraint ratio should meet the following relation to ensure inf--sup conditon: 
 
-\begin{equation}
+\begin{equation}\label{optimal_ratio}
     r_{opt} \ge \frac{n_d\times n_u}{n_s} 
 \end{equation}
-It is worth to point that,
 
+\begin{rmk}
+Some uniform element with special arrangement, like union--jack element arrangement for 3--node triangular element, can pass the inf--sup test\cite{chapelle1993}, but its pressure DOFs number is greater than $n_s$.
+This is caused by that,
+the union--jack arrangement leads to lower the nonzero eigenvalue number of $\tilde a$ and $a$ in Eq. \eqref{weak_penalty}, and the corresponding nonzero eigenvalue number is less than stabilized number $n_s$, satisfing Eq. \eqref{optimal_ratio}.
+The similar cases about this special element arrangement is too few, so it is more straightforword to use the number of pressure nodes $n_p$ to measure $\dim (V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h)$.
+\end{rmk}
+
+\begin{rmk}
+It is obviously that the traditional optimal constraint ratio can not fulfill this condition.
+However, not all formulations satisfing this condition can totally avoid volumetric locking.
+It is because that $n_p \le n_s$ is not equivalent with $V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h \subset V_{n_u}\setminus \ker \mathcal P$.
+Fortunately, the well--pose nodal distributions of displacement and pressure can ensure this that will be shown in the subsequent sections.
+\end{rmk}
 
 \subsection{Optimal volumetric constraint ratio}
-From the 
+The fulfillment of inf--sup conditon should require the number of pressure nodes $n_p$ lower than the stabilized number $n_s$, and now, we will demonstrate how to determine $n_s$ for a specific number of displacement DOFs.
 
-\subsubsection{2D constraint ratio}
-For now, $n_s$ can be considered as the optimal pressure's dofs, and the way to determine $n_c$ is shown as follows. For instance, in two dimensional nearly-incompressible elasticity problem, for linear polynomial space with dimension is 3 namely $P_3$, the counterpart displacement space $V_3$ is given by:
+% \subsubsection{2D constraint ratio}
+In 2D case, for instance, we first consider the linear polynomial displacement space $V_3$ is given by:
 \begin{equation}
 V_3 = \mathrm{span} \left \{
 \begin{pmatrix} 1 \\ 0 \end{pmatrix},
@@ -200,7 +215,7 @@ V_3 = \mathrm{span}
 }_{V_3\setminus \ker \mathcal P}
 \end{Bmatrix}
 \end{equation}
-It can be found from Eq. \eqref{base1}, for $n_u = 3$, $n_s = 1$. Following the path, the displacement space with quadratic polynomial base namely $V_6$ can be stated as:
+It can be counted that, for $n_u = 3$, $n_s = 1$. Following the path, the displacement space with quadratic polynomial base namely $V_6$ can be stated as:
 \begin{equation}\label{base2}
 V_6 = \mathrm{span}
 \begin{Bmatrix}
@@ -225,36 +240,38 @@ V_6 = \mathrm{span}
 In this circumstance, $n_s = 3$. As the order of polynomial space increasing, the every optimal numbers of constraint dofs for each order are listed in Table. \ref{tab:constraint}, 
 in which $n$ denoted by the order of space $P_{n_u}$.
 For the flexibility of usage, the relation between $n_u$ and $n_c$ is summarized as follows:
-\begin{table}[ht!]
-\centering
-\caption{2D Degrees of freedom and volumetric constraint}
-\label{tab:constraint_2D}
-\begin{tabular}{ccc}
-\toprule
-    $n_u$ & $n$ & $n_s$ \\
-\midrule
-3  & 1 & 1 \\
-6  & 2 & 3 \\
-10 & 3 & 6 \\
-15 & 4 & 10 \\
-\vdots & \vdots & \vdots \\
-$n_u$ & $\left \lfloor \frac{\sqrt{1+8n_u}-3}{2} \right \rfloor$ & $\frac{n(n+1)}{2}$ \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \begin{equation}
-    r_{opt} \ge \frac{n_d\times n_u}{n_s}
-    ,\quad 
+    % r_{opt} \ge \frac{n_d\times n_u}{n_s}
+    % ,\quad 
     n_s = \frac{n(n + 1)}{2} 
     ,\quad
     n = \left \lfloor \frac{\sqrt{1 + 8n_u} - 3}{2} \right \rfloor 
 \end{equation}
 
-% TODO: discuss about union-jack element arrangement
+\begin{table}[ht!]
+\centering
+\caption{Relationship between displacement DOFs and stabilized number}
+\label{tab:constraint}
+\begin{tabular}{ccccc}
+\toprule
+    & \multicolumn{2}{c}{2D} & \multicolumn{2}{c}{3D} \\
+    \cmidrule{2-3} \cmidrule{4-5}
+    $n$ & $n_u$ & $n_s$ & $n_u$ & $n_s$ \\
+\midrule
+1 & 3  & 1  & 4  & 1 \\
+2 & 6  & 3  & 10 & 4 \\
+3 & 10 & 6  & 20 & 10\\
+4 & 15 & 10 & 35 & 20\\
+\vdots & \vdots & \vdots & \vdots & \vdots \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\subsection{3D constraint ratio}
+% \subsubsection{3D constraint ratio}
 
+For 3D case, following the path in 2D, the lienar polynomial space $V_4$ is considered herein,
+and the arranged space of $V_4$ is listed as follows:
 \begin{equation}
     V_4 = \mathrm{span} 
     \begin{Bmatrix}
@@ -280,23 +297,8 @@ $n_u$ & $\left \lfloor \frac{\sqrt{1+8n_u}-3}{2} \right \rfloor$ & $\frac{n(n+1)
     \end{Bmatrix}
 \end{equation}
 
-\begin{table}[ht!]
-\centering
-\caption{3D Degrees of freedom and volumetric constraint}
-\label{tab:constraint_3D}
-\begin{tabular}{ccc}
-\toprule
-    $n_u$ & $n$ & $n_s$ \\
-\midrule
-4  & 1 & 1 \\
-10 & 2 & 4 \\
-20 & 3 & 10 \\
-\vdots & \vdots & \vdots \\
-$n_u$ & $n$ & $\frac{n(n+1)(n+3)}{6}$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
+For brevity, the stabilized numbers for higher order polynomial displacement space is directly listed in Table. \ref{tab:constraint},
+and it can be summarized that, for a given number of displacement DOFs, the stabilized number for pressure DOFs can be calculated as follows:
 \begin{align}
     n_s &= \frac{n(n + 1)(n + 2)}{6} \\ 
     n&= 
@@ -309,3 +311,4 @@ $n_u$ & $n$ & $\frac{n(n+1)(n+3)}{6}$ \\
     \right \rfloor
 \end{align}
 
+% TODO: discuss traditional cases

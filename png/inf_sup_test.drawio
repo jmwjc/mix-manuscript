@@ -1,0 +1,22 @@
+<mxfile host="65bd71144e" scale="3" border="0">
+    <diagram id="0fNNy-cb8tXyupwU00dv" name="Page-1">
+        <mxGraphModel dx="311" dy="442" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="1" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#000000;strokeWidth=2;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="240" width="160" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillStyle=hachure;fillColor=#000000;strokeColor=none;recursiveResize=0;fixedWidth=1;strokeWidth=2;shadow=0;perimeterSpacing=0;absoluteArcSize=0;arcSize=2;hachureGap=6;collapsible=0;dropTarget=0;container=1;fixDash=0;snapToPoint=0;allowArrows=1;connectable=1;portConstraintRotation=0;noLabel=0;perimeter=none;backgroundOutline=0;enumerate=0;comic=0;treeMoving=0;treeFolding=0;deletable=1;cloneable=1;rotatable=1;resizeHeight=0;resizeWidth=0;expand=1;editable=1;movable=1;resizable=1;locked=0;metaEdit=0;movableLabel=0;autosize=0;moveCells=0;gradientColor=none;glass=0;sketch=1;curveFitting=1;jiggle=0;imageAspect=0;imageWidth=24;" parent="1" vertex="1">
+                    <mxGeometry x="179" y="220" width="20" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="" style="endArrow=none;html=1;strokeWidth=2;" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="200.54000000000002" y="220" as="sourcePoint"/>
+                        <mxPoint x="200" y="420" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

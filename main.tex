@@ -4,7 +4,7 @@
 
 % ── Package ───────────────────────────────────────────────────────────
 \usepackage{amsmath,amssymb,amsfonts,amsthm,bm} % mathamatics
-\usepackage{graphicx, caption, subcaption} % figures
+\usepackage{graphicx, float, caption, subcaption} % figures
 \usepackage{booktabs,multirow} % tables
 \usepackage{hyperref} % hyperlinks
 \usepackage{lineno} % line number
@@ -18,16 +18,19 @@
 \begin{document}
 \include{frontmatter}
 
-\include{introduction}
-% \include{incompressible}
-\include{mix}
-\include{criterion}
-\include{meshfree}
-% \include{example}
-\include{conclusion}
+\input{introduction}
+\input{mix}
+\input{criterion}
+\input{meshfree}
+\section{Numerical examples}
+\input{cantilever_beam}
+\input{plate_with_hole}
+\input{cook_membrane}
+\input{block}
+\input{conclusion}
 
 \bibliography{references}
-\appendix
+% \appendix
 % \include{hilbert}
-\include{error}
+% \include{error}
 \end{document}
