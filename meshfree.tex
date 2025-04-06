@@ -4,7 +4,7 @@ In the proposed mixed-formulation, the displacement is approximated using three-
 
 \subsection{Reproducing kernel meshfree approximation}
 
-In accordance with the reproducing kernel approximation, the entire domain $\Omega$ is discretized by $n_p$ meshfree points, $\{\boldsymbol x_I\}_{I=1}^{n_p}$. Each meshfree point equips a meshfree shape function $\Psi_I$ and nodal coefficient $p_I$, and the approximated pressure namely $p_h$ can be presented by:
+In accordance with the reproducing kernel approximation, the entire domain $\Omega$ is discretized by $n_p$ meshfree nodes, $\{\boldsymbol x_I\}_{I=1}^{n_p}$. The approximated pressure namely $p_h$ can be expressed by shape function $\Psi_I$ and nodal coefficient $p_I$, yields:
 \begin{equation}
 p_h(\boldsymbol x) = \sum_{I=1}^{n_p} \Psi_I(\boldsymbol x) p_I
 \end{equation}
@@ -16,7 +16,7 @@ in which $\boldsymbol p$ is the basis function, especially for 2D quadratic basi
 \begin{equation}
 \boldsymbol p(\boldsymbol x) = \{ 1, x, y, x^2, xy, y^2\}^T
 \end{equation}
-and $\phi$ stands for the kernel function. In this work, the traditional Cubic B-spline function with square suppot is used as the kernel function:
+and $\phi$ stands for the kernel function. In this work, the traditional Cubic B--spline function with square suppot is used as the kernel function:
 \begin{equation}
 \phi(\boldsymbol x_I-\boldsymbol x) = \phi(s_x) \phi(s_y), \quad s_i = \frac{\Vert \boldsymbol x_I - \boldsymbol x\Vert}{\bar s_{iI}}
 \end{equation}
@@ -54,49 +54,68 @@ Taking Eq. \eqref{correction} back to Eq. \eqref{rkshape}, the final form of rep
 
 \subsection{Optimal pressure nodes distributions}
 
-In this subsection, the FE-meshfree mixed formulation is empolyed in inf--sup test \cite{chapelle1993} to validate the proposed estimator of inf--sup value.
-Consider the square domain $\Omega = (0,1)\otimes (0,1)$ in Fig. \ref{fg:inf_sup_test},
+In this subsection, the 2D and 3D inf--sup tests \cite{chapelle1993} with  the FE-meshfree mixed formulation is empolyed to validate of the proposed estimator of inf--sup value.
+The 2D test considers the square domain $\Omega = (0,1)\otimes (0,1)$ in Fig. \ref{fg:infsup_convergence_2D}, where
 the displacement is discretized by linear Triangular element (Tri3), Quadrilateral element (Quad4) with
 $4\times 4$, $8\times 8$, $16\times 16$ and $32\times 32$ elements,
 quadratic Triangular element (Tri6), Quadrilateral element (Quad8) with 
 $2\times 2$, $4\times 4$, $8\times 8$ and $16\times 16$ elements, respectively.
+The 3D test empolys a cube domain $\Omega = (0,1)\otimes (0,1)\otimes (0,1)$ in Fig. \ref{fg:infsup_convergence_3D} with $4\times 4$, $8\times 8$ and $16\times 16$ elements for the 4--node tetrahedral element (Tet4) and 8--node hexahedral element (Hex8).
 In order to avoid the influence of interpolation error,
 the uniform nodal distributions are used for pressure discretizations.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\textwidth]{png/infsup_model.png}
+\begin{subcaptiongroup}
+\parbox[b]{0.4\textwidth}{
+\includegraphics[width=0.38\textwidth]{png/infsup_model.png}\caption{2D test model}\label{infsup_convergence_2D}
+}
+\hspace{20pt}
+\parbox[b]{0.4\textwidth}{
+\includegraphics[width=0.4\textwidth]{png/inf_sup_block.png}\caption{3D test model}\label{infsup_convergence_3D}
+}
+\end{subcaptiongroup}
 \caption{Illustration of inf--sup test}\label{fg:inf_sup_test}
 \end{figure}
 
-Figure \ref{fg:infsup_convergence} shows the corresponding results, in which the red line stands for the value of $\beta$ respected to the number of pressure nodes $n_p$, the vertical dash line denotes to the stabilized number $n_s$.
+Figures \ref{fg:infsup_convergence_2D} and \ref{fg:infsup_convergence_3D} show the corresponding results, in which the red line stands for the value of $\beta$ respected to the number of pressure nodes $n_p$, the vertical dash line denotes to the stabilized number $n_s$.
 The deeper color of lines means the mesh refining.
 The results show that,
-no matter linear or quadratic elements, as $n_p$ increases over the $n_s$, the $beta$'s value sharply decrease, and then the inf--sup condition cannot be maintained.
+no matter linear or quadratic elements, as $n_p$ increases over the $n_s$, the $\beta$'s value sharply decrease, and then the inf--sup condition cannot be maintained.
 This result is consistent with the discussion in Section \ref{sec:constraint_ratio},
 and again verify the effect of the proposed estimator.
 
 \begin{figure}[H]
 \centering
 \begin{subcaptiongroup}
-\includegraphics[width=\textwidth]{png/infsup_tri3.png}\phantomcaption\label{a}
-\includegraphics[width=\textwidth]{png/infsup_tri6.png}\phantomcaption\label{b}
-\includegraphics[width=\textwidth]{png/infsup_quad.png}\phantomcaption\label{c}
-\includegraphics[width=\textwidth]{png/infsup_quad8.png}\phantomcaption\label{d}
+\includegraphics[width=\textwidth]{png/tri3.png}\phantomcaption\label{infsup_convergence_2D_a}
+\includegraphics[width=\textwidth]{png/tri6.png}\phantomcaption\label{infsup_convergence_2D_b}
+\includegraphics[width=\textwidth]{png/quad4.png}\phantomcaption\label{infsup_convergence_2D_c}
+\includegraphics[width=\textwidth]{png/quad8.png}\phantomcaption\label{infsup_convergence_2D_d}
 \end{subcaptiongroup}
 \captionsetup{aboveskip=0pt}
-\caption{\centering Inf--sup test for various finite element formulations: \\ (\subref{a}) mix-Tri3; (\subref{b}) mix-Tri6; (\subref{c}) mix-Quad4; (\subref{d}) mix-Quad8}
-\label{fg:infsup_convergence}
+\caption{\centering Inf--sup test for 2D mixed FE-meshfree formulations: \\ (\subref{infsup_convergence_2D_a}) mix--Tri3; (\subref{infsup_convergence_2D_b}) mix--Tri6; (\subref{infsup_convergence_2D_c}) mix--Quad4; (\subref{infsup_convergence_2D_d}) mix--Quad8}
+\label{fg:infsup_convergence_2D}
 \end{figure}
 
-Moreover, the mixed formulation's results with traditional optimal constraint ratio $r=n_d$ are listed in \ref{fg:infsup_convergence} as well,
-and the $beta$ in this circumstance is already much smaller than those in optimal range.
-Considering the results shown above, the easy-programming and efficiency,
+\begin{figure}[H]
+\centering
+\begin{subcaptiongroup}
+\includegraphics[width=\textwidth]{png/Tet4.png}\phantomcaption\label{infsup_convergence_3D_a}
+\includegraphics[width=\textwidth]{png/Hex8.png}\phantomcaption\label{infsup_convergence_3D_b}
+\end{subcaptiongroup}
+\captionsetup{aboveskip=0pt}
+\caption{\centering Inf--sup test for 3D mixed FE-meshfree formulations: \\ (\subref{infsup_convergence_3D_a}) mix--Tet4; (\subref{infsup_convergence_3D_b}) mix--Hex8}
+\label{fg:infsup_convergence_3D}
+\end{figure}
+Moreover, the mixed formulation's results with traditional optimal constraint ratio $r=n_d$ are listed in \ref{fg:infsup_convergence_2D} as well,
+and the $\beta$ in this circumstance is already much smaller than those in optimal range.
+Considering the results shown above, the easy--programming and efficiency,
 the pressure nodes are chosen among the displacement nodes.
 The final schemes for linear and quadratic, 2D and 3D elements discretizations are shown in Figure \ref{fg:mix_scheme},
 in which all constraint ratios are belong to the range of optimal ratio.
 The corresponding inf--sup test results for these schemes also be marked in Figure \ref{fg:inf_sup_test} and show that,
-with the mesh refining, their $beta$'s are always maintained in a non--negligible level.
+with the mesh refining, their $\beta$'s are always maintained in a non--negligible level.
 
 \begin{figure}[H]
     \centering

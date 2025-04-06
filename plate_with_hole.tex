@@ -6,8 +6,8 @@ The analytical solution of this problem refers the Michell solution \cite{timosh
 \begin{equation}\label{plate_with_hole_exact}
     \left \{
     \begin{aligned}
-        u_x(r,\theta)&=\frac{Ta}{8\mu}\left (\frac{r}{a}(k+1)\cos\theta-\frac{2a^3}{r^3}\cos3\theta    +\frac{2a}{r}((1+k)\cos\theta+\cos3\theta) \right )\\
-        u_y(r,\theta)&=\frac{Ta}{8\mu}\left (\frac{r}{a}(k-3)\sin\theta-\frac{2a^3}{r^3}\sin3\theta    +\frac{2a}{r}((1-k)\sin\theta+\sin3\theta) \right )  
+        u_x(\rho,\theta)&=\frac{Ta}{8\mu}\left (\frac{\rho}{a}(k+1)\cos\theta-\frac{2a^3}{\rho^3}\cos3\theta    +\frac{2a}{\rho}((1+k)\cos\theta+\cos3\theta) \right )\\
+        u_y(\rho,\theta)&=\frac{Ta}{8\mu}\left (\frac{\rho}{a}(k-3)\sin\theta-\frac{2a^3}{\rho^3}\sin3\theta    +\frac{2a}{\rho}((1-k)\sin\theta+\sin3\theta) \right )  
     \end{aligned}
     \right .
 \end{equation}
@@ -16,9 +16,9 @@ And the stress components are given by:
 \begin{equation}
     \left \{
     \begin{aligned}
-        \sigma_{xx}&=T\left (1-\frac{a^2}{r^2}(\frac{3}{2}\cos2\theta+\cos4\theta)+\frac{3a^4}{2r^4}\cos4\theta\right )\\
-        \sigma_{yy}&=-T\left (\frac{a^2}{r^2}(\frac{1}{2}\cos2\theta-\cos4\theta)+\frac{3a^4}{2r^4}\cos4\theta\right )\\
-        \sigma_{xy}&=-T\left (\frac{a^2}{r^2}(\frac{1}{2}\sin2\theta+\sin4\theta)-\frac{3a^4}{2r^4}\sin4\theta\right )\\
+        \sigma_{xx}&=T\left (1-\frac{a^2}{\rho^2}(\frac{3}{2}\cos2\theta+\cos4\theta)+\frac{3a^4}{2\rho^4}\cos4\theta\right )\\
+        \sigma_{yy}&=-T\left (\frac{a^2}{\rho^2}(\frac{1}{2}\cos2\theta-\cos4\theta)+\frac{3a^4}{2\rho^4}\cos4\theta\right )\\
+        \sigma_{xy}&=-T\left (\frac{a^2}{\rho^2}(\frac{1}{2}\sin2\theta+\sin4\theta)-\frac{3a^4}{2\rho^4}\sin4\theta\right )\\
     \end{aligned}
     \right .
 \end{equation}
@@ -26,7 +26,7 @@ And the stress components are given by:
 According to the symmetry property of this problem, only quarter model with length $b=5$ is considered as shown in Figure \ref{fg:plate_with_hole_model}.
 The displacement is discretized by 3--node and 6--node triangular elements with $81$, $299$, $1089$ and $4225$ nodes. 
 The corresponding linear and quadratic meshfree formulations are employed for pressure discretization, and the characterized support sizes are chosen as 1.5 and 2.5 respectively.
-Figure \ref{fg:plate_with_hole_ns}studies the relationship between strain, pressure errors and $n_p$,
+Figure \ref{fg:plate_with_hole_ns} studies the relationship between strain, pressure errors and $n_p$,
 unlike the quadrilateral element case in Section \ref{sec:cantilever},
 the quadaratic Tri6--RK shows worse results while the constraint ratio out of the optimal range.
 And Tri3--RK exhibits less sensitivity in strain error than Tri6--RK, but its error is increasing while the $n_p$ goes up.
@@ -42,25 +42,23 @@ the other formulations with traditional constraint ratio show lower accuracy and
 \caption{Illustration of plate with hole problem}\label{fg:plate_with_hole_model}
 \end{figure}
 
-\begin{figure}[!ht]
+\begin{figure}[H]
 \centering
-\begin{subcaptiongroup}
-    \begin{tabular}{c@{\hspace{0pt}}c@{\hspace{0pt}}c}
-      $\Vert \boldsymbol u - \boldsymbol u_h \Vert_V$ & $\Vert p - p_h \Vert_Q$ & \\
-      \raisebox{-0.7\height}{\includegraphics[width=0.45\textwidth]{png/plate_Hdev_4.png}}
-    & \raisebox{-0.7\height}{\includegraphics[width=0.45\textwidth]{png/plate_L2_p_4.png}}
-    & \rotatebox{-90}{81 nodes} \\
-      \raisebox{-0.7\height}{\includegraphics[width=0.45\textwidth]{png/plate_Hdev_8.png}}
-    & \raisebox{-0.7\height}{\includegraphics[width=0.45\textwidth]{png/plate_L2_p_8.png}}
-    & \rotatebox{-90}{289 nodes} \\
-      \raisebox{-0.7\height}{\includegraphics[width=0.45\textwidth]{png/plate_Hdev_16.png}}
-    & \raisebox{-0.7\height}{\includegraphics[width=0.45\textwidth]{png/plate_L2_p_16.png}}
-    & \rotatebox{-90}{1089 nodes} \\
-      \raisebox{-0.7\height}{\includegraphics[width=0.45\textwidth]{png/plate_Hdev_32.png}}
-    & \raisebox{-0.7\height}{\includegraphics[width=0.45\textwidth]{png/plate_L2_p_32.png}}
-    & \rotatebox{-90}{4225 nodes} \\
-    \end{tabular}
-\end{subcaptiongroup}
+\begin{tabular}{c@{\hspace{0pt}}c}
+    $\Vert \boldsymbol u - \boldsymbol u_h \Vert_V$ & $\Vert p - p_h \Vert_Q$ \\
+    \raisebox{-0.7\height}{\includegraphics[width=0.48\textwidth]{png/plate_Hdev_4.png}}
+    & \raisebox{-0.7\height}{\includegraphics[width=0.48\textwidth]{png/plate_L2_p_4.png}}
+    \\
+    \raisebox{-0.7\height}{\includegraphics[width=0.48\textwidth]{png/plate_Hdev_8.png}}
+    & \raisebox{-0.7\height}{\includegraphics[width=0.48\textwidth]{png/plate_L2_p_8.png}}
+    \\
+    \raisebox{-0.7\height}{\includegraphics[width=0.48\textwidth]{png/plate_Hdev_16.png}}
+    & \raisebox{-0.7\height}{\includegraphics[width=0.48\textwidth]{png/plate_L2_p_16.png}}
+    \\
+    \raisebox{-0.7\height}{\includegraphics[width=0.48\textwidth]{png/plate_Hdev_32.png}}
+    & \raisebox{-0.7\height}{\includegraphics[width=0.48\textwidth]{png/plate_L2_p_32.png}}
+    \\
+\end{tabular}
 \caption{Strain and pressures errors v.s. $n_p$ for plate with hole problem}\label{fg:plate_with_hole_ns}
 \end{figure}
 

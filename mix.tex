@@ -9,7 +9,7 @@ Consider a body $\Omega \in \mathbb R^{n_d}$ with boundary $\Gamma$ in $n_d$-dim
     \boldsymbol u = \boldsymbol g & \mathrm{on} \; \Gamma_g \\
 \end{cases}
 \end{equation}
-where $\boldsymbol u$ and $p$, stand for displacement and hydrostatic pressure respectively, are the variables of this problem. $\boldsymbol \sigma$ denotes to stress tensor and has the following form: 
+where $\boldsymbol u$ and $p$, standing for displacement and hydrostatic pressure respectively, are the variables of this problem. $\boldsymbol \sigma$ denotes to stress tensor and has the following form: 
 \begin{equation}\label{stress}
     \boldsymbol \sigma(\boldsymbol u, p) = p \boldsymbol 1 + 2\mu \nabla^d \boldsymbol u
 \end{equation}
@@ -42,7 +42,7 @@ V=\{\boldsymbol v \in H^1(\Omega)^2\;\vert\;\boldsymbol v = \boldsymbol g, \; \t
 \begin{equation}
 Q = \{q \in L^2(\Omega) \vert \int_{\Omega} q d\Omega = 0\}
 \end{equation}
-where $a:V\times V\rightarrow \mathbb R$, $b:V\times Q\rightarrow \mathbb R$ and $c:Q\times Q \rightarrow \mathbb R$ are bilinear forms, and $f:V\rightarrow \mathbb R$ is the linear form. In elasticity problem, they has the following forms:
+where $a:V\times V\rightarrow \mathbb R$, $b:V\times Q\rightarrow \mathbb R$ and $c:Q\times Q \rightarrow \mathbb R$ are bilinear forms, and $f:V\rightarrow \mathbb R$ is the linear form. In elasticity problem, they are given by:
 \begin{align}
     a(\boldsymbol v, \boldsymbol u) &= \int_\Omega \nabla^d \boldsymbol v : \nabla^d \boldsymbol u d\Omega \\
     b(\boldsymbol v, q) &= \int_\Omega \nabla \cdot \boldsymbol v q d\Omega \\
@@ -83,18 +83,17 @@ Furthermore, from the second line of Eq. \eqref{ritz_Galerkin}, we have:
 \end{equation}
 or
 \begin{equation}\label{orthogonal}
-    (q_h, 3\kappa \nabla \cdot \boldsymbol u_h) = (q_h,  p_h) = (q_h, \tilde \nabla \cdot \boldsymbol u_h)
+    (q_h, 3\kappa \nabla \cdot \boldsymbol u_h - p_h) = 0
     ,\quad \forall q_h \in Q_h
 \end{equation}
 where $(\bullet, \bullet)$ is the inner product operator evaluated by:
 \begin{equation}
     (q,p) := \int_\Omega qp d\Omega
 \end{equation}
-
 Obviously in Eq. \eqref{orthogonal},
-% with this volumetric constraint,
 $p_h$ is the orthogonal projection of $3\kappa \nabla \cdot \boldsymbol u_h$ regarded to the space $Q_h$ \cite{brezzi1991a},
-and, for further development, use upper tilde to name the projection operator, i.e. $p_h = \tilde \nabla \cdot \boldsymbol u_h$.
+and, for further development, use the nabla notion with upper tilde to name the projection operator, i.e. $p_h = \tilde \nabla \cdot \boldsymbol u_h$.
+In this circumstance, the bilinear form $b$ in first line of Eq. \eqref{ritz_Galerkin} becomes:
 \begin{equation}
     \begin{split}
         b(\boldsymbol v_h, p_h) &= (
@@ -123,10 +122,8 @@ Find $\boldsymbol u_h \in V_h$,
 As $\kappa \rightarrow \infty$, Eq. \eqref{weak_penalty}can be regarded as an enforcement of volumetric strain using penalty method, 
 where $\tilde a$ is the penalty term.
 However, it should be noted that, if the mixed--formulation wants to get a satisfactory result, this orthogonal projection must be surjective\cite{stein2004}.
-If this projection is not surjective,
-for a given $p_h\in Q_h$ it possibly cannot find a $\boldsymbol u_h \in V_h$ such that $p_h = 3\kappa \nabla \cdot \boldsymbol u_h$. 
-It will lead to a much smaller displacement than expected, and an oscillated pressure result. 
+In the contrast of surjective case,
+for a given $p_h\in Q_h$, it possibly cannot find a $\boldsymbol u_h \in V_h$ such that $p_h = 3\kappa \nabla \cdot \boldsymbol u_h$. 
+It will lead to a much smaller displacement than expected and an oscillated pressure result. 
 This phenomenon is so--call volumetric locking.
 
-
-% \subsection{Static condensation and orthogonal projection}

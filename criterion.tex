@@ -1,7 +1,7 @@
 \section{Optimal volumetric constraint ratio}\label{sec:constraint_ratio}
 \subsection{Inf--sup condition and its eigenvalue problem}
 
-To ensure surjectivity of othogonal projection and the result's accuracy, the approximations of Eq.\eqref{mix_formulation} should satisfy the inf-sup condition, also known as the Ladyzhenskaya–Babuška–Brezzi condition \cite{bathe1996}:
+To ensure surjectivity of othogonal projection and the satisfactory result, the approximations of Eq.\eqref{mix_formulation} should satisfy the inf-sup condition, also known as the Ladyzhenskaya–Babuška–Brezzi condition \cite{bathe1996}:
 \begin{equation}\label{infsup}
     \inf_{q_h \in Q_h} \sup_{\boldsymbol v_h \in V_h} \frac{\vert b(q_h,\boldsymbol v_h) \vert}{\Vert q_h \Vert_Q \Vert \boldsymbol v_h \Vert_V} \ge \beta > 0
 \end{equation}
@@ -9,9 +9,9 @@ in which $\beta$, namely inf-sup value, is a constant independent of characteriz
 The norms of $\Vert \bullet \Vert_V$ and $\Vert \bullet \Vert_Q$ can be flexibly defined by:
 \begin{align}
     \label{norm_V}
-    \Vert \boldsymbol v\Vert_V^2 &= \int_\Omega \nabla^s \boldsymbol v : \nabla^s \boldsymbol v d\Omega \\
+    \Vert \boldsymbol v\Vert_V^2 &:= \int_\Omega \nabla^s \boldsymbol v : \nabla^s \boldsymbol v d\Omega \\
     \label{norm_Q}
-    \Vert q \Vert_Q^2 &= \int_\Omega \frac{1}{3\kappa}q^2 d\Omega
+    \Vert q \Vert_Q^2 &:= \int_\Omega \frac{1}{3\kappa}q^2 d\Omega
 \end{align}
 
 % To further development of $\beta$'s estimator, we define the operator $\mathcal P = 3\kappa\nabla \cdot$ and 
@@ -20,6 +20,8 @@ The norms of $\Vert \bullet \Vert_V$ and $\Vert \bullet \Vert_Q$ can be flexibly
 %     (q_h, \mathcal P \boldsymbol v_h) = (q_h, \mathcal P_h \boldsymbol v_h), \quad \forall q_h \in Q_h
 % \end{equation}
 % where $(\bullet,\bullet)$ is inner product operator.
+
+To establish the relationship between inf--sup condition and constraint ratio, the inf--sup condition is firstly transformed by the following Lemma \ref{lma}: 
 
 \begin{lma}\label{lma}
 Suppose $\mathcal P_h:V_h \rightarrow Q_h$ is the orthogonal projection operator of divergence operator $\mathcal P := 3\kappa \nabla \cdot$, i.e. $\mathcal P_h:= 3\kappa \tilde \nabla \cdot$ and satisfied Eq. \eqref{orthogonal}.
@@ -81,7 +83,7 @@ Since that, $\beta^2$ evaluates the non-zero general eigenvalue of $\tilde a$ an
 % In order to further figure out the optimal constraint counting ,
 
 \begin{thm}
-    Suppose that $P_{n_u}$ is a polynomial space with $n_u$ dimensions, and $V_{n_u}$ is the polynomial displacement space, $V_{n_u} = P_{n_u}^{n_d}$. The optimal dofs of pressure $n_p$ is equal to $n_c = \dim(V_{n_c}\setminus \ker \mathcal P)$.
+    Suppose that $P_{n_u}$ is a polynomial space with $n_u$ dimensions, and $V_{n_u}$ is the polynomial displacement space, $V_{n_u} = P_{n_u}^{n_d}$. The inf--sup value $\beta$ can further be bounded by:
     \begin{equation}\label{estimator}
         \beta \le \beta_s + Ch 
     \end{equation}
@@ -90,7 +92,10 @@ Since that, $\beta^2$ evaluates the non-zero general eigenvalue of $\tilde a$ an
         \beta_s = 
         \inf_{V' \subset V_{n_u} \setminus \ker \mathcal P_h \mathcal I_h} \sup_{v \in V'} \frac{\Vert \mathcal P \boldsymbol v \Vert_Q}{\Vert \boldsymbol v \Vert_V}
     \end{equation}
+where $\mathcal I_h$ is the interpolation operator of finite element approximation, correspondingly, $h$ is the characterized distance between control nodes.
+
 \end{thm}
+
 \begin{pf}
     As the dimensions of $V_h$ and $V_{n_u}$ is identical, $\dim V_{n_u}=\dim V_h = n_d\times n_u$. There exists a unique $\boldsymbol v \in V_{n_u}$ satisfing $\boldsymbol v_h = \mathcal I_h \boldsymbol v$. And the right side of Eq. \eqref{r1} becomes:
 \begin{equation}\label{r21}
@@ -98,7 +103,7 @@ Since that, $\beta^2$ evaluates the non-zero general eigenvalue of $\tilde a$ an
 \inf_{V'\subset V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h}\sup_{\boldsymbol v \in V'} \frac{\Vert \mathcal P_h \mathcal I_h \boldsymbol v \Vert_Q}{\Vert \mathcal I_h \boldsymbol v \Vert_V}
 \end{equation}
 
-In accordance with triangular inequality, Cauchy-Schwarz inequality and the relationship of Eqs. \eqref{Ph}, we have:
+In accordance with triangular inequality, Cauchy-Schwarz inequality and the relationship of Eqs. \eqref{orthogonal}, we have:
 \begin{equation}\label{interpolation1}
 \begin{aligned}
     \Vert \mathcal P_h \mathcal I_h \boldsymbol v \Vert_Q &= 
@@ -113,27 +118,28 @@ In accordance with triangular inequality, Cauchy-Schwarz inequality and the rela
     + \Vert \mathcal P(\mathcal I - \mathcal I_h) \boldsymbol v \Vert_Q \\
 \end{aligned}
 \end{equation}
-Obviously, the second and third terms on the right side of Eq. \eqref{interpolation1} are the interpolation error and the orthogonal projection error for approximations in $V_h$, and can be evaluated by \cite{yosida1995}:
+Obviously, the second term on the right side of Eq. \eqref{interpolation1} is the interpolation error, and can be evaluated by \cite{yosida1995}:
 \begin{equation}
 \label{interpolation2}
     \Vert \mathcal P(\mathcal I - \mathcal I_h) \boldsymbol v \Vert_Q \le Ch \Vert \boldsymbol v \Vert_{V} 
 \end{equation}
-    It can be obtained that $\Vert \mathcal I_h \boldsymbol v\Vert_V \ge C\Vert \boldsymbol v \Vert_V$ from close graph theorem \cite{quarteroni1994}. And considering it with Eqs. \eqref{interpolation1}-\eqref{interpolation2}, the right side of Eq. \eqref{r21} can be represented as:
+
+Further leading the relation of $\Vert \mathcal I_h \boldsymbol v\Vert_V \ge C\Vert \boldsymbol v \Vert_V$ obtained from close graph theorem \cite{quarteroni1994} and considering Eqs. \eqref{interpolation1}-\eqref{interpolation2}, the right--hand side of Eq. \eqref{r21} can be represented as:
 \begin{equation}\label{r23}
     \inf_{V'\subset V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h} \sup_{\boldsymbol v \in V'} \frac{\Vert \mathcal P_h\mathcal I_h\boldsymbol v\Vert_Q}{\Vert \mathcal I_h \boldsymbol v\Vert_V} 
     \le \inf_{V'\subset V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h} \sup_{\boldsymbol v \in V'} \frac{\Vert \mathcal P \boldsymbol v\Vert_Q}{\Vert \boldsymbol v\Vert_V} + Ch 
 \end{equation}
-Substituting Eqs. \eqref{r21},\eqref{r23} into \eqref{r1} can get the following relationship of Eqs. \eqref{estimator}, \eqref{beta_s}.
+Substituting Eqs. \eqref{r21},\eqref{r23} into \eqref{r1} can finally proof the Eqs. \eqref{estimator}, \eqref{beta_s}.
 \end{pf}
 
 As we can see in Eqs. \eqref{estimator} and \eqref{beta_s},
-$\beta_s \ge 0$, whether the $\beta_s$ equal to $0$ or not determines if the formulation satisfies the inf--sup condition or not.
-If $\beta_s > 0$, as the mesh refining, the second term in the right-hand side of Eq. \eqref{estimator} can be ignored. In contrast, if $\beta_s = 0$, the second term will dominate, and the inf-sup condition will not be satisfied, leading to numerical instability.
+$\beta_s \ge 0$, the $\beta_s$ is equal to $0$ or not determines whether the formulation can satisfy the inf--sup condition.
+If $\beta_s > 0$, as the mesh refining, the second term in the right--hand side of Eq. \eqref{estimator} will sharply reduce and can be ignore. In contrast, if $\beta_s = 0$, the second term will dominate, and the inf-sup condition will not be satisfied, leading to numerical instability.
 
 \subsection{Polynomial--wise constraint counting}
 
 From the above subsection, we can know that whether the $\beta_s$ is zero or not determines whether the mixed--formulation can fulfill the inf--sup condition.
-According to the expression of $beta_s$ in Eq. \eqref{beta_s},
+According to the expression of $\beta_s$ in Eq. \eqref{beta_s},
 as $\beta_s = 0$, the variable $\boldsymbol v$ should belong to $\ker \mathcal P$, so the dimensions of the subspace in which $\beta_s \ne 0$, namely $n_s$, can be evaluated by:
 \begin{equation}
     n_s = \dim(V_{n_s}\setminus \ker \mathcal P)
@@ -173,7 +179,7 @@ Summarily, the formulation can satisfy the inf--sup condition and alleviates the
 \begin{rmk}
 Some uniform element with special arrangement, like union--jack element arrangement for 3--node triangular element, can pass the inf--sup test\cite{chapelle1993}, but its pressure DOFs number is greater than $n_s$.
 This is caused by that,
-the union--jack arrangement leads to lower the nonzero eigenvalue number of $\tilde a$ and $a$ in Eq. \eqref{weak_penalty}, and the corresponding nonzero eigenvalue number is less than stabilized number $n_s$, satisfing Eq. \eqref{optimal_ratio}.
+the union--jack arrangement leads to a lower the nonzero eigenvalue number of $\tilde a$ and $a$ in Eq. \eqref{weak_penalty}, and the corresponding nonzero eigenvalue number is less than or equal to the stabilized number $n_s$, satisfing Eq. \eqref{optimal_ratio}.
 The similar cases about this special element arrangement is too few, so it is more straightforword to use the number of pressure nodes $n_p$ to measure $\dim (V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h)$.
 \end{rmk}
 
@@ -181,7 +187,7 @@ The similar cases about this special element arrangement is too few, so it is mo
 It is obviously that the traditional optimal constraint ratio can not fulfill this condition.
 However, not all formulations satisfing this condition can totally avoid volumetric locking.
 It is because that $n_p \le n_s$ is not equivalent with $V_{n_u}\setminus \ker \mathcal P_h \mathcal I_h \subset V_{n_u}\setminus \ker \mathcal P$.
-Fortunately, the well--pose nodal distributions of displacement and pressure can ensure this that will be shown in the subsequent sections.
+Fortunately, a well--pose nodal distributions of displacement and pressure can ensure this that will be evidenced by numerical examples in the subsequent sections.
 \end{rmk}
 
 \subsection{Optimal volumetric constraint ratio}
@@ -237,9 +243,9 @@ V_6 = \mathrm{span}
 }_{V_6\setminus \ker \mathcal P}
 \end{Bmatrix}
 \end{equation}
-In this circumstance, $n_s = 3$. As the order of polynomial space increasing, the every optimal numbers of constraint dofs for each order are listed in Table. \ref{tab:constraint}, 
-in which $n$ denoted by the order of space $P_{n_u}$.
-For the flexibility of usage, the relation between $n_u$ and $n_c$ is summarized as follows:
+In this circumstance, $n_s = 3$. As the order of polynomial space increasing, the every optimal numbers of constraint dofs for each order of polygonal space are listed in Table. \ref{tab:constraint}, 
+in which $n$ denotes to the order of space $P_{n_u}$.
+For the flexibility of usage, the relation between $n_u$ and $n_s$ is summarized as follows:
 
 \begin{equation}
     % r_{opt} \ge \frac{n_d\times n_u}{n_s}
@@ -256,7 +262,7 @@ For the flexibility of usage, the relation between $n_u$ and $n_c$ is summarized
 \begin{tabular}{ccccc}
 \toprule
     & \multicolumn{2}{c}{2D} & \multicolumn{2}{c}{3D} \\
-    \cmidrule{2-3} \cmidrule{4-5}
+    % \cmidrule{2-3} \cmidrule{4-5}
     $n$ & $n_u$ & $n_s$ & $n_u$ & $n_s$ \\
 \midrule
 1 & 3  & 1  & 4  & 1 \\
@@ -312,3 +318,74 @@ and it can be summarized that, for a given number of displacement DOFs, the stab
 \end{align}
 
 % TODO: discuss traditional cases
+\begin{table}[H]
+    \centering
+    \renewcommand\arraystretch{1.2}
+    \caption{Inf--sup condition for various mixed formulations} \label{tb:inf_sup_condition}
+    \begin{tabular}{ccccc}
+        \hline
+        \multirow{2}{*}{Formulation}&Constraint Ratio&\multicolumn{2}{c}{Inf--sup condition}&Constraint Ratio\\
+        &$r>n_d$&Numberical&Analytical&$r=r_{opt}$\\
+        \hline
+        \parbox{0.2\textwidth}{\centering\includegraphics[width=0.15\textwidth]{png/mix_T3P1.png}\\ [-0.5ex]T3P1($r=1$)\\ [1ex]}
+        &$\times$& $\times$&$\times$&$\times$ \\
+        \parbox{0.2\textwidth}{\centering\includegraphics[width=0.15\textwidth]{png/mix_Q4P1.png}\\ [-1ex]Q4P1($r=2$)\\ [1ex]}
+        &\checkmark&$\times$ & $\times$&$\times$\\
+        % \begin{tabular}{c}
+        %     \begin{minipage}{0.13\columnwidth}
+        %         \centering
+        %         \includegraphics[width=0.9\textwidth]{figures/mix_Q8P3.png}
+        %     \end{minipage}\\Q8P3
+        % \end{tabular}
+        % &\checkmark(2)&$\times$ & $\times$&$\times$\\
+        % \begin{tabular}{c}
+        %     \begin{minipage}{0.13\columnwidth}
+        %         \centering
+        %         \includegraphics[width=0.9\textwidth]{figures/mix_Q8P1.png}
+        %     \end{minipage}\\Q8P1
+        % \end{tabular}
+        % & $\times$(6)&\checkmark & \checkmark & \checkmark\\
+        % \begin{tabular}{c}
+        %     \begin{minipage}{0.13\columnwidth}
+        %         \centering
+        %         \includegraphics[width=0.9\textwidth]{figures/mix_Q9P3.png}
+        %     \end{minipage}\\Q9P3
+        % \end{tabular}
+        % & $\times$($\frac{8}{3}$)&\checkmark & \checkmark & \checkmark\\
+        % \begin{tabular}{c}
+        %     \begin{minipage}{0.13\columnwidth}
+        %         \centering
+        %         \includegraphics[width=0.9\textwidth]{figures/mini.png}
+        %     \end{minipage}\\MINI element \cite{arnold1984,auricchio2005}
+        % \end{tabular}
+        % & $\times$($\frac{8}{3}$)&\checkmark & \checkmark& \checkmark\\
+        % \begin{tabular}{c}
+            % \begin{minipage}{0.13\columnwidth}
+                % \centering
+                % \includegraphics[width=0.9\textwidth]{figures/TaylorHood.png}
+            % \end{minipage}\\Taylor--Hood element \cite{hood1974}
+        % \end{tabular}
+        % & $\times$($\frac{8}{3}$)&\checkmark & \checkmark& \checkmark\\
+        % \begin{tabular}{c}
+        %     \begin{minipage}{0.13\columnwidth}
+        %         \centering
+        %         \includegraphics[width=0.9\textwidth]{figures/mix_T6C3.png}
+        %     \end{minipage}\\T6C3
+        % \end{tabular}
+        % & $\times$(8)&\checkmark & & \checkmark\\
+        % \begin{tabular}{c}
+        %     \begin{minipage}{0.13\columnwidth}
+        %         \centering
+        %         \includegraphics[width=0.9\textwidth]{figures/CrouzeixRaviart.png}
+        %     \end{minipage}\\Crouzeix-Raviart element \cite{crouzeix1973}
+        % \end{tabular}
+        % & $\times$(4)&\checkmark & & \checkmark\\
+        % \hline
+        % \multicolumn{5}{c}{
+        %     \begin{tabular}{c@{\hspace{24pt}}c}
+        %         \raisebox{-0.2\height}{\includegraphics[width=10pt]{figures/legend_u.png}}:Displacement nodes &
+        %         \raisebox{-0.2\height}{\includegraphics[width=10pt]{figures/legend_p.png}}: Pressure nodes 
+        %     \end{tabular}}\\
+        \hline
+    \end{tabular}
+\end{table}
