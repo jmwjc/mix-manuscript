@@ -1,17 +1,98 @@
 \section{Introduction}
 
-The volumetric constraint is a necessary condition in the formulation of incompressible materials
-like rubber and hydrogel.
-Proper imposition of this constraint is crucial for obtaining better numerical solutions;
-insufficient or excessive constraints will reduce the accuracy and stability of the solution \cite{brezzi1991a}.
-The volumetric constraint ratio \cite{hughes2000}, denoted as $r$, is often used to measure the level of constraint. 
+% The volumetric constraint is a necessary condition in the formulation of incompressible materials
+% like rubber and hydrogel.
+% Proper imposition of this constraint is crucial for obtaining better numerical solutions;
+% insufficient or excessive constraints will reduce the accuracy and stability of the solution \cite{brezzi1991a}.
+% The volumetric constraint ratio \cite{hughes2000}, denoted as $r$, is often used to measure the level of constraint. 
+% It is defined as the total degrees of freedom (DOFs) of displacement divided by the total DOFs of pressure.
+% Ideally, the optimal constraint ratio should be consistent with its governing partial differential equations.
+% For example, in the two-dimensional (2D) case, the optimal constraint ratio is 2, since there are two governing equations for displacement and one for pressure.
+% When the constraint ratio is less than 2, the formulation suffers from volumetric locking, while a constraint ratio greater than 2 can cause a coarse solution for pressure.
+% These observations have been summarized by pioneering work \cite{hughes2000} as follows:
+% \begin{equation}
+% r = \frac{2n_u}{n_p}, \quad 
+% \begin{cases}
+% r > 2 & \text{too few constraints} \\
+% r = 2 & \text{optimal} \\
+% r < 2 & \text{too many constraints} \\
+% r \le 1 & \text{severe locking} \\
+% \end{cases}
+% \end{equation}
+% where $n_u$ and $n_p$ are the number of control nodes for displacement and pressure, respectively.
+% Classifying the locked status via the constraint ratio is straightforward but imprecise.
+% For instance, the constraint ratio can remain 2 while the pressure is discretized using continuous shape functions identical to the displacement's approximation.
+% However, volumetric locking still exists in this formulation \cite{hughes2000}.
+
+% The inf--sup condition, also known as the Ladyzhenskay--Babuška--Brezzi (LBB) condition \cite{babuska1997a,bathe1996}, is a more precise requirement for a locking--free formulation.
+% This condition is based on the mixed formulation framework, and when the inf--sup condition is satisfied, both the accuracy and stability of the mixed-formulation can be ensured.
+% However, verifying the inf--sup condition is non-trivial.
+% An eigenvalue problem namely inf--sup test can be used to check this condition numerically \cite{malkus1981,chapelle1993,brezzi,gallistl2019}.
+% Analytically, Brezzi and Fortin proposed a two-level projection framework that always satisfies the inf-sup condition,
+% allowing it to be checked by identifying whether the formulation is included in this framework.
+% Both analytical and numerical methods to check the inf-sup condition are complex,
+% and the relationship between the constraint ratio and the inf-sup condition remains unclear.
+
+% To address volumetric constraint issues, adjusting the constraint ratio to an appropriate level is commonly used and easily implemented.
+% In traditional finite element methods (FEM), this adjustment is carried out based on elements since the DOFs are embedded in each element.
+% Conventional FEM often exhibits an over--constrained status.
+% Reducing the approximation order of pressure in mixed formulation can alleviate the constraint burden, such as with the well-known Q4P1 (4--node quadrilateral displacement element with 1--node piecewise constant pressure element) and Q8P3.
+% Globally, using continuous shape functions to link the local pressure DOFs in each element can also reduce the total number of pressure DOFs and increase the constraint ratio, such as with T6P3 (6--node triangular displacement element with 3--node continuous linear pressure element) and Q9P4 (Taylor--Hood element) \cite{hood1974}.
+% These schemes belong to the mixed formulation framework and can also be implemented through a projection approach, where the pressure approximant is projected into a lower--dimensional space.
+% Examples include selective integration methods \cite{malkus1978,shilt2020}, B--bar or F--bar methods \cite{simo1990,broccardo2009,coombs2018,saloustros2021,rodriguez2023}, pressure projection methods \cite{simo1985,dohrmann2004}, and the enhanced strain method \cite{lovadina2003}.
+% Meanwhile, conventional 3--node triangular elements arranged in a regular cross pattern can also reduce the dimension of the pressure space \cite{bathe2001}.
+% It should be noted that not all of these methods can meet the inf--sup condition despite alleviating volumetric locking and producing a good displacement solution.
+% Some methods, like Q4P1, show significant oscillation for the pressure solution, known as spurious pressure mode or checkerboard mode \cite{bathe2001}.
+% In such cases, additional stabilization approaches, such as multi-scale stabilization (VMS) \cite{hughes1995,masud2005,rossi2021,karabelas2022} or Galerkin/least-squares (GLS) \cite{hughes1986}, are required to eliminate the oscillations in pressure.
+
+% Another class of FEM methods adjusts the constraint ratio by increasing the displacement DOFs.
+% For instance, based on 3--node triangular elements, Arnold et al. used a cubic bubble function in each element to increase the displacement DOFs, known as the MINI element \cite{arnold1984,auricchio2005}.
+% It has been shown that this method belongs to the VMS framework \cite{quarteroni1994}, and its fulfillment of the inf--sup condition can be analytically evidenced using the two--level projection framework \cite{brezzi}.
+% The Crouzeix--Raviart element \cite{crouzeix1973} transfers the DOFs from the triangular vertices to edges, increasing the constraint ratio since, for triangular topology, the number of edges is greater than that of vertices.
+% More details about FEM technology for divergence constraint issues can be found in Refs. \cite{hughes2000,bathe1996,brink1996}.
+
+% In the past two decades, various novel approximations equipped with global smoothed shape functions, such as moving least-squares approximation \cite{belytschko1994}, reproducing kernel approximation \cite{liu1995}, radial basis functions \cite{chi2014,wang2020d}, maximum-entropy approximation \cite{ortiz-bernardin2015}, and NURBS approximation \cite{hughes2005,auricchio2010}, have been proposed.
+% In these approaches, the approximant pressure evaluated by the derivatives of global continuous shape functions also maintains a constraint ratio of 2 in 2D incompressible elasticity problems.
+% However, the corresponding results still show lower accuracy caused by locking \cite{huerta2001,dolbow1999a}.
+% Widely--used locking--free technologies for FEM are introduced in these approaches to enhance their performance.
+% For example, Moutsanidis et al. employed selective integration and B--bar, F--bar methods for reproducing kernel particle methods \cite{moutsanidis2020,moutsanidis2021}.
+% Wang et al. applied selective integration schemes with bubble--stabilized functions to node--based smoothed particle FEM \cite{wang2022c}.
+% Elguedj et al. proposed the B--bar and F--bar NURBS formulations for linear and nonlinear incompressible elasticity.
+% Chen et al. adopted the pressure projection approach for reproducing kernel formulations for nearly--incompressible problems \cite{chen2000}, which was later extended to Stokes flow formulations by Goh et al. \cite{goh2018}.
+% Bombarde et al. developed a block--wise NURBS formulation for shell structures, eliminating locking via pressure projection \cite{bombarde2022}.
+% Most of these approximations offer better flexibility for arranging DOFs since their shape function constructions are no longer element-dependent.
+% Huerta et al. proposed a reproducing kernel approximation with divergence-free basis functions to avoid volumetric strain entirely \cite{huerta2004a}, although this approach is unsuitable for compressible cases.
+% Wu et al. added extra displacement DOFs in FEM elements to resolve the locking issue, constructing local shape functions using generalized meshfree interpolation to maintain consistency \cite{wu2012}.
+% Vu--Huu et al. employed different--order polygonal finite element shape functions to approximate displacement and pressure, embedding a bubble function in each element for stabilization.
+
+% This work proposes a more precise optimal divergence constraint ratio and implements a locking--free mixed FEM--Meshfree formulation with this optimal constraint ratio.
+% Firstly, the inf--sup condition is derived in a new form, showing that the inf--sup value equals the lowest non--zero eigenvalue of dilatation stiffness in the context of variational analysis.
+% Subsequently, involving a complete polynomial space with dimensions identical to displacement DOFs, the number of non--zero eigenvalues can be analytically calculated,
+% and a new estimator considering the constraint ratio is established.
+% From this estimator, the optimal constraint ratio is defined with a stabilized number of pressure nodes.
+% If the constraint ratio exceeds the locking ratio, the formulation will show severe locking.
+% When the constraint ratio is lower than the optimal ratio, the formulation achieves satisfactory results, and the inf--sup condition is fulfilled.
+% This estimator provides a strong link between the inf--sup value and the pressure DOFs, making it possible to justify the locking status by counting the pressure nodes.
+% Furthermore, a mixed FEM-Meshfree formulation is proposed to verify the optimal constraint ratio.
+% In this mixed formulation, the displacement is approximated by traditional finite element methods, and the pressure is discretized by reproducing kernel meshfree approximation.
+% With the aid of global RK shape functions, the pressure's DOFs can be adjusted arbitrarily without considering approximation order and numerical integration issues to maintaining the constraint ratio as optimal.
+
+% The remainder of this paper is organized as follows:
+% Section 2 reviews the mixed-formulation framework for incompressible elasticity problems.
+% In Section 3, a novel estimator of the inf-sup value is developed, from which the optimal constraint ratio is obtained.
+% Section 4 introduces the mixed FEM-Meshfree formulation and its corresponding nodal distribution schemes.
+% Section 5 verifies the proposed optimal constraint ratio using a set of benchmark incompressible elasticity examples, studying error convergence and stability properties for the mixed FEM-Meshfree approximation. Finally, the conclusions are presented in Section 6.
+
+The volumetric constraint is a necessary condition in the formulation of incompressible materials like rubber and hydrogel.
+Proper imposition of this constraint is crucial for obtaining better numerical solutions; insufficient or excessive constraints will reduce the accuracy and stability of the solution \cite{brezzi1991a}.
+The volumetric constraint ratio \cite{hughes2000}, denoted as $r$, is often used to measure the level of constraint.
 It is defined as the total degrees of freedom (DOFs) of displacement divided by the total DOFs of pressure.
 Ideally, the optimal constraint ratio should be consistent with its governing partial differential equations.
 For example, in the two-dimensional (2D) case, the optimal constraint ratio is 2, since there are two governing equations for displacement and one for pressure.
 When the constraint ratio is less than 2, the formulation suffers from volumetric locking, while a constraint ratio greater than 2 can cause a coarse solution for pressure.
 These observations have been summarized by pioneering work \cite{hughes2000} as follows:
 \begin{equation}
-r = \frac{2n_u}{n_p}, \quad 
+r = \frac{2n_u}{n_p}, \quad
 \begin{cases}
 r > 2 & \text{too few constraints} \\
 r = 2 & \text{optimal} \\
@@ -30,8 +111,8 @@ However, verifying the inf--sup condition is non-trivial.
 An eigenvalue problem namely inf--sup test can be used to check this condition numerically \cite{malkus1981,chapelle1993,brezzi,gallistl2019}.
 Analytically, Brezzi and Fortin proposed a two-level projection framework that always satisfies the inf-sup condition,
 allowing it to be checked by identifying whether the formulation is included in this framework.
-Both analytical and numerical methods to check the inf-sup condition are complex,
-and the relationship between the constraint ratio and the inf-sup condition remains unclear.
+Both analytical and numerical methods to check the inf--sup condition are complex,
+and the relationship between the constraint ratio and the inf--sup condition remains unclear.
 
 To address volumetric constraint issues, adjusting the constraint ratio to an appropriate level is commonly used and easily implemented.
 In traditional finite element methods (FEM), this adjustment is carried out based on elements since the DOFs are embedded in each element.

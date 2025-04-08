@@ -30,20 +30,30 @@
 
 % ── Abstract ──────────────────────────────────────────────────────────
 \begin{abstract}
+% Formulations for incompressible materials often suffer from volumetric locking, leading to reduced accuracy and oscillatory displacement and pressure solutions.
+% A well-chosen constraint ratio can mitigate this issue, but traditional approaches lack a theoretical foundation based on the inf-sup (or LBB) condition, which is essential for the stability of mixed formulations.
+% This paper introduces a novel optimal constraint ratio derived from the inf-sup condition to address volumetric locking.
+% The inf-sup test, a numerical tool for verifying the inf-sup condition, is reaffirmed as equivalent to inf--sup condition through a variational approach.
+% By incorporating a complete polynomial space whose dimension matches the number of displacement degrees of freedom (DOFs),
+% a new inf-sup value estimator is developed, explicitly considering the constraint ratio.
+% For a given number of displacement DOFs, ensuring that the pressure DOFs remain below a stabilized number falls within the optimal constraint ratio range can satisfy the inf-sup condition.
+% To implement of optimal constraint ratio, a mixed finite element and meshfree formulation is proposed,
+% where displacements are discretized using traditional finite element approximations, and pressures are approximated via the reproducing kernel meshfree method.
+% Leveraging the globally smooth reproducing kernel shape functions,
+% the constraint ratio can be flexibly adjusted to meet the inf-sup condition without the limit of element.
+% For computational efficiency and ease of implementation, pressure nodes are placed on selected displacement nodes to maintain the optimal constraint ratio.
+% Inf-sup tests and a series of 2D and 3D elasticity examples validate the proposed constraint ratio, demonstrating its effectiveness in eliminating volumetric locking and enhancing the performance of mixed finite element and meshfree formulations.
+
 Formulations for incompressible materials often suffer from volumetric locking, leading to reduced accuracy and oscillatory displacement and pressure solutions.
 A well-chosen constraint ratio can mitigate this issue, but traditional approaches lack a theoretical foundation based on the inf-sup (or LBB) condition, which is essential for the stability of mixed formulations.
 This paper introduces a novel optimal constraint ratio derived from the inf-sup condition to address volumetric locking.
-The inf-sup test, a numerical tool for verifying the inf-sup condition, is reaffirmed as equivalent to inf--sup condition through a variational approach.
-By incorporating a complete polynomial space whose dimension matches the number of displacement degrees of freedom (DOFs),
-a new inf-sup value estimator is developed, explicitly considering the constraint ratio.
+The inf-sup test, a numerical tool for verifying the inf-sup condition, is reaffirmed as equivalent to the inf-sup condition through a variational approach.
+By incorporating a complete polynomial space whose dimension matches the number of displacement degrees of freedom (DOFs), a new inf-sup value estimator is developed, explicitly considering the constraint ratio.
 For a given number of displacement DOFs, ensuring that the pressure DOFs remain below a stabilized number falls within the optimal constraint ratio range can satisfy the inf-sup condition.
-To implement of optimal constraint ratio, a mixed finite element and meshfree formulation is proposed,
-where displacements are discretized using traditional finite element approximations, and pressures are approximated via the reproducing kernel meshfree method.
-Leveraging the globally smooth reproducing kernel shape functions,
-the constraint ratio can be flexibly adjusted to meet the inf-sup condition without the limit of element.
+To implement the optimal constraint ratio, a mixed finite element and meshfree formulation is proposed, where displacements are discretized using traditional finite element approximations, and pressures are approximated via the reproducing kernel meshfree method.
+Leveraging the globally smooth reproducing kernel shape functions, the constraint ratio can be flexibly adjusted to meet the inf-sup condition without the limit of element.
 For computational efficiency and ease of implementation, pressure nodes are placed on selected displacement nodes to maintain the optimal constraint ratio.
 Inf-sup tests and a series of 2D and 3D elasticity examples validate the proposed constraint ratio, demonstrating its effectiveness in eliminating volumetric locking and enhancing the performance of mixed finite element and meshfree formulations.
-
 \end{abstract}
 
 % ── Keywords ──────────────────────────────────────────────────────────
