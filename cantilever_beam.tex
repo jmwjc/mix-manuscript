@@ -29,9 +29,7 @@ And correspondingly, the stress components are evaluated by
 \caption{Illustration of cantilever beam problem}\label{fg:cantilever_model}
 \end{figure}
 
-In this problem, the Quad4 element with $16\times 4$, $32\times 8$, $64\times 16$, $128\times 32$ grids, and Quad8 element with $8\times 2$, $16\times 4$, $32\times 8$, $64\times 16$ grids are employed for displacement discretization. The pressure is discretized by linear and quadratic meshfree approximations with 1.5 and 2.5 characterized support sizes respectively. The strain and pressure errors with respect to pressure nodes $n_p$ are displayed in Figure \ref{fg:cantilever_ns}, where the vertical dashed lines stand for the stabilized number $n_s$. The figure implies that the Quad8 shows better performance than Quad4, since the Quad8's strain results are stable no matter the constraint ratio is in the optimal range or not. And the Quad4's displacement errors increase as soon as $n_p > n_s$. However, both Quad4's and Quad8's pressure errors immediately increase while their constraint ratios are out of the optimal range, and Quad8 still has better results than Quad4. Figure \ref{fg:cantilever_convergence} shows the strain and pressure error convergence comparisons for this cantilever beam problem, in which, except Quad8--RK($r=n_d$) for strain error, all formulations with the traditional constraint ratio of $r=n_d$ cannot ensure the optimal error convergence rates. The proposed mixed formulations with $r=r_{opt}$ can maintain the optimal error convergence ratio and show better accuracy.
-
-\begin{figure}[H]
+\begin{figure}[!hp]
 \centering
 \begin{subcaptiongroup}
 \begin{tabular}{c@{\hspace{0pt}}c}
@@ -48,6 +46,8 @@ $\Vert \boldsymbol{u} - \boldsymbol{u}_h \Vert_V$ & $\Vert p - p_h \Vert_Q$ \\
 \end{subcaptiongroup}
 \caption{Strain and pressure errors vs. $n_p$ for cantilever beam problem}\label{fg:cantilever_ns}
 \end{figure}
+
+In this problem, the Quad4 element with $16\times 4$, $32\times 8$, $64\times 16$, $128\times 32$ grids, and Quad8 element with $8\times 2$, $16\times 4$, $32\times 8$, $64\times 16$ grids are employed for displacement discretization. The pressure is discretized by linear and quadratic meshfree approximations with 1.5 and 2.5 characterized support sizes respectively. The strain and pressure errors with respect to pressure nodes $n_p$ are displayed in Figure \ref{fg:cantilever_ns}, where the vertical dashed lines stand for the stabilized number $n_s$. The figure implies that the Quad8 shows better performance than Quad4, since the Quad8's strain results are stable no matter the constraint ratio is in the optimal range or not. And the Quad4's displacement errors increase as soon as $n_p > n_s$. However, both Quad4's and Quad8's pressure errors immediately increase while their constraint ratios are out of the optimal range, and Quad8 still has better results than Quad4. Figure \ref{fg:cantilever_convergence} shows the strain and pressure error convergence comparisons for this cantilever beam problem, in which, except Quad8--RK($r=n_d$) for strain error, all formulations with the traditional constraint ratio of $r=n_d$ cannot ensure the optimal error convergence rates. The proposed mixed formulations with $r=r_{opt}$ can maintain the optimal error convergence ratio and show better accuracy.
 
 \begin{figure}[H]
 \centering

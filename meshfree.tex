@@ -53,7 +53,7 @@ As shown in Figure \ref{fg:rk_approximation},
 reproducing kernel meshfree shape functions are globally smooth across the entire domain,
 using them to discretize the pressure field allows the constraint ratio to be adjusted arbitrarily, without being limited by element topology.
 Moreover, when combined with finite element approximations in Eq. \ref{ritz_Galerkin},
-numerical integration can be conveniently performed within each finite element ($\Omega_C's$).
+numerical integration can be conveniently performed within each finite element ($\Omega_C$'s).
 
 \begin{figure}[H]
 \centering
@@ -63,21 +63,8 @@ numerical integration can be conveniently performed within each finite element (
 
 \subsection{Pressure node distributions with optimal constraint ratio}
 
-In this subsection, the 2D and 3D inf--sup tests \cite{chapelle1993} with the mixed FE-meshfree formulations are employed to validate the proposed estimator of the inf-sup value. The 2D test considers the square domain $\Omega = (0,1)\otimes (0,1)$ in Figure \ref{fg:infsup_convergence_2D}, where the displacement is discretized by Tri3 element, Quad4 element with $4\times 4$, $8\times 8$, $16\times 16$ and $32\times 32$ elements, Tri6 element, Quad8 element with $2\times 2$, $4\times 4$, $8\times 8$ and $16\times 16$ elements, respectively. The 3D test employs a cube domain $\Omega = (0,1)\otimes (0,1)\otimes (0,1)$ in Figure \ref{fg:infsup_convergence_3D} with $4\times 4$, $8\times 8$ and $16\times 16$ elements for the Tet4 element and Hex8 element. In order to avoid the influence of interpolation error, uniform nodal distributions are used for pressure discretizations.
-
-\begin{figure}[H]
-\centering
-\begin{subcaptiongroup}
-\parbox[b]{0.4\textwidth}{
-\includegraphics[width=0.38\textwidth]{png/infsup_model.png}\caption{2D test model}\label{fg:infsup_convergence_2D}
-}
-\hspace{20pt}
-\parbox[b]{0.4\textwidth}{
-\includegraphics[width=0.4\textwidth]{png/inf_sup_block.png}\caption{3D test model}\label{fg:infsup_convergence_3D}
-}
-\end{subcaptiongroup}
-\caption{Illustration of inf--sup test}\label{fg:inf_sup_test}
-\end{figure}
+In this subsection, 2D and 3D inf-sup tests \cite{chapelle1993}, as defined in Eq. \ref{infsup_test}, are conducted using the mixed FE–meshfree formulations to validate the proposed inf-sup value estimator.
+The 2D test considers the square domain $\Omega = (0,1)\otimes (0,1)$, where the displacement is discretized by Tri3 element, Quad4 element with $4\times 4$, $8\times 8$, $16\times 16$ and $32\times 32$ elements, Tri6 element, Quad8 element with $2\times 2$, $4\times 4$, $8\times 8$ and $16\times 16$ elements, respectively. The 3D test employs a cube domain $\Omega = (0,1)\otimes (0,1)\otimes (0,1)$ with $4\times 4$, $8\times 8$ and $16\times 16$ elements for the Tet4 element and Hex8 element. In order to avoid the influence of interpolation error, uniform nodal distributions are used for pressure discretizations.
 
 Figures \ref{fg:infsup_convergence_2D_a}--\ref{fg:infsup_convergence_3D_b} show the corresponding results, in which the red line stands for the value of $\beta$ with respect to the number of pressure nodes $n_p$, and the vertical dashed line denotes the stabilized number $n_s$. The deeper color of the lines means mesh refinement. The results show that, no matter linear or quadratic elements, as $n_p$ increases over $n_s$, the value of $\beta$ sharply decreases, and then the inf-sup condition cannot be maintained. This result is consistent with the discussion in Section \ref{sec:constraint_ratio}, and again verifies the effect of the proposed estimator.
 

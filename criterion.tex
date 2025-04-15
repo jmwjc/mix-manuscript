@@ -57,6 +57,7 @@ Consequently, by combining Eqs. \eqref{r11} and \eqref{r12}, Eq. \eqref{r1} can 
 \begin{rmk}
 With Lemma \ref{lma} and the norm definitions in Eqs. \eqref{norm_V},\eqref{norm_Q}, the square of the inf-sup value can further be bounded by:
 \begin{equation}
+\label{infsup_test}
 \beta^2 \le \inf_{V'_h \subset V_h \setminus \ker \mathcal{P}_h} \sup_{\boldsymbol{v}_h \in V'_h} \frac{\|\mathcal{P}_h \boldsymbol{v}_h\|_Q^2}{\|\boldsymbol{v}_h\|_V^2} = \inf_{V'_h \subset V_h \setminus \ker \mathcal{P}_h} \sup_{\boldsymbol{v}_h \in V'_h} \frac{\tilde{a}(\boldsymbol{v}_h, \boldsymbol{v}_h)}{a(\boldsymbol{v}_h, \boldsymbol{v}_h)}
 \end{equation}
 The left-hand side of the above equation is consistent with the minimum-maximum principle \cite{babuska1991} and again proves the equivalence with the traditional numerical inf-sup test \cite{malkus1981}. Since that, $\beta^2$ evaluates the non-zero general eigenvalue of $\tilde{a}$ and $a$ in Eq. \eqref{weak_penalty}.
@@ -65,7 +66,7 @@ The left-hand side of the above equation is consistent with the minimum-maximum 
 \subsection{Inf--sup value estimator}
 Subsequently, the relationship between constraint ratio and the inf--sup condition is established by the following Theorem:
 \begin{thm}
-Suppose that $P_{n_u}$ is a polynomial space with $n_u$ dimensions, and $V_{n_u}$ is the polynomial displacement space, $V_{n_u} = P_{n_u}^{n_d}$. The inf-sup value $\beta$ can further be bounded by:
+Suppose that $P_{n_u}:=\mathrm{span}$ is a complete polynomial space with $n_u$ dimensions, and $V_{n_u}$ is the polynomial displacement space, $V_{n_u} = P_{n_u}^{n_d}$. The inf-sup value $\beta$ can further be bounded by:
 \begin{equation}\label{estimator}
 \beta \le \beta_s + O(h)
 \end{equation}
