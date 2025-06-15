@@ -66,7 +66,7 @@ The left-hand side of the above equation is consistent with the minimum-maximum 
 \subsection{Inf--sup value estimator}
 Subsequently, the relationship between constraint ratio and the inf--sup condition is established by the following Theorem:
 \begin{thm}
-Suppose that $P_{n_u}:=\mathrm{span}$ is a complete polynomial space with $n_u$ dimensions, and $V_{n_u}$ is the polynomial displacement space, $V_{n_u} = P_{n_u}^{n_d}$. The inf-sup value $\beta$ can further be bounded by:
+Suppose that $P_{n_u}$ is a complete polynomial space with $n_u$ dimensions, and $V_{n_u}$ is the polynomial displacement space, $V_{n_u} = P_{n_u}^{n_d}$. The inf-sup value $\beta$ can further be bounded by:
 \begin{equation}\label{estimator}
 \beta \le \beta_s + O(h)
 \end{equation}
@@ -117,7 +117,7 @@ n_s = \dim(V_{n_u} \setminus \ker \mathcal{P})
 
 To further construct the relationship between the inf--sup value estimator in Eq. \eqref{estimator} and the constraint ratio $r = \frac{n_d \times n_u}{n_p}$, we should find the displacement and pressure DOFs in Eq. \eqref{estimator}. With the definition of $V_{n_u}$, the number of displacement DOFs is easy to be evaluated by:
 \begin{equation}
-n_u = \dim V_{n_u}
+n_d \times n_u = \dim V_{n_u}
 \end{equation}
 With well-posed nodal distributions of displacement and pressure, the number of pressure DOFs has the following relationship:
 \begin{equation}
@@ -208,6 +208,7 @@ In this circumstance, $n_s = 3$. As the order of the polynomial space increases,
 n_s = \frac{n(n + 1)}{2}, \quad
 n = \left\lfloor \frac{\sqrt{1 + 8n_u} - 3}{2} \right\rfloor
 \end{equation}
+where $\lfloor \bullet \rfloor$ denotes the floor function. 
 
 \begin{table}[ht!]
 \centering
