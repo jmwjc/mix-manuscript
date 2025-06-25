@@ -1,94 +1,121 @@
-\section{FEM--meshfree mixed--formulation with optimal constraint}
+\section{Mixed FE--meshfree formulation with optimal constraint ratio}
 
-\subsection{Finite element and reproducing kernel approximations}
+In the proposed mixed--formulation, the displacement is approximated using 3--node(Tri3), 6--node(Tri6) triangular elements and 4--node(Quad4), 8-node(Quad8) quadrilateral elements in 2D, 4--node(Tet4) tetrahedral element and 8--node(Hex8) hexahedral element in 3D \cite{hughes2000}. In order to flexibly adjust to let the DOFs of pressure meet the optimal constraint, the reproducing kernel meshfree approximation is involved to approximate pressure.
 
-In the proposed mixed-formulation, the displacement is approximated using three-node, six-node triangular elements and four-node, eight-node quadrilateral elements \cite{hughes2000}. In order to flexcially adjust to let the dofs of pressure meets to be optimal, the reproducing kernel meshfree approximation is involved to approximate pressure.
+\subsection{Reproducing kernel meshfree approximation}
 
-In accordance with the reproducing kernel approximation, the entire domain $\Omega$ is discretized by $n_p$ meshfree points, $\{\boldsymbol x_I\}_{I=1}^{n_p}$. Each meshfree point equips a meshfree shape function $\Psi_I$ and nodal coefficient $p_I$, and the approximated pressure namely $p_h$ can be presented by:
+In accordance with the reproducing kernel approximation, the entire domain $\Omega$, as shown in Figure \ref{fg:rk_approximation}, is discretized by $n_p$ meshfree nodes, $\{\boldsymbol{x}_I\}_{I=1}^{n_p}$. The approximated pressure, namely $p_h$, can be expressed by the shape function $\Psi_I$ and nodal coefficient $p_I$, yields:
 \begin{equation}
-p_h(\boldsymbol x) = \sum_{I=1}^{n_p} \Psi_I(\boldsymbol x) p_I
+p_h(\boldsymbol{x}) = \sum_{I=1}^{n_p} \Psi_I(\boldsymbol{x}) p_I
 \end{equation}
 where, in the reproducing kernel approximation framework, the shape function $\Psi_I$ is given by:
 \begin{equation}\label{rkshape}
-\Psi_I(\boldsymbol x) = \boldsymbol c(\boldsymbol x_I-\boldsymbol x) \boldsymbol p(\boldsymbol x_I-\boldsymbol x) \phi(\boldsymbol x_I - \boldsymbol x)
+\Psi_I(\boldsymbol{x}) = \boldsymbol{c}(\boldsymbol{x}_I-\boldsymbol{x}) \boldsymbol{p}(\boldsymbol{x}_I-\boldsymbol{x}) \phi(\boldsymbol{x}_I - \boldsymbol{x})
 \end{equation}
-in which $\boldsymbol p$ is the basis function, especially for 2D quadratic basis function, having the following form: 
+in which $\boldsymbol{p}$ is the basis vector, for instance in the context of the 3D quadratic case, the basis vector takes the following form:
 \begin{equation}
-\boldsymbol p(\boldsymbol x) = \{ 1, x, y, x^2, xy, y^2\}^T
+\boldsymbol{p}(\boldsymbol{x}) = \{ 1, x, y, z, x^2, y^2, z^2, xy, xz, yz\}^T
 \end{equation}
-and $\phi$ stands for the kernel function. In this work, the traditional Cubic B-spline function with square suppot is used as the kernel function:
+and $\phi$ stands for the kernel function. In this work, the traditional Cubic B--spline function with square or cube support is used as the kernel function:
 \begin{equation}
-\phi(\boldsymbol x_I-\boldsymbol x) = \phi(s_x) \phi(s_y), \quad s_i = \frac{\Vert \boldsymbol x_I - \boldsymbol x\Vert}{\bar s_{iI}}
+\phi(\boldsymbol{x}_I-\boldsymbol{x}) = \phi(s_x) \phi(s_y) \phi(s_z), \quad s_i = \frac{\|\boldsymbol{x}_I - \boldsymbol{x}\|}{\bar{s}_{iI}}
 \end{equation}
 with
 \begin{equation}
-\phi(s) =\frac{1}{3!} \begin{cases}
-    (2-2s)^3 - 4(1-2s)^3 & s\le\frac{1}{2} \\
-    (2-2s)^3 &\frac{1}{2}<s<1 \\
-    0 & s> 1
+\phi(s) = \frac{1}{3!} \begin{cases}
+(2-2s)^3 - 4(1-2s)^3 & s\le\frac{1}{2} \\
+(2-2s)^3 &\frac{1}{2}<s<1 \\
+0 & s> 1
 \end{cases}
 \end{equation}
-where $\bar s_{iI}$'s are the support size towards the $i$-direction for the shape function $\Psi_I$.
-The correction function $\boldsymbol c$ can be determined by the following so-call consistency condition:
+where $\bar{s}_{iI}$'s are the support size towards the $i$-direction for the shape function $\Psi_I$. The correction function $\boldsymbol{c}$ can be determined by the following so-called consistency condition:
 \begin{equation}\label{cc1}
-\sum_{I=1}^{n_p}\Psi_I(\boldsymbol x) \boldsymbol p(\boldsymbol x_I) = \boldsymbol p (\boldsymbol x)
+\sum_{I=1}^{n_p} \Psi_I(\boldsymbol{x}) \boldsymbol{p}(\boldsymbol{x}_I) = \boldsymbol{p} (\boldsymbol{x})
 \end{equation}
 or equivalent shifted form:
 \begin{equation}\label{cc2}
-\sum_{I=1}^{n_p}\Psi_I(\boldsymbol x) \boldsymbol p(\boldsymbol x_I-\boldsymbol x) = \boldsymbol p (\boldsymbol 0)
+\sum_{I=1}^{n_p} \Psi_I(\boldsymbol{x}) \boldsymbol{p}(\boldsymbol{x}_I-\boldsymbol{x}) = \boldsymbol{p} (\boldsymbol{0})
 \end{equation}
-Substituting Eq. \ref{rkshape} into Eq. \ref{cc} leads to:
+Substituting Eq. \ref{rkshape} into Eq. \eqref{cc2} leads to:
 \begin{equation}\label{correction}
-\boldsymbol c(\boldsymbol x_I-\boldsymbol x) = \boldsymbol A^{-1}(\boldsymbol x_I-\boldsymbol x)\boldsymbol p(\boldsymbol 0)
+\boldsymbol{c}(\boldsymbol{x}_I-\boldsymbol{x}) = \boldsymbol{A}^{-1}(\boldsymbol{x}_I-\boldsymbol{x}) \boldsymbol{p}(\boldsymbol{0})
 \end{equation}
-in which $\boldsymbol A$ is namely moment matrix evaluating by:
+in which $\boldsymbol{A}$ is namely the moment matrix evaluated by:
 \begin{equation}
-\boldsymbol A(\boldsymbol x_I-\boldsymbol x) = \sum_{I=1}^{n_p}\boldsymbol p(\boldsymbol x_I-\boldsymbol x) \boldsymbol p^T(\boldsymbol x_I-\boldsymbol x)\phi(\boldsymbol x_I-\boldsymbol x)
+\boldsymbol{A}(\boldsymbol{x}_I-\boldsymbol{x}) = \sum_{I=1}^{n_p} \boldsymbol{p}(\boldsymbol{x}_I-\boldsymbol{x}) \boldsymbol{p}^T(\boldsymbol{x}_I-\boldsymbol{x}) \phi(\boldsymbol{x}_I-\boldsymbol{x})
 \end{equation}
-Taking Eq. \eqref{correction} back to Eq. \eqref{rkshape}, the final form of reproducing kernel shape function can be got as:
+Taking Eq. \eqref{correction} back to Eq. \eqref{rkshape}, the final form of the reproducing kernel shape function can be obtained as:
 \begin{equation}
-\Psi_I(\boldsymbol x) = \boldsymbol p^T(\boldsymbol 0) \boldsymbol A^{-1}(\boldsymbol x_I-\boldsymbol x)\phi(\boldsymbol x_I-\boldsymbol x)
+\Psi_I(\boldsymbol{x}) = \boldsymbol{p}^T(\boldsymbol{0}) \boldsymbol{A}^{-1}(\boldsymbol{x}_I-\boldsymbol{x}) \phi(\boldsymbol{x}_I-\boldsymbol{x})
 \end{equation}
 
-\subsection{Bubble mesh generator}
-The proposed method embeds the optimal pressure DOFs to release the burden of volumetric locking. In order to maintain the number of pressure DOFs to be optimal, $n_p=n_c$, the Shimada method or namely bubble meshing method \cite{deberg2008} is used to generate the pressure nodes. 
-In Shimada method, as shown in Figure \ref{fig:cloud}, a meshing node $\boldsymbol x_I$ is regard as a bubble with specific radius $r_I$ and mass $m_I$, the corresponding nodal location are determined by a dynamic system as follows:
-\begin{equation} \label{bubble1}
-    m_I \ddot{\boldsymbol x}_{I} + c_I \dot{\boldsymbol x}_I = \sum_{J=1}^{n_p} \bar{\boldsymbol f}_{IJ}
-\end{equation}
-where the dot notion over the $\boldsymbol x$ means to the time derivation of $\boldsymbol x$, i.e. $\dot{\boldsymbol x}_I, \ddot{\boldsymbol x}_I$ stands for the $\boldsymbol x_I$'s acceleration and velocity. 
-The parameters $m_I, c_I$ dnotes mass and viscosity of the bubble at $\boldsymbol x_I$, and, for a better meshing efficiency and stability, these two parameters are obtained through \cite{dinh2017}:
-\begin{equation} \label{bubble2}
-    k = \frac{1.47}{2r_I}, \quad \zeta = \frac{c_I}{2\sqrt{m_I k}} = 0.7
-\end{equation}
-The interaction forces between adjacent bubbles $\bar{\boldsymbol f}_{IJ}$'s is given by:
-\begin{equation}
-\bar{\boldsymbol f}_{IJ} = \frac{\boldsymbol x_I - \boldsymbol x_J}{d_{IJ}} \bar f_{IJ}, \quad
-\bar f_{IJ} =
-\begin{cases}
-    (1-w^4) e^{-w^4} & 0\le w= \frac{d_{IJ}}{r_I+r_J} \le 1.5 \\
-    0 & w>1.5
-\end{cases}
-\end{equation}
-where $d_{IJ} = \Vert \boldsymbol x_I - \boldsymbol x_J \Vert$ denotes the distance between $\boldsymbol x_I$ and $\boldsymbol x_J$.
+As shown in Figure \ref{fg:rk_approximation},
+reproducing kernel meshfree shape functions are globally smooth across the entire domain,
+using them to discretize the pressure field allows the constraint ratio to be adjusted arbitrarily, without being limited by element topology.
+Moreover, when combined with finite element approximations in Eq. \ref{ritz_Galerkin},
+numerical integration can be conveniently performed within each finite element ($\Omega_C$'s).
 
-Subsequently, the locations $\boldsymbol x_I$'s can be got by solve the above Eq. \eqref{bubble2} using conventional fourth-order Runge-Kutta method.
-
-As shown in Figure. \ref{fig:cloud}, the detailed meshing steps are listed as follows: 
-\begin{enumerate}
-    \item Generate the elements for displacement using traditional meshing algorithm, for example Frontal-Delaunay algorithm \cite{deberg2008}, where the number of the displacement nodes is $n_u$. 
-    \item Arrange the fixed pressure nodes on the boundary before locating nodes in the domain, and the bubbles of the boundary nodes should cover all boundaries to avoid the internal nodes escaping out.
-    \item Place a specific number of nodes in the domain and let the total number of pressure nodes equal to optimal one based on the number of displacement nodes, i.e. $n_p = n_c(n_u)$. \label{step3}
-    \item Determine the locations of the nodes generated by Step. \ref{step3} via solving Eq. \eqref{bubble1} using fourth-order Runge-Kutta method.
-\end{enumerate}
-
-\begin{figure}[!ht]
+\begin{figure}[H]
 \centering
-\includegraphics[width=\textwidth]{png/cloud.png}
-\caption{Illustration of mesh generation for finite element and meshfree mixed approximations}\label{fig:cloud}
+\includegraphics[width=\textwidth]{png/mix.png}
+\caption{Illustration for reproducing kernel meshfree approximation}\label{fg:rk_approximation}
 \end{figure}
 
-In this mixed approximation, due to the locality of finite element shape functions and the globality of meshfree shape functions, the numerical integration for assembling the stiffness matrices is carried out in the elements of finite element approximation. 
-The previous works have figured out that, the overlapping supports and the rational property of meshfree shape functions will cause a mismatch between shape function and its derivate in the procedure of the numerical integration by parts. This phenomenon, namely integration constraint, will bring the lower accurate results, and can be alleviated using higher order Gaussian quadrature rules or more efficient consistent meshfree integration rules. 
-However, there is no similar problems in proposed mixed-formulations for incompressible elasticity or heat diffusion problems, since only meshfree shape functions are adopted in weak forms of Eqs. \eqref{}.
-So just using the lower order Gaussian quadrature rules used in traditional finite element method can meet the accuracy requirement.
+\subsection{Pressure node distributions with optimal constraint ratio}
+
+In this subsection, 2D and 3D inf-sup tests \cite{chapelle1993}, as defined in Eq. \ref{infsup_test}, are conducted using the mixed FE–meshfree formulations to validate the proposed inf-sup value estimator.
+The 2D test considers the square domain $\Omega = (0,1)\otimes (0,1)$, where the displacement is discretized by Tri3 element, Quad4 element with $4\times 4$, $8\times 8$, $16\times 16$ and $32\times 32$ elements, Tri6 element, Quad8 element with $2\times 2$, $4\times 4$, $8\times 8$ and $16\times 16$ elements, respectively. The 3D test employs a cube domain $\Omega = (0,1)\otimes (0,1)\otimes (0,1)$ with $4\times 4$, $8\times 8$ and $16\times 16$ elements for the Tet4 element and Hex8 element. In order to avoid the influence of interpolation error, uniform nodal distributions are used for pressure discretizations.
+
+Figures \ref{fg:infsup_convergence_2D_a}--\ref{fg:infsup_convergence_3D_b} show the corresponding results, in which the red line stands for the value of $\beta$ with respect to the number of pressure nodes $n_p$, and the vertical dashed line denotes the stabilized number $n_s$. The deeper color of the lines means mesh refinement. The results show that, no matter linear or quadratic elements, as $n_p$ increases over $n_s$, the value of $\beta$ sharply decreases, and then the inf-sup condition cannot be maintained. This result is consistent with the discussion in Section \ref{sec:constraint_ratio}, and again verifies the effect of the proposed estimator.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{png/tri3.png}
+\caption{Inf--sup test for Tri3--RK}\label{fg:infsup_convergence_2D_a}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{png/tri6.png}\caption{Inf--sup test for Tri6--RK}\label{fg:infsup_convergence_2D_b}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{png/quad4.png}\caption{Inf--sup test for Quad4--RK}\label{fg:infsup_convergence_2D_c}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{png/quad8.png}\caption{Inf--sup test for Quad8--RK}\label{fg:infsup_convergence_2D_d}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{png/Tet4.png}\caption{Inf--sup test for Tet4--RK}\label{fg:infsup_convergence_3D_a}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{png/Hex8.png}\caption{Inf--sup test for Hex8--RK}\label{fg:infsup_convergence_3D_b}
+\end{figure}
+
+Moreover, the mixed formulation's results with the traditional optimal constraint ratio $r=n_d$ are listed in these figures as well, and $\beta$ in this circumstance is already much smaller than those in the optimal range. Considering the results shown above, the easy programming and efficiency, the pressure nodes are chosen among the displacement nodes. The final schemes for linear and quadratic, 2D and 3D element discretizations are shown in Figure \ref{fg:mix_scheme}, in which all constraint ratios belong to the range of the optimal ratio. The corresponding inf-sup test results for these schemes are also marked in inf--sup test figure and show that, with mesh refinement, their $\beta$'s are always maintained at a non-negligible level.
+
+\begin{figure}[htb]
+\centering
+\begin{tabular}{c@{\hspace{24pt}}c}
+\includegraphics[width=0.3\textwidth]{png/mix_tri3.png} &
+\includegraphics[width=0.3\textwidth]{png/mix_tri6.png} \\
+Tri3--RK & Tri6--RK \\
+\includegraphics[width=0.3\textwidth]{png/mix_quad4.png} &
+\includegraphics[width=0.3\textwidth]{png/mix_quad8.png} \\
+Quad4--RK & Quad8--RK \\
+\includegraphics[width=0.3\textwidth]{png/mix_tet4.png} &
+\includegraphics[width=0.3\textwidth]{png/mix_hex8.png} \\
+Tet4--RK & Hex8--RK \\
+\raisebox{-0.3\height}{\includegraphics[width=12pt]{png/legend_u.png}} :Displacement node &
+\raisebox{-0.3\height}{\includegraphics[width=12pt]{png/legend_p.png}} :Pressure node
+\end{tabular}
+\caption{Nodal distribution schemes for mixed FE-meshfree formulations with $r = r_{opt}$}\label{fg:mix_scheme}
+\end{figure}
+

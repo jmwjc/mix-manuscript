@@ -1,19 +1,19 @@
 
 %DIF LATEXDIFF DIFFERENCE FILE
-%DIF DEL backup/main.tex   Sun Aug  4 09:48:38 2024
-%DIF ADD ./main.tex        Fri Jul 26 09:41:41 2024
-
+%DIF DEL backup/main.tex   Sun Jun 15 18:22:44 2025
+%DIF ADD ./main.tex        Sun Jun 15 18:22:44 2025
 \documentclass{elsarticle}
 \bibliographystyle{elsarticle-num}
 
 % ── Package ───────────────────────────────────────────────────────────
 \usepackage{amsmath,amssymb,amsfonts,amsthm,bm} % mathamatics
-\usepackage{graphicx, subcaption} % figures
+\usepackage{graphicx, float, caption, subcaption} % figures
 \usepackage{booktabs,multirow} % tables
 \usepackage{hyperref} % hyperlinks
 \usepackage{lineno} % line number
 \newtheorem{thm}{Theorem}
 \newtheorem{rmk}{Remark}
+\newtheorem{lma}{Lemma}
 \newproof{pf}{Proof}
 \linenumbers % turn on line number
 
@@ -23,7 +23,7 @@
 \RequirePackage[normalem]{ulem} %DIF PREAMBLE
 \RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
 \providecommand{\DIFaddtex}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
-\providecommand{\DIFdeltex}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+\providecommand{\DIFdeltex}[1]{{\protect\color{red}\sout{#1}}} %DIF PREAMBLE
 %DIF SAFE PREAMBLE %DIF PREAMBLE
 \providecommand{\DIFaddbegin}{} %DIF PREAMBLE
 \providecommand{\DIFaddend}{} %DIF PREAMBLE
@@ -82,6 +82,11 @@
 \DeclareRobustCommand{\DIFaddendFL}{\DIFOaddendFL \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
 \DeclareRobustCommand{\DIFdelbeginFL}{\DIFOdelbeginFL \let\includegraphics\DIFdelincludegraphics} %DIF PREAMBLE
 \DeclareRobustCommand{\DIFdelendFL}{\DIFOaddendFL \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+%DIF AMSMATHULEM PREAMBLE %DIF PREAMBLE
+\makeatletter %DIF PREAMBLE
+\let\sout@orig\sout %DIF PREAMBLE
+\renewcommand{\sout}[1]{\ifmmode\text{\sout@orig{\ensuremath{#1}}}\else\sout@orig{#1}\fi} %DIF PREAMBLE
+\makeatother %DIF PREAMBLE
 %DIF COLORLISTINGS PREAMBLE %DIF PREAMBLE
 \RequirePackage{listings} %DIF PREAMBLE
 \RequirePackage{color} %DIF PREAMBLE
@@ -98,21 +103,30 @@
 } %DIF PREAMBLE
 \lstnewenvironment{DIFverbatim}{\lstset{style=DIFverbatimstyle}}{} %DIF PREAMBLE
 \lstnewenvironment{DIFverbatim*}{\lstset{style=DIFverbatimstyle,showspaces=true}}{} %DIF PREAMBLE
+\lstset{extendedchars=\true,inputencoding=utf8}
+
 %DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
 
 \begin{document}
 \include{frontmatter}
 
-\include{introduction}
-\include{incompressible}
-\include{mix}
-\include{criterion}
-\include{meshfree}
-\include{example}
-\include{conclusion}
+\input{introduction}
+\input{mix}
+\input{criterion}
+\input{meshfree}
+\section{Numerical examples}
+\input{cantilever_beam}
+\input{plate_with_hole}
+\input{cook_membrane}
+\input{block}
+\input{conclusion}
 
+\section*{Acknowledgment}
+The support of this work by the National Natural Science Foundation of China (12102138), the Natural Science Foundation of Fujian Province of China (2023J01108) and the Fundamental Research Funds
+of Central Universities (ZQN-1014) is gratefully acknowledged.
 \bibliography{references}
-\appendix
+% \appendix
 % \include{hilbert}
-\include{error}
+% \include{error}
+
 \end{document}

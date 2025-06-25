@@ -1,14 +1,23 @@
-\subsection{Cook membrane problem}
+\subsection{Cook's membrane problem}
 
-The Cook membrane problem \cite{simo1990} is used herein for stability analysis of pressure. The geometry of this problem is shown in Figure \ref{fg:cook_illsutration}, in which the left hand side is fixed and the right hand side subjects a concentrated force $P=6.25$ in the $y$-direction. The material parameters are Young's modulus $E=70.0$ and Poisson's ratio $\nu=0.5-10^{-8}$.
+The Cook's membrane problem \cite{simo1990} is used herein for stability analysis of pressure. The geometry of this problem is shown in Figure \ref{fg:cook_illsutration}, in which the left hand side is fixed and the right hand side subjects a concentrated force $P=6.25$ in the $y$-direction. The material parameters are Young's modulus $E=70.0$ and Poisson's ratio $\nu=0.5-10^{-8}$.
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\textwidth]{png/cook_membrane_model.png}
-\caption{Illustration of Cook membrane problem}\label{fg:cook_illsutration}
+\includegraphics[width=0.5\textwidth]{png/cook_membrane_model_r1.png}
+\caption{Illustration of Cook's membrane problem}\label{fg:cook_illsutration}
 \end{figure}
 
-In this test, we focus on the pressure stability of 2D mixed FE--meshfree formulations. Figures \ref{fg:cook_membrane_contour_tri3}--\ref{fg:cook_membrane_contour_quad8} show the pressure contour plots for non-uniform Tri3--RK, Tri6--RK, Quad4--RK, and Quad8--RK formulations with $r=n_d$ and $r=r_{opt}$, respectively. The reproducing kernel meshfree approximations are employed for pressure discretization with characterized support sizes of 1.5 for the linear basis function and 2.5 for the quadratic basis function. The results imply that the pressure contour plots with the optimal constraint ratio $r=r_{opt}$ show a more stable and smooth pressure distribution compared to those with the traditional constraint ratio $r=n_d$.
+In this test, we evaluated the convergence properties by comparing the vertical displacement at point $A$ against a reference value of $28.0$. 
+As shown in Figure \ref{fg:cook_convergence} illustrates, the methods employing $r=r_{opt}$ produced results that were notably closer to this reference value than those using $r=n_d$.
+Furthermore, to investigate stability, Figures \ref{fg:cook_membrane_contour_tri3}--\ref{fg:cook_membrane_contour_quad8} show the pressure contour plots for non-uniform Tri3--RK, Tri6--RK, Quad4--RK, and Quad8--RK formulations with $r=n_d$ and $r=r_{opt}$, respectively.
+The reproducing kernel meshfree approximations are employed for pressure discretization with characterized support sizes of 1.5 for the linear basis function and 2.5 for the quadratic basis function. The results imply that the pressure contour plots with the optimal constraint ratio $r=r_{opt}$ show a more stable and smooth pressure distribution compared to those with the traditional constraint ratio $r=n_d$.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{png/cook_convergence.png}
+\caption{Convergence comparison of the vertical displacement at point $A$ for Cook's membrane problem}\label{fg:cook_convergence}
+\end{figure}
 
 \begin{figure}[H]
 \centering
@@ -19,7 +28,7 @@ In this test, we focus on the pressure stability of 2D mixed FE--meshfree formul
 & \includegraphics[width=0.1\textwidth]{png/legend.png} \\
 $n_u = 2529$ & $r = n_d$ & $r = r_{opt}$ &
 \end{tabular}
-\caption{Pressure contour plots for Cook membrane problem using Tri3--RK}\label{fg:cook_membrane_contour_tri3}
+\caption{Pressure contour plots for Cook's membrane problem using Tri3--RK}\label{fg:cook_membrane_contour_tri3}
 \end{figure}
 
 \begin{figure}[H]
@@ -31,7 +40,7 @@ $n_u = 2529$ & $r = n_d$ & $r = r_{opt}$ &
 & \includegraphics[width=0.1\textwidth]{png/legend.png} \\
 $n_u = 2529$ & $r = n_d$ & $r = r_{opt}$ &
 \end{tabular}
-\caption{Comparison of pressure contour plots for Cook membrane problem using Tri6--RK}\label{fg:cook_membrane_contour_tri6}
+\caption{Comparison of pressure contour plots for Cook's membrane problem using Tri6--RK}\label{fg:cook_membrane_contour_tri6}
 \end{figure}
 
 \begin{figure}[H]
@@ -43,7 +52,7 @@ $n_u = 2529$ & $r = n_d$ & $r = r_{opt}$ &
 & \includegraphics[width=0.1\textwidth]{png/legend.png} \\
 $n_u = 2485$ & $r = n_d$ & $r = r_{opt}$ &
 \end{tabular}
-\caption{Comparison of pressure contour plots for Cook membrane problem using Quad4--RK}\label{fg:cook_membrane_contour_quad4}
+\caption{Comparison of pressure contour plots for Cook's membrane problem using Quad4--RK}\label{fg:cook_membrane_contour_quad4}
 \end{figure}
 
 \begin{figure}[H]
@@ -55,6 +64,6 @@ $n_u = 2485$ & $r = n_d$ & $r = r_{opt}$ &
 & \includegraphics[width=0.1\textwidth]{png/legend.png} \\
 $n_u = 1889$ & $r = n_d$ & $r = r_{opt}$ &
 \end{tabular}
-\caption{Comparison of pressure contour plots for Cook membrane problem using Quad8--RK}\label{fg:cook_membrane_contour_quad8}
+\caption{Comparison of pressure contour plots for Cook's membrane problem using Quad8--RK}\label{fg:cook_membrane_contour_quad8}
 \end{figure}
 

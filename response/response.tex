@@ -1,6 +1,9 @@
 \documentclass{article}
 \usepackage{amsmath,amssymb,amsfonts,amsthm,bm}
+\usepackage{float,caption,booktabs,multirow} % tables
 \usepackage{enumerate}
+\bibliographystyle{plain}
+
 \RequirePackage[normalem]{ulem} 
 \RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} 
 \providecommand{\DIFaddtex}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
@@ -24,63 +27,77 @@ Authors appreciate careful reading of the manuscript by the reviewers, and are t
 \textbf{Comment 1.} \textit{RKPM functions used are cubic with $C^2$-continuity, while the displacements are either linear or quadratic in the present paper. The expense associated with: a. Constructing RKPM functions on top of the FEM mesh; b. Integrating these functions; and c. The likely very high condition number of the resulting LHS matrices does not really justify having a methodology whose accuracy is still limited to that of the (low-order) displacement discretization.}
 
 \textbf{Response:} 
-Authors appreciate for the reviewer's comment about the order of meshfree shape function.
-The accuracy of the proposed method is indeed limited by the order of the fulfillment of consistency condidtion in Eq. (53).
-This order is determined by the order of polynomial base functions used in reproducing kernel meshfree approximation, and in this manuscript, which is identical to the order of displacement approximation.
+Authors thank the reviewer for this insightful comment regarding the order of the meshfree shape functions.
+The accuracy of the proposed method is indeed governed by the order of consistency satisfied by the reproducing kernel approximation, as specified in Eq. (55).
+This order is directly determined by the polynomial basis functions used in the reproducing kernel approximation, which, in this manuscript, is consistently chosen to match the order of the displacement approximation.
 
-The cubic order mentioned by the reviewer, in fact, refers to the order of kernel function, the cubic B-spline kernel function in Eq. (52) is commonly used for linear and quadratic meshfree approximation \cite{}, which works for ensuring the smoothness of meshfree shape functions. 
-The choice of the kernel function does not increases the effort of constructing and integrating meshfree shape functions, and the corresponding accuracy.
+The reviewer's mention of ``cubic order'' correctly refers to the order of the kernel function itself, specifically the cubic B-spline kernel function in Eq. (54).
+It is a standard practice for ensuring the continuity and smoothness of meshfree shape functions, and is commonly employed with both linear and quadratic meshfree approximations, as detailed in \cite{belytschko1994}.
+The selection of this kernel function does not inherently increase the computational cost associated with constructing or integrating the meshfree shape functions, nor does it unilaterally dictate the accuracy of proposed method.
+To enhance clarity on this crucial point, we have incorporated the following statements into the revised manuscript:
 
-For the sake of clarity, the authors have added the corresponding statements:
-
-Page 14 (line 325-328):
+Page 14 (line 328-332):
 \begin{quote}``
-The consistency condition ensures that the reproducing kernel shape functions is able to reproduce the polynomial spanned by base function $\boldsymbol{p}$, which is the requirement for the accuracy of Galerkin method.And herein, the order of base function $\boldsymbol p$ is chosen to be the same as the order of displacement approximation.
+The consistency condition ensures that the reproducing kernel shape functions are able to reproduce the polynomial space spanned by the basis function $\boldsymbol{p}$, which is a fundamental requirement for the accuracy of the Galerkin method.
+Herein, the order of the basis function $\boldsymbol{p}$ is chosen to be the same as the order of the displacement approximation.
 ''\end{quote}
 
-Page 14 (line 347-350):
+Page 15 (line 362-366):
 \begin{quote}``
-The pressure discretization is performed that, linear meshfree approximation with normalized support size $1.5$ is used for Tri3, Quad4, Tet4 elements, and the quadratic meshfree approximation with normalized support size $2.5$ is used for Tri6, Quad8, Hex8 elements.
+For pressure discretization, linear meshfree approximation with a normalized support size of $1.5$ is employed for Tri3, Quad4, Tet4 and Hex8.
+For Tri6 and Quad8, a quadratic meshfree approximation with a normalized support size of $2.5$ is utilized.
 ''\end{quote}
 
 \textbf{Comment 2.} \textit{Numerical quadrature is another issue. The support of RKPM functions does not conform to the elements of the FEM mesh. As a result, using Gaussian quadrature on the FEM mesh has accuracy implication for the integration of the pressure-pressure and velocity-pressure matrices. Because the RKPM functions are $C^2$-continuous and non-conforming, increasing the number of Gaussian quadrature points will not improve accuracy over a given threshold. These issues are not addressed in the paper. It's not clear what quadrature rule is used in the calculations.}
 
-\textbf{Response:} Authors appreciate reviewer's comment.
-Numerical integration issue is the bottleneck for meshfree methods, the main reason is that the overlapping of the support and the rational nature of the meshfree shape functions can not guarantee the so-called integration constraint \cite{}.
-The author and his collaborators have been working on this issue for a long time, and have proposed several methods to address this issue \cite{wu2022, wu2023, wu2023a}.
+\textbf{Response:} Authors are grateful to the reviewer for raising this important point regarding numerical quadrature.
+The issue of numerical integration indeed presents a well--known challenge for meshfree methods.
+This is primarily due to the overlapping nature of basis function supports and the rational form of meshfree shape functions, which can lead to a violation of the so-called integration constraint or variational consistency \cite{chen2001,wu2021}.
+The authors and their collaborators have actively researched this challenge, leading to the development of several methods designed to overcome this issue \cite{wang2016a,wang2019}.
 
-The author's work \cite{} points out that the integration issue of meshfree methods leads the loss of orthogonality of Galerkin weak form, and the corresponding error is determined by the integration constraint.
-Fortunately, for error analysis of mixed formulation in Eq. (14), only orthogonality of bilinear form $a$ is required for the accuracy of mixed-formulation in Eq. (14), then the pressure approximation in Eq. (14) does not need to guarantee any integration constraint. 
-Consequently, the integration of all the linear and bilinear forms in Eq. (14) can be performed by the lower order Gaussian quadrature rules that are commonly used in traditional finite element methods. 
-A detailed discussion on the numerical integration of proposed method is provided in the revised manuscript on Page 4 (line 90-95):
-\begin{quote}
-\end{quote}
+Variational consistency generally demands that meshfree shape functions and their derivatives cooperatively reproduce the solution spanned by the basis function $\boldsymbol{p}$ within the Galerkin weak form.
+However, in the context of the present work, only the meshfree shape functions themselves appear in the weak form of Eq. (14).
+This fortunate characteristic implies that the proposed method is not subject to the stringent requirement of integration constraint.
+Consequently, the integration of all linear and bilinear forms within Eq. (14) can be efficiently performed using standard lower-order Gaussian quadrature rules, commonly employed in conventional finite element methods, without compromising optimal accuracy.
+A detailed discussion on the numerical integration strategy employed in the proposed method has been added to the revised manuscript on Page 15 (lines 348-354):
+
+\begin{quote}``
+The numerical integration issue caused by the loss of variational consistency between meshfree shape functions and their derivatives [60] would not appear in the mixed formulation of Eq. (14), this is due to the fact that Eq. (14) solely depends on the meshfree shape functions themselves.
+Therefore, the proposed method employs standard lower-order Gaussian quadrature rules, as commonly used in traditional finite element methods, while still maintaining its accuracy.
+''\end{quote}
 
 \textbf{Comment 3.} \textit{While showing suggested placement of RKPM nodes on structured meshes, the authors do not say at all how they do this for arbitrary unstructured meshes. This is likely done by trial an error and the results are likely heavily dependent on the distribution of the RKPM nodes. (In that sense, the "constraint ratio" alone is not enough.)}
 
-\textbf{Response:} Thanks for the reviewer's comment.
-The 
+\textbf{Response:} 
+Authors appreciate the reviewer's comment regarding the placement of the pressure nodes, particularly on unstructured meshes.
+The proposed method does not impose a strict limitation on the distribution of pressure nodes.
+Instead, it primarily requires that the chosen pressure nodes are well--distributed to avoid the local locking.
+For simplicity and computational efficiency, we have chosen to co-locate the pressure nodes with the displacement nodes.
 
-\textbf{Comment 4.} \textit{Finally, Cook's membrane and Compression Block problems are only presented "qualitatively". The authors are citing several papers where these problems are solved and comparison of several quantities of interest is shown. For Cook's membrane one typically looks at the corner node displacement and its convergence under mesh refinement. For Compression Block one typically applies several levels of pressure loading and monitors the resulting displacement, also showing convergence under mesh refinement. Such a quantitative assessment is necessary to even consider the paper for publication.}
+For unstructured meshes, the procedure for generating pressure and displacement nodes varies depending on the element order.
+For linear elements, such as Tri3, pressure nodes are initially generated using conventional meshing techniques, like Delaunay triangulation.
+Subsequently, displacement nodes are then generated through a standard mesh refinement process.
+For quadratic elements, the pressure nodes are specifically chosen as the vertices of the elements, effectively implementing an ``every other node'' strategy.
+This approach ensures that the resulting constraint ratio consistently falls within the optimal range.
+We have added a discussion of these nodal placement strategies to the revised manuscript on Page 16 (line 383--389):
 
-% \textbf{Reply:} Authors appreciate the reviewer's careful observation. We have revised this sentence and changed it to ``The accuracy maybe poor at locations away from the sample points" on Page 3 (line 53-54).
+\begin{quote}``
+For practical implementations of linear cases, the pressure nodes are initially generated using traditional approaches, such as Delaunay triangulation.
+Subsequently, the displacement nodes are then obtained through a standard mesh refinement process to the pressure nodes.
+For quadratic approximations in Tri6 and Quad8 elements, the element vertices are chosen as pressure nodes after displacement element generation.
+Consequently, all constraint ratios evaluated using the discretizations in Figure (10) fall within the optimal range.
+''\end{quote}
 
-% \textbf{Comment 5.} \textit{[2] also discussed the surface-type and volume-type Nitsche’s methods as well as the choice of the penalty parameters.}
+\textbf{Comment 4.} \textit{Finally, Cook's membrane and Compression Block problems are only presented ``qualitatively''. The authors are citing several papers where these problems are solved and comparison of several quantities of interest is shown. For Cook's membrane one typically looks at the corner node displacement and its convergence under mesh refinement. For Compression Block one typically applies several levels of pressure loading and monitors the resulting displacement, also showing convergence under mesh refinement. Such a quantitative assessment is necessary to even consider the paper for publication.}
 
-% % \textbf{Response:} Thank you for highlighting the valuable work by Wang et al. We acknowledge that the Nitsche method, as employed in their work to ensure variational consistency between background and immersed domains in composite elasticity problems, utilizes artificial parameters. Since this aspect is not directly relevant to our proposed method, we believe it's more appropriate to discuss this as an extended application of the Nitsche method.
-% % Therefore, we have added the following statement on page 3 (line 76-79):
+\textbf{Response:} Authors appreciate the reviewer's suggestion to provide quantitative assessment for problems of Cook's membrane and compression block, the corresponding results and discussions have been added on Page 25 and (line 460-464, Figure 18 in the revised manuscript) and Page 29 (line 479-482, Figure 24 in the revised manuscript), respectively.
+The results also evidenced the effectiveness of the proposed optimal constraint ratio in eliminating volumetric locking and enhancing the performance of mixed finite element and meshfree formulations.
 
-% % ``Additionally, the Nitsche's method has been successfully applied to maintain the variational consistency between different geometrical or material domains in problems with multiple patches [30] and composite materials [31]."
- 
 \textit{In conclusion, the paper cannot be accepted as it is now. The comments above need to be addressed, which may require a significant effort, before further consideration for publication.}
 
-% % \textbf{Response:} Authors are thankful to the reviewer's suggestion to incorporate relevant discussion on conventional thin- and thick-shell formulation. We have added the following discussion on Page 2 (line 11-23): 
+\textbf{Response:} 
+Authors appreciate the reviewer's comprehensive comments and constructive suggestions, which have undoubtedly enhanced the quality of this manuscript.
 
-% % ``Traditional finite element methods typically employ $C^0$ continuous shape functions, and it prefers hybrid and mixed shell models, like linear and nonlinear Mindlin model [2, 3] and the one inextensible director model [4]. 
-% % Over the past thirty years, various novel formulations with high order smoothed shape functions have been applied to thin shell formulations. These include element-free Galerkin method [5], maximum-entropy meshfree method [6], Hermite reproducing kernel particle method [7], peridynamics [8], isogeometric analysis [9], and others.
-% % For a more comprehensive review of advances and applications of high order formulations in various scientific and engineering fields, refer to [10, 12, 13, 14, 15, 16, 17, 18]."
-
-% % \textbf{Response:} Authors are thankful to the reviewer for the suggestion regarding the radius-thickness radio of thin shell. The shell thickness used in patch test has been changed to $h=0.05$, i.e. $\frac{R}{h} = 20$. Accordingly, the following elements have been updated in revised manuscript
 
 \section*{Reviewer \#2}
 \textbf{Summary and Contributions}
@@ -88,48 +105,95 @@ The
 \textit{The manuscript introduces a theoretically grounded “optimal volumetric constraint ratio” for mixed formulations of incompressible elasticity, derived via the inf–sup (LBB) condition. By re-casting the inf–sup constant as the smallest nonzero eigenvalue of a dilatational stiffness operator (Section 3.1) and constructing an estimator that counts the active polynomial modes (Section 3.2–3.4), deriving an explicit bound. They then implement this ratio in a mixed finite–element–meshfree framework (Section 4), using standard FE interpolation for displacement and reproducing–kernel shape functions for pressure, allowing arbitrary pressure–node placement to satisfy the proposed bound. Inf–sup tests on 2D and 3D canonical domains confirm that inf–sup stability breaks down
 as $n_p > n_s$.}
 
-% \textbf{Response:} Authors are thankful for the comments and suggestions, which definitely help the authors to improve this manuscript.
-
 \noindent\textbf{Comments}
 
 \textbf{Comment 1.} \textit{The term $n_u$ appears to be used with slightly different meanings. In Table 1, $n_u$ is listed as “number of displacement nodes” for a given polynomial order n. For example, for 2D linear ($n = 1$), $n_u = 3$. This seems to refer to the number of nodes required to define a scalar polynomial of that order. However, in Eq. 38, $n_u = \dim V_{n_u}$ . Here, $V_{n_u}$ is the “polynomial displacement space” $P^{n_d}_{n_u}$ (line 218). If $P_{n_u}$ is the space of scalar polynomials of dimension (say) $N_{poly}$, then $\dim V_{n_u} = n_d\times N_{poly}$.}
 
 \textbf{Response:} Thanks for the reviewer's careful observation.
-This is indeed a mistake in Eq. (38), the term $n_u$ in Eq. (38) should be replaced by $n_d\times n_u$, where $n_d\times n_u$ is the total number of DOFs of the displacement space $V_{n_u}$.
+This is indeed a mistake in Eq. (38), the term $n_u$ in Eq. (38) should be replaced by $n_d\times n_u$, which represents the total number of DOFs within the displacement space $V_{n_u}$.
 The authors have corrected this mistake in the revised manuscript on Page 10 (Eq. (38)):
 \begin{quote}
 \begin{equation*}
 n_d \times n_u = \dim V_{n_u}
 \end{equation*}
 \end{quote}
-after the correction, the meaning of $n_u$ is consistent.
+This correction ensures that the meaning of $n_u$ is consistent throughout the paper.
 
-\textbf{Comment 2.} \textit{The paper proposes selecting “every other displacement node as a pressure node” (line 461-462) to achieve the optimal constraint ratio. While this is a practical and simple strategy, its generality and optimality require further justification. In particular, for higher-order elements, “every other node” might still lead to a relatively dense pressure field. Moreover, it would be interesting to state precisely how the pressure nodes have been chosen in Figure 3-8 and Figure
+\textbf{Comment 2.} \textit{The paper proposes selecting ``every other displacement node as a pressure node'' (line 461-462) to achieve the optimal constraint ratio. While this is a practical and simple strategy, its generality and optimality require further justification. In particular, for higher-order elements, ``every other node'' might still lead to a relatively dense pressure field. Moreover, it would be interesting to state precisely how the pressure nodes have been chosen in Figure 3-8 and Figure
 11.}
 
-\textbf{Response:} Authors appreciate the reviewer's valuable comment.
-For the implementation of linear approaches, the pressure nodes are firstly generated using traditional methods, and then the displacement nodes are generated using standard mesh refinement process.
-For the quadratic cases of Tri6 and Quad8 elements, just chosen the vertices of elements as pressure nodes can implement the every other node strategy.
-The related discussion has been added in the revised manuscript on Page 18 (line 360-363).
+\textbf{Response:} 
+Authors appreciate the reviewer's valuable comment regarding the selection strategy for pressure nodes.
+For the implementation of linear elements, the pressure nodes are initially generated using traditional meshing methods.
+Subsequently, the displacement nodes are generated through a standard mesh refinement process.
+For quadratic elements, specifically Tri6 and Quad8, selecting the vertices of the elements as pressure nodes effectively implements the "every other node" strategy.
+We have clarified this discussion in the revised manuscript on Page 16 (lines 383-389):
 
-Moreover, in the Figures 3-8, 11 and 24, the pressure nodes are not selected from the displacement nodes,
-they are uniformly distribution by Cartesian product of the entire domain. 
-For better understanding, the authors have added the Figure 3 in the revised manuscript to illustrate the pressure node distribution and the related statement also has been added on Page 15 (line), Page 20 (line ) and Page 23 (line).
+\begin{quote}``
+For practical implementations of linear cases, the pressure nodes are initially generated using traditional approaches, such as Delaunay triangulation.
+Subsequently, the displacement nodes are then obtained through a standard mesh refinement process to the pressure nodes.
+For quadratic approximations in Tri6 and Quad8 elements, the element vertices are chosen as pressure nodes after displacement element generation.
+Consequently, all constraint ratios evaluated using the discretizations in Figure (10) fall within the optimal range.
+''\end{quote}
+
+Furthermore, it's important to clarify the pressure node distribution in Figures 3-8, 11, and 24.
+In these figures, the pressure nodes are not selected directly from the displacement nodes.
+Instead, they are uniformly distributed across the entire domain using a Cartesian product.
+To enhance clarity, we have added a new Figure 3 in the revised manuscript to visually illustrate this pressure node distribution.
+Corresponding statements have also been added on Page 16(lines 366-368).
 
 \textbf{Comment 3.} \textit{
 Though the global smoothness of the reproducing kernel functions is highlighted, no discussion is given on the conditioning of the resulting linear systems or the cost of assembling the mixed system. Quantitative data (e.g., condition numbers, solve times) would strengthen the work.
 }
 
+\textbf{Response:} Authors appreciate the reviewer's valuable comment regarding the conditioning of the linear systems and the associated computational costs. These are indeed crucial aspects for every numerical method, particularly for meshfree approaches.
+
+We have actually investigated the condition number and efficiency for the Cook's membrane problem presented in Section 5.3 (Figures 18-21 in revised manuscript). The results, summarized in Table \ref{tab1}, indicate that the condition numbers and CPU-times for solving the discrete governing equations with the proposed methods are indeed larger than those of traditional finite element methods. This is primarily attributed to the larger bandwidth of the stiffness matrices generated by meshfree approximation. However, it's important to note that a significant portion of the computational expense for the proposed methods is spent on calculating the meshfree shape functions.
+
+The result about the lower efficiency of the reproducing kernel shape functions is consistent with the pioneering literatures \cite{wang2019},
+and moreover, the primary objective of using the proposed mixed FE-meshfree method is to demonstrate the effectiveness of the optimal constraint ratio and to establish a general framework for enhancing arbitrary displacement elements to circumvent volumetric locking.
+Consequently, to maintain the conciseness of the manuscript, we opted not to include condition number and efficiency comparisons for all numerical examples in Section 5.
+
+\begin{table}[H]
+\centering
+\caption{Condition number and efficiency comparison for Cook's membrane problem}
+\label{tab1}
+\begin{tabular}{ccccc}
+\toprule
+\multirow{2}{*}{Method} & \multirow{2}{*}{Condition number} & \multicolumn{3}{c}{CPU--time (s) for} \\
+\shortstack{} & \shortstack{} & Shape function & Assembly & Solving \\
+\midrule
+MINI & 1.11E06 & 0.025 & 0.327 & 0.022 \\
+Tri3--RK($r=n_d$) & 1.89E10 & 1.73 & 4.160 & 0.108 \\
+Tri3--RK($r=r_{opt}$) & 1.13E08 & 1.290 & 1.720 & 0.052 \\
+T6P3 & 1.62E05 & 0.004 & 0.380 & 0.021 \\
+Tri6--RK($r=n_d$) & 2.48E16 & 1.62 & 1.67 & 0.294 \\
+Tri6--RK($r=r_{opt}$) & 3.69E10 & 1.110 & 0.634 & 0.077 \\
+Q4P1 & 5.75E12 & 0.011 & 0.344 & 0.021 \\
+Quad4--RK($r=n_d$) & 5.21E10 & 2.1 & 4.89 & 0.122 \\
+Quad4--RK($r=r_{opt}$) & 1.97E08 & 1.5 & 2.14 & 0.057 \\
+Q8P3 & 2.69E07 & 0.005 & 0.373 & 0.015 \\
+Quad8--RK($r=n_d$) & 2.75E15 & 1.17 & 1.18 & 0.184 \\
+Quad8--RK($r=r_{opt}$) & 8.67E10 & 0.847 & 0.471 & 0.065 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \textbf{Comment 4.} \textit{
 It would be valuable to compare error convergence and locking behavior against established stabilized methods (e.g., B-bar, MINI–element, Taylor–Hood, etc.) to demonstrate not only stability but also accuracy and efficiency. Namely, meshfree methods may be computationally expensive or ill-conditioned due to integration over background cells of functions with large support domains.
 }
+
+\textbf{Response:} Thanks for the reviewer's comment.
+In the revised manuscript, the Section 5.1 has been added the error convergence studies of 4--node quadrilateral displacement element with the piece--wise constant pressure element (Q4P1), and 8--node quadrilateral displacement element with piece--wise linear pressure element (Q8P3), and Section 5.2 has been added the results of 
+the MINI element, 6--node triangular displacement element with 3--node triangular pressure element (T6P3), which can better demonstrate the effectiveness of the proposed methods.
+As discussed in Comment 4, the efficiency or condition number of the proposed methods is not the main focus of this manuscript, so the authors have not provided these studies.
 
 \textbf{Comment 5.} \textit{
 The author should comment on how they enforce boundary conditions. In particular, it would be interesting to know how boundary conditions on the pressure field are applied due to the meshfree approximation.
 }
 
 \textbf{Response:} Authors appreciate the reviewer's comment, it is right that the imposition of essential boundary conditions is a key issue for meshfree methods, since the loss of Kronecker delta property of meshfree shape functions leads to the diffculty in directly imposing essential boundary conditions.
-However, as shown in Eq. (14), the mixed formulation studying in this manuscript does not include any essential boundary conditions on the pressure field. Only the displacement field is required to satisfy the essential boundary conditions, which is imposed by the standard penalty method in this study.
+However, as shown in Eq. (14), the mixed formulation studyed in this manuscript does not include any essential boundary conditions on the pressure field. Only the displacement field is required to satisfy the essential boundary conditions, which is imposed by the standard penalty method in this study.
 
 \noindent\textbf{Minor Comments}
 
@@ -165,7 +229,7 @@ Some figures make the document slow to load. I recommend either reducing the num
 }
 
 \textbf{Response:} Authors appreciate the reviewer's suggestion, 
-we have made the effort to accelerate the loading speed of the document, such as changing the format of figures to PDF. 
+we have made the effort to accelerate the loading speed of the document, such as reducing the size of the pdf file. 
 
 \textbf{Recommendation}
 
@@ -177,7 +241,7 @@ Subject to satisfactory revision along these lines, I recommend acceptance with 
 Authors are thankful for the reviewer's positive comments and suggestions, which definitely help the authors to improve this manuscript.
 
 
-\section*{References}
+\bibliography{references.bib}
 % \begin{enumerate}[{[1]}]
 % \end{enumerate}
 \end{document}
