@@ -1,7 +1,7 @@
 \section{Optimal volumetric constraint ratio}\label{sec:constraint_ratio}
 \subsection{Inf--sup condition and its eigenvalue problem}
 
-To ensure the surjectivity of orthogonal projection and satisfactory results, the approximations of Eq.\eqref{mix_formulation} should satisfy the inf-sup condition, also known as the Ladyzhenskaya–Babuška–Brezzi condition \cite{bathe1996}:
+To ensure the surjectivity of orthogonal projection and satisfactory results, the approximations of Eq.\eqref{mix_formulation} should satisfy the inf-sup condition, also known as the Ladyzhenskaya--Babuška--Brezzi condition \cite{bathe1996}:
 \begin{equation}\label{infsup}
 \inf_{q_h \in Q_h} \sup_{\boldsymbol{v}_h \in V_h} \frac{|b(q_h, \boldsymbol{v}_h)|}{\|q_h\|_Q \|\boldsymbol{v}_h\|_V} \ge \beta > 0
 \end{equation}
@@ -34,11 +34,7 @@ Since $\mathcal{P}_h\subset Q_h$
 \end{split}
 \end{equation}
 
-For a given $q_h \in \mathrm{Im} \mathcal{P}_h$, suppose a space $V'_h \subseteq V_h \setminus \ker \mathcal{P}_h$ defined by:
-\begin{equation}
-V'_h = \{\boldsymbol{v}_h \in V_h \mid \mathcal{P}_h \boldsymbol{v}_h = q_h\}
-\end{equation}
-Since $\mathrm{Im} \mathcal{P}_h \subset Q_h$, according to the Cauchy-Schwarz inequality, we have:
+For a given $q_h \in \mathrm{Im} \mathcal{P}_h$, since both $q_h$ and $\mathcal{P}_h \boldsymbol v_h$ belong to $\mathrm{Im} \mathcal{P}_h$, $\mathrm{Im} \mathcal{P}_h \subset Q_h$, according to the Cauchy-Schwarz inequality, we have:
 \begin{equation}
 \left| \frac{1}{3\kappa} (q_h, \mathcal{P}_h \boldsymbol{v}_h) \right| \le \|q_h\|_Q \|\mathcal{P}_h \boldsymbol{v}_h\|_Q
 \end{equation}
@@ -46,9 +42,14 @@ where this equality holds if and only if $q_h = \mathcal{P}_h \boldsymbol{v}_h$,
 \begin{equation}
 \left| \frac{1}{3\kappa} (q_h, \mathcal{P}_h \boldsymbol{v}_h) \right| = \|q_h\|_Q \|\mathcal{P}_h \boldsymbol{v}_h\|_Q, \quad \forall \boldsymbol{v}_h \in V'_h
 \end{equation}
+the space $V'_h \subseteq V_h \setminus \ker \mathcal{P}_h$ defined by:
+\begin{equation}
+V'_h = \{\boldsymbol{v}_h \in V_h \mid \mathcal{P}_h \boldsymbol{v}_h = q_h\}
+\end{equation}
+
 And the following relationship can be evidenced:
 \begin{equation}\label{r12}
-\sup_{\boldsymbol{v}_h \in V_h} \frac{\left| \frac{1}{3\kappa} (q_h, \mathcal{P}_h \boldsymbol{v}_h) \right|}{\|q_h\|_Q \|\boldsymbol{v}_h\|_V} = \sup_{\boldsymbol{v}_h \in V'_h} \frac{\|\mathcal{P}_h \boldsymbol{v}_h\|_Q}{\|\boldsymbol{v}_h\|_V}, \quad \forall q_h \in \mathrm{Im} \mathcal{P}_h
+\sup_{\boldsymbol{v}_h \in V_h} \frac{\left| \frac{1}{3\kappa} (q_h, \mathcal{P}_h \boldsymbol{v}_h) \right|}{\|q_h\|_Q \|\boldsymbol{v}_h\|_V} = \sup_{\boldsymbol{v}_h \in V'_h} \frac{\|\mathcal{P}_h \boldsymbol{v}_h\|_Q}{\|\boldsymbol{v}_h\|_V}, \quad \exists q_h \in \mathrm{Im} \mathcal{P}_h
 \end{equation}
 
 Consequently, by combining Eqs. \eqref{r11} and \eqref{r12}, Eq. \eqref{r1} can be obtained.
@@ -66,7 +67,7 @@ The left-hand side of the above equation is consistent with the minimum-maximum 
 \subsection{Inf--sup value estimator}
 Subsequently, the relationship between constraint ratio and the inf--sup condition is established by the following Theorem:
 \begin{thm}
-Suppose that $P_{n_u}:=\mathrm{span}$ is a complete polynomial space with $n_u$ dimensions, and $V_{n_u}$ is the polynomial displacement space, $V_{n_u} = P_{n_u}^{n_d}$. The inf-sup value $\beta$ can further be bounded by:
+Suppose that $P_{n_u}$ is a complete polynomial space with $n_u$ dimensions, and $V_{n_u}$ is the polynomial displacement space, $V_{n_u} = P_{n_u}^{n_d}$. The inf-sup value $\beta$ can further be bounded by:
 \begin{equation}\label{estimator}
 \beta \le \beta_s + O(h)
 \end{equation}
@@ -74,7 +75,7 @@ with
 \begin{equation}\label{beta_s}
 \beta_s = \inf_{V' \subset V_{n_u} \setminus \ker \mathcal{P}_h \mathcal{I}_h} \sup_{\boldsymbol{v} \in V'} \frac{\|\mathcal{P} \boldsymbol{v}\|_Q}{\|\boldsymbol{v}\|_V}
 \end{equation}
-where $\mathcal{I}_h$ is the interpolation operator of the finite element approximation, and correspondingly, $O(h)$ is the remainder related to $h$.
+where $\mathcal{I}_h$ is the interpolation operator of the displacement approximation, and correspondingly, $O(h)$ is the remainder related to $h$.
 \end{thm}
 
 \begin{pf}
@@ -105,7 +106,7 @@ Further leading the relation $\|\mathcal{I}_h \boldsymbol{v}\|_V \ge C |\boldsym
 Substituting Eqs. \eqref{r21},\eqref{r23} into \eqref{r1} finally proves Eqs. \eqref{estimator}, \eqref{beta_s}.
 \end{pf}
 
-As we can see in Eqs. \eqref{estimator} and \eqref{beta_s}, $\beta_s \ge 0$, the condition $\beta_s$ being equal to $0$ or not determines whether the formulation can satisfy the inf-sup condition. If $\beta_s > 0$, as the mesh refines, the second term on the right-hand side of Eq. \eqref{estimator} will sharply reduce and can be ignored. In contrast, if $\beta_s = 0$, the second term will dominate, and the evaluation of $\beta$ will be dependent to $h$.
+As we can see in Eqs. \eqref{estimator} and \eqref{beta_s}, $\beta_s \ge 0$, the condition that $\beta_s$ being equal to $0$ or not determines whether the formulation can satisfy the inf-sup condition. If $\beta_s > 0$, as the mesh refines, the second term on the right-hand side of Eq. \eqref{estimator} will sharply reduce and can be ignored. In contrast, if $\beta_s = 0$, the second term will dominate, and the evaluation of $\beta$ will be dependent to $h$.
 Therefore, the inf--sup condition is violated and numerical instability arises.
 
 \subsection{Polynomial--wise constraint counting}
@@ -117,7 +118,7 @@ n_s = \dim(V_{n_u} \setminus \ker \mathcal{P})
 
 To further construct the relationship between the inf--sup value estimator in Eq. \eqref{estimator} and the constraint ratio $r = \frac{n_d \times n_u}{n_p}$, we should find the displacement and pressure DOFs in Eq. \eqref{estimator}. With the definition of $V_{n_u}$, the number of displacement DOFs is easy to be evaluated by:
 \begin{equation}
-n_u = \dim V_{n_u}
+n_d \times n_u = \dim V_{n_u}
 \end{equation}
 With well-posed nodal distributions of displacement and pressure, the number of pressure DOFs has the following relationship:
 \begin{equation}
@@ -208,6 +209,7 @@ In this circumstance, $n_s = 3$. As the order of the polynomial space increases,
 n_s = \frac{n(n + 1)}{2}, \quad
 n = \left\lfloor \frac{\sqrt{1 + 8n_u} - 3}{2} \right\rfloor
 \end{equation}
+where $\lfloor \bullet \rfloor$ denotes the floor function. 
 
 \begin{table}[ht!]
 \centering

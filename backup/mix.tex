@@ -18,7 +18,7 @@ $\boldsymbol{\sigma}$ denotes the stress tensor and has the following form:
 \end{equation}
 in which $\boldsymbol{1} = \delta_{ij} \boldsymbol{e}_i \otimes \boldsymbol{e}_j$ is the second-order identity tensor. $\nabla^d \boldsymbol{u}$ is the deviatoric gradient of $\boldsymbol{u}$ and can be evaluated by:
 \begin{equation}
-\nabla^d \boldsymbol{u} = \frac{1}{2}(\boldsymbol{u} \nabla + \nabla \boldsymbol{u}) - \frac{1}{3} \nabla \cdot \boldsymbol{u}
+\nabla^d \boldsymbol{u} = \frac{1}{2}(\boldsymbol{u} \nabla + \nabla \boldsymbol{u}) - (\frac{1}{3} \nabla \cdot \boldsymbol{u}) \boldsymbol{1}
 \end{equation}
 and $\kappa$, $\mu$ are the bulk modulus and shear modulus, respectively, and they can be represented by Young's modulus $E$ and Poisson's ratio $\nu$:
 \begin{equation}\label{modulus}
@@ -37,12 +37,11 @@ b(\boldsymbol{u}, q) + c(q, p) &= 0 \quad &\forall q \in Q
 \right.
 \end{equation}
 with the spaces $V, Q$ defined by:
-\begin{equation}\label{mix_formulation}
-V = \{\boldsymbol{v} \in H^1(\Omega)^2 \mid \boldsymbol{v} = \boldsymbol{g}, \; \textrm{on} \; \Gamma_g\}
-\end{equation}
-\begin{equation}
-Q = \{q \in L^2(\Omega) \mid \int_{\Omega} q \, d\Omega = 0\}
-\end{equation}
+\begin{align}\label{mix_formulation}
+V &= \{\boldsymbol{v} \in H^1(\Omega)^2 \mid \boldsymbol{v} = \boldsymbol{g}, \; \textrm{on} \; \Gamma_g\}
+\\
+Q &= \{q \in L^2(\Omega) \mid \textstyle{\int_{\Omega}} q \, d\Omega = 0\}
+\end{align}
 where $a: V \times V \rightarrow \mathbb{R}$, $b: V \times Q \rightarrow \mathbb{R}$ and $c: Q \times Q \rightarrow \mathbb{R}$ are bilinear forms, and $f: V \rightarrow \mathbb{R}$ is the linear form. In elasticity problems, they are given by:
 \begin{align}
 a(\boldsymbol{v}, \boldsymbol{u}) &= \int_\Omega \nabla^d \boldsymbol{v} : \nabla^d \boldsymbol{u} \, d\Omega \\
@@ -58,7 +57,8 @@ In the mixed-formulation framework, the displacement and pressure can be discret
 \boldsymbol{u}_h(\boldsymbol{x}) = \sum_{I = 1}^{n_u} N_I(\boldsymbol{x}) \boldsymbol{u}_I, \quad
 p_h(\boldsymbol{x}) = \sum_{K = 1}^{n_p} \Psi_K(\boldsymbol{x}) p_K
 \end{equation}
-leading these approximations into the weak form of Eq. \eqref{weak_form} yields the following Ritz--Galerkin problems:
+where $N_I$ and $\Psi_K$ are the shape functions for the displacement and pressure, $\boldsymbol u_I$ and $p_K$ are the corresponding coefficients.
+Leading these approximations into the weak form of Eq. \eqref{weak_form} yields the following Ritz--Galerkin problems:
 Find $\boldsymbol{u}_h \in V_h, \; p_h \in Q_h$, such that
 \begin{equation}\label{ritz_Galerkin}
 \left\{
@@ -68,6 +68,12 @@ b(\boldsymbol{u}_h, q_h) + c(q_h, p_h) &= 0 \quad &\forall q_h \in Q_h
 \end{aligned}
 \right.
 \end{equation}
+where the spaces $V_h \subseteq V$, $Q_h \subseteq Q$ are defined by:
+\begin{align}
+V_h &= \{\boldsymbol v_h \in (\mathrm{span}\{N_I\}_{I=1}^{n_u})^{n_d} \vert \boldsymbol v^h = \boldsymbol g,\; \mathrm{on} \; \Gamma_g\}
+\\
+Q_h &= \{q_h \in \mathrm{span}\{\Psi_K\}_{K=1}^{n_p} \vert \textstyle \int_{\Omega} q_h d\Omega = 0\}
+\end{align}
 
 For nearly incompressible material, the Poisson ratio approaches $0.5$, and the bulk modulus $\kappa$ will tend to infinity based on Eq. \eqref{modulus}. Then, the bilinear form $c$ in Eq. \eqref{form_c} tends to zero. And the weak form of Eq. \eqref{ritz_Galerkin} becomes an enforcement of the volumetric strain $\nabla \cdot \boldsymbol{u}_h$ to be zero using the Lagrangian multiplier method, where $p_h$ is the Lagrangian multiplier.
 
