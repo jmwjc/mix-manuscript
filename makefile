@@ -33,16 +33,22 @@ $(backup_files):
 $(backup_dir)/$(aux_dir)/main.bbl:
 	cp -r $(src_dir)/$(aux_dir)/main.bbl $(backup_dir)/$(aux_dir)/main.bbl
 
-diff: $(diff_dir) $(diff_files) $(diff_dir)/$(aux_dir)/main.bbl
+diff: $(diff_dir) $(diff_files) $(diff_dir)/$(aux_dir)/main.bbl $(diff_dir)/png $(diff_dir)/pdf
 
 $(diff_dir):
 	mkdir -p $(diff_dir)
 
 $(diff_dir)/%.tex: $(src_dir)/%.tex $(backup_dir)/%.tex
-	latexdiff $(backup_dir)/$*.tex $(src_dir)/$*.tex > $(diff_dir)/$*.tex
+	latexdiff --no-del --math-markup=2 $(backup_dir)/$*.tex $(src_dir)/$*.tex > $(diff_dir)/$*.tex
 
 $(diff_dir)/$(aux_dir)/main.bbl: $(src_dir)/$(aux_dir)/main.bbl $(backup_dir)/$(aux_dir)/main.bbl
-	latexdiff $(src_dir)/$(aux_dir)/main.bbl $(backup_dir)/$(aux_dir)/main.bbl > $(diff_dir)/$(aux_dir)/main.bbl
+	latexdiff --no-del $(backup_dir)/$(aux_dir)/main.bbl $(src_dir)/$(aux_dir)/main.bbl > $(diff_dir)/$(aux_dir)/main.bbl
+
+$(diff_dir)/png: | $(diff_dir)
+	ln -sf $(abspath png) $@
+
+$(diff_dir)/pdf: | $(diff_dir)
+	ln -sf $(abspath pdf) $@
 
 clean:
 	latexmk -c -auxdir=$(aux)

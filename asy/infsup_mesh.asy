@@ -1,0 +1,67 @@
+import graph;
+
+settings.outformat = "pdf";
+settings.render = 16;
+defaultpen(fontsize(10pt));
+size(200);
+
+real dx = 0.0;
+draw((0.0,0.0)--(1,0.0),linewidth(1.5));
+draw((0.0,0.25)--(1,0.25),linewidth(1.5));
+draw((0.0,0.5)--(1,0.5),linewidth(1.5));
+draw((0.0,0.75)--(1,0.75),linewidth(1.5));
+draw((0.0,1.0)--(1,1.0),linewidth(1.5));
+draw((0.0,0.0)--(0.0,1),linewidth(1.5));
+draw((0.25,0.0)--(0.25,1),linewidth(1.5));
+draw((0.5,0.0)--(0.5,1),linewidth(1.5));
+draw((0.75,0.0)--(0.75,1),linewidth(1.5));
+draw((1.0,0.0)--(1.0,1),linewidth(1.5));
+
+fill(circle((0.0,0.0), 0.03), black);
+fill(circle((0.25,0.0), 0.03), black);
+fill(circle((0.5,0.0), 0.03), black);
+fill(circle((0.75,0.0), 0.03), black);
+fill(circle((1.0,0.0), 0.03), black);
+fill(circle((0.0,0.25), 0.03), black);
+fill(circle((0.25,0.25), 0.03), black);
+fill(circle((0.5,0.25), 0.03), black);
+fill(circle((0.75,0.25), 0.03), black);
+fill(circle((1.0,0.25), 0.03), black);
+fill(circle((0.0,0.5), 0.03), black);
+fill(circle((0.25,0.5), 0.03), black);
+fill(circle((0.5,0.5), 0.03), black);
+fill(circle((0.75,0.5), 0.03), black);
+fill(circle((1.0,0.5), 0.03), black);
+fill(circle((0.0,0.75), 0.03), black);
+fill(circle((0.25,0.75), 0.03), black);
+fill(circle((0.5,0.75), 0.03), black);
+fill(circle((0.75,0.75), 0.03), black);
+fill(circle((1.0,0.75), 0.03), black);
+fill(circle((0.0,1.0), 0.03), black);
+fill(circle((0.25,1.0), 0.03), black);
+fill(circle((0.5,1.0), 0.03), black);
+fill(circle((0.75,1.0), 0.03), black);
+fill(circle((1.0,1.0), 0.03), black);
+
+fill(circle((0.0,0.0), 0.04), blue+opacity(0.5));
+fill(circle((0.33,0.0), 0.04), blue+opacity(0.5));
+fill(circle((0.66,0.0), 0.04), blue+opacity(0.5));
+fill(circle((1.0,0.0), 0.04), blue+opacity(0.5));
+fill(circle((0.0,0.5), 0.04), blue+opacity(0.5));
+fill(circle((0.33,0.5), 0.04), blue+opacity(0.5));
+fill(circle((0.66,0.5), 0.04), blue+opacity(0.5));
+fill(circle((1.0,0.5), 0.04), blue+opacity(0.5));
+fill(circle((0.0,1.0), 0.04), blue+opacity(0.5));
+fill(circle((0.33,1.0), 0.04), blue+opacity(0.5));
+fill(circle((0.66,1.0), 0.04), blue+opacity(0.5));
+fill(circle((1.0,1.0), 0.04), blue+opacity(0.5));
+
+// real size = 0.025;
+// draw(shift(0.0, 0.0) * scale(size) * ((-1,-1)--(1,1)), fuchsia+linewidth(4));
+// draw(shift(0.0, 0.0) * scale(size) * ((-1,1)--(1,-1)), fuchsia+linewidth(4));
+// draw(shift(1.0, 0.0) * scale(size) * ((-1,-1)--(1,1)), fuchsia+linewidth(4));
+// draw(shift(1.0, 0.0) * scale(size) * ((-1,1)--(1,-1)), fuchsia+linewidth(4));
+// draw(shift(1.0, 1.0) * scale(size) * ((-1,-1)--(1,1)), fuchsia+linewidth(4));
+// draw(shift(1.0, 1.0) * scale(size) * ((-1,1)--(1,-1)), fuchsia+linewidth(4));
+// draw(shift(0.0, 1.0) * scale(size) * ((-1,-1)--(1,1)), fuchsia+linewidth(4));
+// draw(shift(0.0, 1.0) * scale(size) * ((-1,1)--(1,-1)), fuchsia+linewidth(4));

@@ -1,0 +1,70 @@
+@article{belytschko1994,
+  title = {Element-free {{Galerkin}} Methods},
+  author = {Belytschko, T. and Lu, Y. Y. and Gu, L.},
+  year = {1994},
+  journal = {International Journal for Numerical Methods in Engineering},
+  volume = {37},
+  number = {2},
+  pages = {229--256},
+  issn = {10970207},
+  abstract = {An element-free Galerkin method which is applicable to arbitrary shapes but requires only nodal data is applied to elasticity and heat conduction problems. In this method, moving least-squares interpolants are used to construct the trial and test functions for the variational principle (weak form); the dependent variable and its gradient are continuous in the entire domain. In contrast to an earlier formulation by Nayroles and coworkers, certain key differences are introduced in the implementation to increase its accuracy. The numerical examples in this paper show that with these modifications, the method does not exhibit any volumetric locking, the rate of convergence can exceed that of finite elements significantly and a high resolution of localized steep gradients can be achieved. The moving least-squares interpolants and the choices of the weight function are also discussed in this paper.},
+  langid = {english},
+  keywords = {oft-cited},
+  file = {/Users/wujunchao/Zotero/storage/9XCJP7JT/Belytschko, Lu, Gu - 1994 - Element‐free Galerkin methods.pdf}
+}
+
+@article{chen2001,
+  title = {A Stabilized Conforming Nodal Integration for {{Galerkin}} Mesh-Free Methods},
+  author = {Chen, Jiun Shyan and Wu, Cheng Tang and Yoon, Sangpil and You, Yang},
+  year = {2001},
+  month = jan,
+  journal = {International Journal for Numerical Methods in Engineering},
+  volume = {50},
+  number = {2},
+  pages = {435--466},
+  issn = {0029-5981},
+  abstract = {Domain integration by Gauss quadrature in the Galerkin mesh-free methods adds considerable complexity to solution procedures. Direct nodal integration, on the other hand, leads to a numerical instability due to under integration and vanishing derivatives of shape functions at the nodes. A strain smoothing stabilization for nodal integration is proposed to eliminate spatial instability in nodal integration. For convergence, an integration constraint (IC) is introduced as a necessary condition for a linear exactness in the mesh-free Galerkin approximation. The gradient matrix of strain smoothing is shown to satisfy IC using a divergence theorem. No numerical control parameter is involved in the proposed strain smoothing stabilization. The numerical results show that the accuracy and convergent rates in the mesh-free method with a direct nodal integration are improved considerably by the proposed stabilized conforming nodal integration method. It is also demonstrated that the Gauss integration method fails to meet IC in mesh-free discretization. For this reason the proposed method provides even better accuracy than Gauss integration for Galerkin mesh-free method as presented in several numerical examples. Copyright (C) 2001 John Wiley \& Sons, Ltd.},
+  langid = {english},
+  keywords = {oft-cited,significant},
+  file = {/Users/wujunchao/Zotero/storage/B6U5NIAJ/Chen et al. - 2001 - A stabilized conforming nodal integration for Gale.pdf}
+}
+
+@article{wang2016a,
+  title = {An Efficient Nesting Sub-Domain Gradient Smoothing Integration Algorithm with Quadratic Exactness for {{Galerkin}} Meshfree Methods},
+  author = {Wang, Dongdong and Wu, Junchao},
+  year = {2016},
+  journal = {Computer Methods in Applied Mechanics and Engineering},
+  volume = {298},
+  pages = {485--519},
+  issn = {00457825},
+  abstract = {An efficient nesting sub-domain gradient smoothing integration algorithm is proposed for Galerkin meshfree methods with particular reference to the quadratic exactness. This approach is consistently built upon the smoothed gradients of meshfree shape functions defined on two-level nesting triangular sub-domains, where each integration cell consists of four equal-area nesting sub-domains. First, a rational measure is designed to evaluate the error of the gradient smoothing integration for the stiffness matrix. Thereafter through a detailed analysis of the gradient smoothing integration errors associated with the two-level nesting triangular sub-domains, a quadratically exact algorithm for the stiffness matrix integration is established through optimally combining the contributions from the two-level nesting sub-domains. Meanwhile, the integration of force terms consistent with the stiffness integration is presented in order to ensure exact quadratic solutions within the Galerkin formulation. It is noted that the proposed approach with quadratic exactness shares the same foundation as the well-established stabilized conforming nodal integration method with linear exactness, i.e., the smoothed derivatives of meshfree shape functions are directly built upon the values of meshfree shape functions on the boundary of the integration cells and the time consuming derivative computations are completely avoided. Moreover, the present formulation has even less integration sampling points than the four point Gauss integration. Numerical examples show very favorable performance regarding the accuracy and efficiency for the proposed approach.},
+  file = {/Users/wujunchao/Zotero/storage/2P5CNTZP/Wang and Wu - 2016 - An efficient nesting sub-domain gradient smoothing.pdf}
+}
+
+@article{wang2019,
+  title = {An Inherently Consistent Reproducing Kernel Gradient Smoothing Framework toward Efficient {{Galerkin}} Meshfree Formulation with Explicit Quadrature},
+  author = {Wang, Dongdong and Wu, Junchao},
+  year = {2019},
+  month = jun,
+  journal = {Computer Methods in Applied Mechanics and Engineering},
+  volume = {349},
+  pages = {628--672},
+  issn = {00457825},
+  abstract = {A reproducing kernel gradient smoothing framework with explicit quadrature rules is proposed for efficient Galerkin meshfree formulation. In this framework, the meshfree smoothed gradients are formulated via a reproducing kernel representation of the standard gradients of field variables. It is interesting to find that this reproducing kernel construction of smoothed gradients of meshfree shape functions enables an identical satisfaction of the integration constraint derived from Galerkin meshfree formulation. In other words, the integration consistency is an inherent property of the proposed reproducing kernel gradient smoothing methodology regardless of integration schemes. Consequently, without violation of the integration constraint, the conventional normal low order Gauss quadrature rules in finite element analysis now can be used to properly integrate the meshfree stiffness matrix simply through replacing the standard meshfree gradients with the reproducing kernel smoothed gradients at Gauss points. In order to efficiently compute the reproducing kernel smoothed gradients, a set of explicit quadrature rules referring to 2D triangular and 3D tetrahedral integration cells are systematically developed. The total number of sample points associated with these quadrature rules is minimized from a global point of view through introducing an equivalent number of sample points, which implies as many as sample points are shared by neighboring integration cells. The proposed methodology recovers the stabilized conforming nodal integration when linear basis function is employed, while the focus of the present work is multidimensional higher order basis functions such as quadratic and cubic ones. Superior convergence, accuracy as well as efficiency performances of the proposed reproducing kernel gradient smoothing framework are thoroughly demonstrated by a series of numerical examples.},
+  file = {/Users/wujc/note/? Inbox/➤wang2019inherently-zotero.md;/Users/wujunchao/Zotero/storage/Q727SHD6/Wang and Wu - 2019 - An inherently consistent reproducing kernel gradie.pdf}
+}
+
+@article{wu2021,
+  title = {An Accuracy Analysis of {{Galerkin}} Meshfree Methods Accounting for Numerical Integration},
+  author = {Wu, Junchao and Wang, Dongdong},
+  year = {2021},
+  month = mar,
+  journal = {Computer Methods in Applied Mechanics and Engineering},
+  volume = {375},
+  pages = {113631},
+  issn = {0045-7825},
+  urldate = {2020-12-28},
+  abstract = {Presently, it has been widely recognized that numerical integration plays a crucial role on the solution accuracy of Galerkin meshfree methods due to the rational nature of meshfree shape functions and the misalignment of shape function supports with integration cells. Nonetheless, the corresponding underlying cause is still not quite clear. To address this issue, an accuracy analysis of Galerkin meshfree methods is presented in this study with a special focus on the contribution of numerical integration to the error estimates. One important fact is that the integration difficulty of meshfree methods leads to a loss of the Galerkin orthogonality condition which usually serves as a basis to develop error bounds. In order to enable the accuracy analysis, an error measure is proposed to evaluate the loss of Galerkin orthogonality condition, which is actually related to the order of integration consistency for Galerkin meshfree formulation. With the aid of this orthogonality error measure, both H1 and L2 error estimates are established for Galerkin meshfree methods. It turns out that these errors essentially consist of two parts, one comes from the standard interpolation error, and the other one attributes to the numerical integration error. In accordance with the proposed error estimates, it is evident that for the conventional Gauss integration schemes violating the integration consistency, the solution errors eventually are controlled by the integration error and optimal convergence cannot be achieved even with high order quadrature rules. On the other hand, for the consistent integration approaches, e.g., the stabilized conforming nodal integration and the more recent reproducing kernel gradient smoothing integration, the integration and interpolation errors have the same accuracy order and thus an optimal convergence of Galerkin meshfree methods is ensured. The proposed theoretical error estimates for Galerkin meshfree methods are well demonstrated by numerical results.},
+  langid = {english},
+  file = {/Users/wujc/note/? Inbox/➤ wu2021accuracy-zotero.md;/Users/wujunchao/Zotero/storage/67TRTBVZ/Wu and Wang - 2021 - An accuracy analysis of Galerkin meshfree methods .pdf}
+}
