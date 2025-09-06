@@ -29,6 +29,25 @@ And correspondingly, the stress components are evaluated by
 \caption{Illustration of cantilever beam problem}\label{fg:cantilever_model}
 \end{figure}
 
+FIXME: check the tri min cell number.
+\begin{figure}[!hp]
+\centering
+\begin{subcaptiongroup}
+\begin{tabular}{c@{\hspace{0pt}}c}
+$\Vert \boldsymbol{u} - \boldsymbol{u}_h \Vert_V$ & $\Vert p - p_h \Vert_Q$ \\
+\raisebox{-0.8\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_Hdev_4.png}}
+& \raisebox{-0.8\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_L2_p_4.png}} \\
+\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_Hdev_8.png}}
+& \raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_L2_p_8.png}} \\
+\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_Hdev_16.png}}
+& \raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_L2_p_16.png}} \\
+\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_Hdev_32.png}}
+ & \raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_L2_p_32.png}} \\
+\end{tabular}
+\end{subcaptiongroup}
+\caption{Strain and pressure errors vs. $n_p$ for cantilever beam problem}\label{fg:cantilever_tri_ns}
+\end{figure}
+
 \begin{figure}[!hp]
 \centering
 \begin{subcaptiongroup}

@@ -1,8 +1,8 @@
 \section{Mixed FE--meshfree formulation with optimal constraint ratio}
 
-In the proposed mixed--formulation, the displacement is approximated using 3--node (Tri3), 6--node (Tri6) triangular elements and 4--node (Quad4), 8-node (Quad8) quadrilateral elements in 2D, 4--node (Tet4) tetrahedral element and 8--node (Hex8) hexahedral element in 3D \cite{hughes2000}. In order to flexibly adjust to let the DOFs of pressure meet the optimal constraint, the reproducing kernel meshfree approximation is involved to approximate pressure.
+In the proposed mixed--formulation, the displacement is approximated using 3--node (Tri3), 6--node (Tri6) triangular elements and 4--node (Quad4), 8-node (Quad8) quadrilateral elements in 2D, 4--node (Tet4) tetrahedral element and 8--node (Hex8) hexahedral element in 3D \cite{hughes2000}. In order to flexibly adjust to let the DOFs of pressure meet the optimal constraint, the reproducing kernel (RK) meshfree approximation is involved to approximate pressure, namely ``FE''-RK formulation.
 
-\subsection{Reproducing kernel meshfree approximation}
+\subsection{Reproducing kernel meshfree approximation}\label{subsec:rk_approximation}
 
 In accordance with the reproducing kernel approximation, the entire domain $\Omega$, as shown in Figure \ref{fg:rk_approximation}, is discretized by $n_p$ meshfree nodes, $\{\boldsymbol{x}_I\}_{I=1}^{n_p}$. The approximated pressure, namely $p_h$, can be expressed by the shape function $\Psi_I$ and nodal coefficient $p_I$, yields:
 \begin{equation}
@@ -62,7 +62,34 @@ Moreover,
 when combined with finite element approximations in Eq. \ref{ritz_Galerkin},
 numerical integration can be conveniently performed within each finite element ($\Omega_C$'s).
 The numerical integration issue caused by the loss of variational consistency between meshfree shape functions and their derivatives \cite{wu2021} would not appear in the mixed formulation of Eq. \ref{ritz_Galerkin}, this is due to the fact that Eq. \ref{ritz_Galerkin} solely depends on the meshfree shape functions themselves.
-Therefore, the proposed method employs standard lower-order Gaussian quadrature rules, as commonly used in traditional finite element methods, while still maintaining its accuracy.
+Therefore, the proposed method employs standard lower-order Gaussian quadrature rules,
+as commonly used in traditional finite element methods,
+while still maintaining its accuracy.
+Table \ref{tab_gauss} lists the integration schemes used in this work for mixed-formulations.
+Methods with linear basis functions use an integration scheme of order 2.
+Those with quadratic basis functions use a scheme of order 4.
+The detailed locations and weights of the Gauss points can be found in Ref. \cite{bathe1996}.
+
+\begin{table}[H]
+\centering
+\caption{Integration schemes for the mixed FE--meshfree formulation}
+\label{tab_gauss}
+\begin{tabular}{cccc}
+\toprule
+Methods & $n_o$ &$n_g$ for $\Omega$ & $n_g$ for $\Gamma$ \\
+\midrule
+Tri3-RK & 2 & 3 & 2 \\
+Tri6-RK & 4 & 6 & 3 \\
+Quad4-RK & 2 & $2\times2$ & 2 \\
+Quad8-RK & 4 & $3\times3$ & 3 \\
+Tet4-RK & 2 & 4 & 3 \\
+Hex8-RK & 2 & $2\times2\times2$ & 4 \\
+\multicolumn{4}{l}{\footnotesize{$n_o$: Integration Order\quad $n_g$: Number of integration points}} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
 
 \begin{figure}[H]
 \centering

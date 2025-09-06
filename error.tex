@@ -1,105 +1,128 @@
 \section{Error estimator for mixed--formulation}
-In this appendix, the traditional error estimators for mixed-formulation are illustrated herein, the proof is referred to \cite{brenner2008}. The weak formula for mixed-formulation is given by:
-find $u_h \in V_h, p_h \in Q_h$,
-\begin{equation}\label{ap:weak}
-\begin{split}
-    a(v_h,u_h) + b(v_h,p_h) &= f(v_h), \quad \forall v_h \in V_h \\
-    b(u_h,q_h) &= g(q_h), \quad \forall q_h \in Q_h
-\end{split}
-\end{equation}
-The error estimator of Eq. \eqref{ap:weak} is presented under two cases, $g(q_h)=0$ or $g(q_h) \ne 0$ for all $q_h \in Q_h$.
-
-For $g(q_h)=0$, the variational problem \eqref{ap:weak} becomes to the following equivalent one: find $u_h \in Z^0_h$,
-\begin{equation}
-u_h \in Z^0_h \quad a(v_h,u_h) = f(v_h), \quad \forall v_h \in Z^0_h
-\end{equation}
-where $Z^0_h = \ker P_h \subset V_h$. The bilinear form $a$ covers the continuity, coercivity and orthogonality on space $Z^0_h$, thus the following Céa inequality \cite{brenner2008} should be held true:
-\begin{equation}\label{ap:cea}
-\Vert u-u_h \Vert_V \le \frac{C}{\alpha} \inf_{w_h \in Z^0_h}\Vert u-w_h \Vert_V
-\end{equation}
-
-Furthermore, suppose $v_h \in V_h$ to satisfy that:
-\begin{equation}
-\inf_{q_h \in Q_h} \frac{b(w_h-v_h,q_h)}{\Vert w_h-v_h \Vert_V \Vert q_h \Vert_Q} =
-\inf_{q_h \in Q_h} \sup_{v'_h \in V_h} \frac{b(v'_h,q_h)}{\Vert v'_h \Vert_V \Vert q_h \Vert_Q} = \beta
-\end{equation}
-or
-\begin{equation}\label{ap:infsupvalue}
-\Vert w_h-v_h \Vert_V =\frac{1}{\beta} \inf_{q_h \in Q_h} \frac{b(w_h-v_h,q_h)}{\Vert q_h \Vert_Q}
-\end{equation}
-According to $u, w_h\in Z^0_h$ leads to following orthogonality for $b$:
-\begin{equation}\label{ap:orthogonality}
-b(u-w_h,q_h) = 0 ,\quad \forall q_h \in Q_h
-\end{equation}
-Thus, with the combination of Eqs. \eqref{ap:infsupvalue}, \eqref{ap:orthogonality} and continuity of $b$ yields:
-\begin{equation}\label{ap:r3}
+In this appendix, the traditional error estimators for mixed-formulation are illustrated herein, the proof is referred to \cite{brenner2008}.
+For incompressible elasticity problems, i.e. $\kappa\rightarrow\infty$, $c(q,p)=0$, the weak formula of Eq. \eqref{ritz_Galerkin} is rewritten as:
+Find $\boldsymbol u_h \in V_h, p_h \in Q_h$,
+\begin{equation}\label{weak_form_1}
 \begin{aligned}
-    \Vert v_h - w_h \Vert_V &=\frac{1}{\beta} \inf_{q_h \in Q_h} \frac{b(w_h-v_h,q_h)}{\Vert q_h \Vert_Q} & \textrm{(Eq.}\eqref{ap:infsupvalue} \textrm{)} \\
-    &=\frac{1}{\beta} \inf_{q_h \in Q_h} \frac{b(w_h-v_h,q_h) + b(u-w_h,q_h)}{\Vert q_h \Vert_Q} & \textrm{(orthogonality)}\\
-&=\frac{1}{\beta}\inf_{q_h \in Q_h} \frac{b(u-v_h,q_h)}{\Vert q_h \Vert_Q} & \\
-&\le\frac{C}{\beta} \Vert u-v_h \Vert_V & \textrm{(continuity)}
+    a(\boldsymbol v_h,\boldsymbol u_h) + b(\boldsymbol v_h,p_h) &= f(\boldsymbol v_h), \quad &\forall \boldsymbol v_h \in V_h \\
+    b(\boldsymbol u_h,q_h) &= 0, \quad &\forall q_h \in Q_h
 \end{aligned}
 \end{equation}
-then
-\begin{equation}\label{ap:estimatorwh}
-    \Vert u-w_h \Vert_V \le \Vert u-v_h \Vert_V + \Vert v_h-w_h \Vert_V \le (1+\frac{C}{\beta})\Vert u-v_h \Vert_V 
+According to the definition of bilinear form $b$ in Eq. \eqref{form_b},
+for a $\boldsymbol u_h \in \ker \mathcal P_h$, then the second equation of Eq. \eqref{weak_form_1} is naturally satisfied. Thus, 
+the above weak formulation can be equivalently splited into the following two steps: Firstly, 
+find $\boldsymbol u_h \in \ker \mathcal P_h$,
+\begin{equation} \label{weak_form_2}
+a(\boldsymbol v_h,\boldsymbol u_h) = f(\boldsymbol v_h), \quad \forall \boldsymbol v_h \in \ker \mathcal P_h
+\end{equation}
+After determine $\boldsymbol u_h$, then find $p_h \in Q_h$,
+\begin{equation}\label{weak_form_3}
+b(\boldsymbol v_h, p_h) = f(\boldsymbol v_h) - a(\boldsymbol v_h, \boldsymbol u_h), \quad \forall \boldsymbol v_h \in V_h
 \end{equation}
 
-Finally, plugging Eq. \eqref{ap:estimatorwh} into Eq. \eqref{ap:cea}, the error estimator for the case of $g(q_h)=0, \; \forall q_h \in Q_h$ turns to that:
-\begin{equation}\label{ap:estimator1}
-\Vert u-u_h \Vert_V \le \frac{C}{\alpha} \inf_{w_h \in Z_h}\Vert u-w_h \Vert_V\le \frac{C}{\alpha} (1+\frac{C}{\beta}) \inf_{v_h \in V_h} \Vert u-v_h \Vert_V
+To further analyze the error of mixed-formulation, the following properties of bilinear forms $a$ and $b$ should be defined \cite{brenner2008}:
+\begin{itemize}
+\item \textbf{Continuity:}    
+\begin{align}
+a(\boldsymbol v, \boldsymbol u) \le C_a \Vert \boldsymbol v \Vert_V \Vert \boldsymbol u \Vert_V, &\quad \forall \boldsymbol v, \boldsymbol u \in V \label{continuity_1} \\    
+b(\boldsymbol v, q) \le C_b \Vert \boldsymbol v \Vert_V \Vert q \Vert_Q, &\quad \forall \boldsymbol v \in V, \; \forall q \in Q \label{continuity_2}
+\end{align}
+\item \textbf{Coercivity:}
+\begin{equation}\label{coercivity}
+% a(\boldsymbol v, \boldsymbol v) \ge \alpha \Vert \boldsymbol v \Vert^2_V, \quad \forall \boldsymbol v \in V
+\Vert \boldsymbol v \Vert_V \le \frac{1}{\alpha} \sup_{\boldsymbol w \in V} \frac{\vert a(\boldsymbol v, \boldsymbol w) \vert}{\Vert \boldsymbol w \Vert_V}, \quad \forall \boldsymbol v \in V
 \end{equation}
+\item \textbf{Inf-sup condition:}
+\begin{equation}\label{inf-sup}
+\Vert q \Vert_Q \le \frac{1}{\beta} \sup_{\boldsymbol v \in V} \frac{\vert b(\boldsymbol v, q) \vert}{\Vert \boldsymbol v \Vert_V}, \quad \forall q \in Q
+\end{equation}
+\end{itemize}
+where $C_a$ and $C_b$ are positive constants independent of mesh size $h$. 
+$\alpha$ and $\beta$ are the coercivity and inf-sup constants, respectively, which will infulence the accuracy of mixed-formulation.
 
-For the problem with $g(q)\ne0,\; \forall q \in Q$, the $u_h$ can be split into two parts, $u_h=u^0_h + u^g_h$, where $u^0_h \in Z^0_h$ \cite{arnold1987}. Now, the problem of variational problem becomes the following equivalent form: find $u^0_h \in Z^0_h$,
-\begin{equation} \label{ap:r2}
-\quad a(v_h,u^0_h) = f(v_h) - a(v_h,u^g_h), \quad \forall v_h \in Z^0_h
-\end{equation}
-
-Under this circumstance, it obviously has the following relationship:
-\begin{equation}
-b(u^0_h,q_h) = b(u_h-u^g_h,q_h) = 0 \Rightarrow
-b(u_h,q_h) = b(u^g_h,q_h) = g(q_h), \quad \forall q_h \in Q_h
-\end{equation}
-and then $u_h, u^g_h \in Z_h$. For a result, the coercivity for bilinear form turns to that:
-\begin{equation}
-\alpha \Vert v_h \Vert_V \le \sup_{w_h \in Z^0_h} \frac{a(v_h,w_h)}{\Vert w_h \Vert_V}, \quad \forall v_h \in Z_h
-\end{equation}
-As $Z^0_h \nsubseteq Z_h$, the orthogonality and Céa inequality is no longer held true, the error estimator is bounded by the following \cite{brenner2008}:
-\begin{equation}\label{ap:r4}
-\Vert u-u_h \Vert_V \le (1+\frac{C}{\alpha}) \inf_{w_h \in Z_h}\Vert u-w_h \Vert_V + \frac{1}{\alpha}\sup_{w^0_h \in Z^0_h} \frac{\vert a(u-u_h,w^0_h) \vert}{\Vert w^0_h \Vert_V}
-\end{equation}
-
-Since $Z^0_h \subset V_h$, 
-\begin{equation} \label{ap:r1}
-    a(w^0_h,u) + b(w^0_h,p) = f(w^0_h),\quad \forall w^0_h \in Z^0_h 
-\end{equation}
-With a subtraction between Eq. \eqref{ap:r1} and Eq. \eqref{ap:r2} and the definition of space $Z^0_h$, we have:
-\begin{equation}
-    a(w^0_h,u-u_h) + b(w^0_h,p-q_h) = 0,\quad \forall w^0_h \in Z^0_h,\; \forall q_h \in Q_h
-\end{equation}
-thus,
-\begin{equation}\label{ap:r5}
-\vert a(u-u_h,w^0_h)\vert = \vert b(w^0_h,p-q_h)\vert \le C \Vert p-q_h \Vert_Q \Vert w^0_h \Vert_V,\quad \forall w^0_h \in Z^0_h
-\end{equation}
-
-Moreover, for $w_h \in Z^g_h$, let $v_h\in V_h$ satisfies that:
-\begin{equation}
-    \Vert w_h-v_h \Vert_V =\frac{1}{\beta} \inf_{q_h \in Q_h} \frac{b(w_h-v_h,q_h)}{\Vert q_h \Vert_Q}
-\end{equation}
-Following the same path of Eq. \eqref{ap:r3} can obtain that:
-\begin{equation}
-\Vert v_h-w_h \Vert_V \le\frac{C}{\beta} \Vert u-v_h \Vert_V
-\end{equation}
-Thus, for $w_h \in Z_h$,
-\begin{equation}\label{ap:r6}
-\Vert u-w_h \Vert_V \le \Vert u-v_h \Vert_V + \Vert v_h-w_h \Vert_V \le (1+\frac{C}{\beta})\Vert u-v_h \Vert_V
-\end{equation}
-Consequently, subsituting Eqs. \eqref{ap:r5}, \eqref{ap:r6} into Eq. \eqref{ap:r4} leads to:
-\begin{equation}\label{ap:estimator2}
+For the error of displacement, the Céa's Theorem used for the error analysis of traditional Galerkin formulation is not always valid for mixed-formulation.
+This is because most of mixed-formulation can not ensure $\ker \mathcal P_h \subset \ker \mathcal P$ to maintance the orthogonality of bilinear form $a$ that is required in the proof of Céa's Theorem.
+So we first introduce the following error estimator for displacement in the case of $\ker \mathcal P_h \not\subset \ker \mathcal P$.
+For any $\boldsymbol v_h \in \ker \mathcal P_h$, considering the triangle inequality, the coercivity in Eq. \eqref{coercivity} and the continuity in Eq. \eqref{continuity_1}, we have:
+\begin{equation}\label{u_estimator_1}
 \begin{split}
-\Vert u-u_h \Vert_V &\le (1+\frac{C}{\alpha}) \inf_{w_h \in Z_h}\Vert u-w_h \Vert_V + \frac{1}{\alpha}\sup_{w^0_h \in Z^0_h} \frac{\vert a(u-u_h,w^0_h) \vert}{\Vert w^0_h \Vert_V} \\
-&\le(1+\frac{C}{\alpha})(1+\frac{C}{\beta}) \inf_{v_h \in V_h} \Vert u-v_h \Vert_V +\frac{C}{\alpha} \inf_{q_h \in Q_h} \Vert p-q_h \Vert_Q
+\Vert \boldsymbol u- \boldsymbol u_{h}\Vert_{V} &\le \Vert \boldsymbol u-\boldsymbol v_{h}\Vert_{V} + \Vert \boldsymbol v_{h}-\boldsymbol u_{h}\Vert_{V} \\
+&\le \Vert \boldsymbol u-\boldsymbol v_{h}\Vert_{V} + \frac{1}{\alpha} \sup_{\boldsymbol w_{h}\in \ker \mathcal P_{h}}\frac{\vert a(\boldsymbol v_{h}-\boldsymbol u_{h}, \boldsymbol w_{h})\vert}{\Vert \boldsymbol w_{h}\Vert_{V}} \\
+&\le \Vert \boldsymbol u-\boldsymbol v_{h}\Vert_{V} + \frac{1}{\alpha} \sup_{\boldsymbol w_{h}\in \ker \mathcal P_{h}}\frac{\vert a(\boldsymbol v_{h}-\boldsymbol u, \boldsymbol w_{h})\vert + \vert a(\boldsymbol u-\boldsymbol u_{h}, \boldsymbol w_{h})\vert}{\Vert \boldsymbol w_{h}\Vert_{V}} \\
+&\le (1+\frac{C}{\alpha})\Vert \boldsymbol u-\boldsymbol v_{h} \Vert_{V} + \frac{1}{\alpha}\sup_{\boldsymbol w_{h}\in \ker \mathcal P_{h}}\frac{\vert a(\boldsymbol u-\boldsymbol u_{h}, \boldsymbol w_{h})\vert}{\Vert \boldsymbol w_{h}\Vert_{V}}
+\end{split} 
+\end{equation}
+According to Eqs. \eqref{weak_form_2}, \eqref{weak_form_3} and continuity in Eq. \eqref{continuity_2}, the second term on the right hand side of above equation can be rewritten as:
+\begin{equation}\label{u_estimator_2}
+\begin{split}
+\sup_{\boldsymbol w_h \in \ker \mathcal P_h} \frac{\vert a(\boldsymbol u-\boldsymbol u_{h},\boldsymbol w_{h})\vert}{\Vert \boldsymbol w_h \Vert_V} &= 
+\sup_{\boldsymbol w_h \in \ker \mathcal P_h} \frac{\vert a(\boldsymbol u,\boldsymbol w_{h}) - f(\boldsymbol w_{h})\vert}{\Vert \boldsymbol w_h \Vert_V} \\
+&= \sup_{\boldsymbol w_h \in \ker \mathcal P_h} \frac{\vert b(\boldsymbol w_{h},p)\vert}{\Vert \boldsymbol w_h\Vert_V} \\
+&= \sup_{\boldsymbol w_h \in \ker \mathcal P_h} \frac{\vert b(\boldsymbol w_{h},p-q_{h})\vert}{\Vert \boldsymbol w_h\Vert_V} \\
+&\le C_b \Vert p - q_h \Vert_Q
 \end{split}
 \end{equation}
+where $q_h$ is an arbitrary variable in $Q_h$.
+Combining the Eqs. \eqref{u_estimator_1} and \eqref{u_estimator_2}, the following error estimator for displacement can be obtained:
+\begin{equation}\label{u_estimator}
+\Vert \boldsymbol u - \boldsymbol u_h \Vert_V \le (1+\frac{C_a}{\alpha}) \inf_{\boldsymbol v_h \in \ker \mathcal P_h} \Vert \boldsymbol u - \boldsymbol v_h \Vert_V + \frac{C_b}{\alpha} \inf_{q_h \in Q_h} \Vert p - q_h \Vert_Q
+\end{equation}
 
+Furthermore, for the error estimator of pressure, according to the first equation of Eq. \eqref{weak_form} and $V_h \subset V$, we have:
+\begin{equation}\label{p_estimator_1}
+b(\boldsymbol v_h, p) = f(\boldsymbol v_h) - a(\boldsymbol v_h, \boldsymbol u), \quad \forall \boldsymbol v_h \in V_h
+\end{equation}
+and then subtracting Eq. \eqref{p_estimator_1} from Eq. \eqref{weak_form_3} yields:
+\begin{equation}\label{p_estimator_2}
+b(\boldsymbol v_h, p - p_h) = -a(\boldsymbol v_h, \boldsymbol u - \boldsymbol u_h), \quad \forall \boldsymbol v_h \in V_h
+\end{equation}
+In this context, for any $q_h \in Q_h$, invoking the triangle inequality, Eqs. \eqref{inf-sup} and \eqref{continuity_2} leads to:
+\begin{equation}\label{p_estimator_3}
+\begin{split}
+\Vert p-p_{h}\Vert_{Q} &\le \Vert p - q_{h} \Vert_{Q} + \Vert q_{h}-p_{h}\Vert_{Q} \\
+&\le \Vert p-q_{h}\Vert_{Q} + \frac{1}{\beta}\sup_{\boldsymbol v\in V_{h}} \frac{\vert b(\boldsymbol v_{h},q_{h}-p_{h})\vert}{\Vert \boldsymbol v_{h}\Vert_{V}} \\
+&\le \Vert p-q_{h}\Vert_{Q} + \frac{1}{\beta}\sup_{\boldsymbol v\in V_{h}} \frac{\vert a(\boldsymbol v_{h},\boldsymbol u-\boldsymbol u_{h})\vert + \vert b(\boldsymbol v_{h},p-q_{h})\vert}{\Vert \boldsymbol v_{h}\Vert_{V}} \\
+&\le \frac{C_a}{\beta} \Vert \boldsymbol u-\boldsymbol u_{h} \Vert_{V} + (1+\frac{C_b}{\beta}) \Vert p - q_{h} \Vert_{Q}
+\end{split}
+\end{equation}
+Consequently, the error estimator for pressure can be given by:
+\begin{equation}\label{p_estimator}
+\Vert p-p_{h}\Vert_{Q} \le 
+\frac{C_a}{\beta} \Vert \boldsymbol u - \boldsymbol u_h \Vert_V + (1+\frac{C_b}{\beta}) \inf_{q_h \in Q_h} \Vert p - q_h \Vert_Q
+\end{equation}
+
+Obviously,  
+the error estimators of Eqs. \eqref{u_estimator} and \eqref{p_estimator} are both related to the coercivity constant $\alpha$, inf-sup constant $\beta$ and the approximability of spaces $\ker \mathcal P_h$, $Q_h$, in which the approximability is usually meansured by the interpolation error of approximation method.
+However, the approximability of space $\ker \mathcal P_h$ is not trivil to be evaluated directly.
+To further evaluate the approximability of space $\ker \mathcal P_h$, let a variable $\boldsymbol w_h \in V_h \setminus \ker \mathcal P_h$ to satisfied the following relationship:
+
+\begin{equation}
+\inf_{\bar{\boldsymbol v}_h \in \ker \mathcal P_h} \Vert \boldsymbol u - (\bar{\boldsymbol v}_h+\boldsymbol w_h) \Vert_V = \inf_{\boldsymbol v_h \in V_h} \Vert \boldsymbol u - \boldsymbol v_h \Vert_V
+\end{equation}
+such that the approximability of space $\ker \mathcal P_h$ can be transformed to that of space $V_h$ that is easy to be measured.
+If $\boldsymbol w_h = \boldsymbol 0$, $\ker \mathcal P_h$ has the identical approximability with $V_h$:
+\begin{equation}
+\inf_{\bar{\boldsymbol v}_h \in \ker \mathcal P_h} \Vert \boldsymbol u - \bar{\boldsymbol v}_h \Vert_V = \inf_{\boldsymbol v_h \in V_h} \Vert \boldsymbol u - \boldsymbol v_h \Vert_V
+\end{equation}
+If $\boldsymbol w_h \neq \boldsymbol 0$, leading a triangle inequality we have:
+\begin{equation}\label{kerp_estimator_1}
+\Vert \boldsymbol u - \bar{\boldsymbol v}_h \Vert_V \le \Vert \boldsymbol u - (\bar{\boldsymbol v}_h+\boldsymbol w_h) \Vert_V + \Vert \boldsymbol w_h \Vert_V
+\end{equation}
+where, reconsidering the Eq. \eqref{r1} in Lemma \ref{lma}, as $\boldsymbol w_h \in V_h \setminus \ker \mathcal P_h$ and $\boldsymbol w_h \neq \boldsymbol 0$, the following relation can be obtained:
+\begin{equation}\label{kerp_estimator_2}
+\Vert \boldsymbol w_h \Vert_V \le \frac{1}{\beta} \Vert \mathcal P_h \boldsymbol w_h \Vert_Q
+\end{equation}
+where, using Eqs. \eqref{norm_Q}, \eqref{forms_bc} and considering $\boldsymbol u \in \ker \mathcal P$, $\bar{\boldsymbol v}_h \in \ker \mathcal P_h$, the right hand side of above equation can further be transformed as follows:
+\begin{equation}\label{kerp_estimator_3}
+\begin{split}
+\Vert \mathcal P_h \boldsymbol w_h \Vert_Q &= \sup_{q_h \in Q_h} \frac{\vert \frac{1}{\kappa}(\mathcal P_h \boldsymbol w_h, q_h)\vert}{\Vert q_h\Vert_Q} 
+= \sup_{q_h \in Q_h} \frac{\vert b(\boldsymbol w_h, q_h)\vert}{\Vert q_h\Vert_Q} \\
+&= \sup_{q_h \in Q_h} \frac{\vert b(\boldsymbol u-(\boldsymbol w_h+\bar{\boldsymbol v}_h), q_h)\vert}{\Vert q_h\Vert_Q} \\
+&\le C_b \Vert \boldsymbol u - (\boldsymbol w_h + \bar{\boldsymbol v}_h) \Vert_V
+\end{split}
+\end{equation}
+With the combination of Eqs. \eqref{kerp_estimator_1}, \eqref{kerp_estimator_2} and \eqref{kerp_estimator_3}, the approximability of $\ker \mathcal P_h$ for the case of $\boldsymbol w_h \ne \boldsymbol 0$ is given by:
+\begin{equation}
+\inf_{\bar{\boldsymbol v}_h \in \ker \mathcal P_h}\Vert \boldsymbol u - \bar{\boldsymbol v}_h \Vert_V \le (1+\frac{C_b}{\beta}) \inf_{\boldsymbol v_h \in V_h} \Vert \boldsymbol u- \boldsymbol v_h \Vert_V
+\end{equation}
 

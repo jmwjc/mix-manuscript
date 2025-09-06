@@ -45,6 +45,7 @@ Q &= \{q \in L^2(\Omega) \mid \textstyle{\int_{\Omega}} q \, d\Omega = 0\}
 where $a: V \times V \rightarrow \mathbb{R}$, $b: V \times Q \rightarrow \mathbb{R}$ and $c: Q \times Q \rightarrow \mathbb{R}$ are bilinear forms, and $f: V \rightarrow \mathbb{R}$ is the linear form. In elasticity problems, they are given by:
 \begin{align}
 a(\boldsymbol{v}, \boldsymbol{u}) &= \int_\Omega \nabla^d \boldsymbol{v} : \nabla^d \boldsymbol{u} \, d\Omega \\
+\label{form_b}
 b(\boldsymbol{v}, q) &= \int_\Omega \nabla \cdot \boldsymbol{v} \, q \, d\Omega \\
 \label{form_c}
 c(q, p) &= -\int_\Omega \frac{1}{3\kappa} q \, p \, d\Omega \\
@@ -70,7 +71,7 @@ b(\boldsymbol{u}_h, q_h) + c(q_h, p_h) &= 0 \quad &\forall q_h \in Q_h
 \end{equation}
 where the spaces $V_h \subseteq V$, $Q_h \subseteq Q$ are defined by:
 \begin{align}
-V_h &= \{\boldsymbol v_h \in (\mathrm{span}\{N_I\}_{I=1}^{n_u})^{n_d} \vert \boldsymbol v^h = \boldsymbol g,\; \mathrm{on} \; \Gamma_g\}
+V_h &= \{\boldsymbol v_h \in (\mathrm{span}\{N_I\}_{I=1}^{n_u})^{n_d} \vert \boldsymbol v_h = \boldsymbol g,\; \mathrm{on} \; \Gamma_g\}
 \\
 Q_h &= \{q_h \in \mathrm{span}\{\Psi_K\}_{K=1}^{n_p} \vert \textstyle \int_{\Omega} q_h d\Omega = 0\}
 \end{align}
@@ -78,7 +79,7 @@ Q_h &= \{q_h \in \mathrm{span}\{\Psi_K\}_{K=1}^{n_p} \vert \textstyle \int_{\Ome
 For nearly incompressible material, the Poisson ratio approaches $0.5$, and the bulk modulus $\kappa$ will tend to infinity based on Eq. \eqref{modulus}. Then, the bilinear form $c$ in Eq. \eqref{form_c} tends to zero. And the weak form of Eq. \eqref{ritz_Galerkin} becomes an enforcement of the volumetric strain $\nabla \cdot \boldsymbol{u}_h$ to be zero using the Lagrangian multiplier method, where $p_h$ is the Lagrangian multiplier.
 
 Furthermore, from the second line of Eq. \eqref{ritz_Galerkin}, we have:
-\begin{equation}
+\begin{equation}\label{forms_bc}
 b(\boldsymbol{u}_h, q_h) + c(q_h, p_h) = (q_h, \nabla \cdot \boldsymbol{u}_h) - (q_h, \frac{1}{3\kappa} p_h) = 0, \quad \forall q_h \in Q_h
 \end{equation}
 or

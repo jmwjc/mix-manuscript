@@ -27,6 +27,11 @@ Authors appreciate careful reading of the manuscript by the reviewers, and are t
 \textbf{Comment 1.} \textit{The authors are right. Since gradients of RK functions are not integrated, this makes the case simpler. However, I'm not convinced "lower-order Gauss quadrature works". Please specify precisely the Gauss quadrature used for each case. Make sure results are independent of Gauss quadrature. (You are still integrating a complicated function with a support that does not conform to the mesh…) Keep increasing the number of Gauss points per element to show that the results are not changing.}
 
 \textbf{Response:} 
+Thanks, the authors have specified the detailed integration schemes used in this work in Table 1 on Page 6 of the revised manuscript, where methods with linear basis functions use an integration scheme of order 2, and those with quadratic basis functions use a scheme of order 4.
+
+Moreover, have added the sensitivity study of integration order in Section 5.2 on Page ....
+The results show that the proposed mixed formulations are not sensitive to the integration order,
+
 
 \textbf{Comment 2.} \textit{Why is the cantilever beam problem solved with Quads and plate with a hole with Tris only? Please show both element types on both problems. The Quads and Tris seem to behave very differently.}
 
