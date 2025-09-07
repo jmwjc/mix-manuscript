@@ -29,13 +29,19 @@ Authors appreciate careful reading of the manuscript by the reviewers, and are t
 \textbf{Response:} 
 Thanks, the authors have specified the detailed integration schemes used in this work in Table 1 on Page 6 of the revised manuscript, where methods with linear basis functions use an integration scheme of order 2, and those with quadratic basis functions use a scheme of order 4.
 
-Moreover, have added the sensitivity study of integration order in Section 5.2 on Page ....
-The results show that the proposed mixed formulations are not sensitive to the integration order,
+Moreover, Section 5.2 also have added the sensitivity study of integration order on Page ....
+The results show that the proposed mixed formulations are not sensitive to the integration order, using the integration scheme of order 2 for triangular elements and order 4 for quadrilateral elements can sufficiently obtain accurate results.
 
 
 \textbf{Comment 2.} \textit{Why is the cantilever beam problem solved with Quads and plate with a hole with Tris only? Please show both element types on both problems. The Quads and Tris seem to behave very differently.}
 
 \textbf{Response:}
+Thanks for reviewer's suggestion. The studies of error convergence and sensitivity to $n_p$ for the cantilever beam problem using triangular elements and the plate with a hole problem using quadrilateral elements have been added in Section 5.1 and Section 5.2 of the revised manuscript, respectively, as shown in Figures.
+The results show that the triangular elements and quadrilateral elements indeed behave differently in terms of sensitivity to $n_p$ and error convergence,
+and we have introduced the error estimators for mixed formulations to explain these different behaviors.
+Overall, the performances of the proposed mixed formulations using triangular elements and quadrilateral elements are consistent with the analysis as .
+The related discussions have also been added in the revised manuscript in Page.
+
 
 \textbf{Comment 3.} \textit{Figure 12: Quadratic Quads error is completely insensitive to the number of constraints used. This makes no sense. In addition, as the number of constraints goes to zero, the errors in the strain and pressure do not increase. Why is that? Aren't you losing incompressibility completely in this limit? There must be some "pathology" with this problem, and this may not be a good example.}
 
@@ -50,7 +56,7 @@ Why is that? Shouldn't you be locking at some point? Tri6, however, seems to beh
 
 \textbf{Response:}
 
-\textit{The compression block problem really comes from large-deformation formulations. For a linear problem is does not make sense to do four levels of loading because the displacement results will just linearly scale with the applied load. So, just one load level is enough, unless the authors are willing to develop a large-deformation formulation... From the results it's not clear if the formulation is converging because no comparison is made to anything. Perhaps a computation using B-Bar or Taylor-Hood can be shown for comparison?}
+\textbf{Comment 5.} \textit{The compression block problem really comes from large-deformation formulations. For a linear problem is does not make sense to do four levels of loading because the displacement results will just linearly scale with the applied load. So, just one load level is enough, unless the authors are willing to develop a large-deformation formulation... From the results it's not clear if the formulation is converging because no comparison is made to anything. Perhaps a computation using B-Bar or Taylor-Hood can be shown for comparison?}
 
 \textbf{Response:} 
 

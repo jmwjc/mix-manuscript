@@ -1,4 +1,4 @@
-\section{Error estimator for mixed--formulation}
+\section{Error estimator for mixed--formulation}\label{error}
 In this appendix, the traditional error estimators for mixed-formulation are illustrated herein, the proof is referred to \cite{brenner2008}.
 For incompressible elasticity problems, i.e. $\kappa\rightarrow\infty$, $c(q,p)=0$, the weak formula of Eq. \eqref{ritz_Galerkin} is rewritten as:
 Find $\boldsymbol u_h \in V_h, p_h \in Q_h$,
@@ -101,7 +101,7 @@ To further evaluate the approximability of space $\ker \mathcal P_h$, let a vari
 \end{equation}
 such that the approximability of space $\ker \mathcal P_h$ can be transformed to that of space $V_h$ that is easy to be measured.
 If $\boldsymbol w_h = \boldsymbol 0$, $\ker \mathcal P_h$ has the identical approximability with $V_h$:
-\begin{equation}
+\begin{equation}\label{interp_error_0}
 \inf_{\bar{\boldsymbol v}_h \in \ker \mathcal P_h} \Vert \boldsymbol u - \bar{\boldsymbol v}_h \Vert_V = \inf_{\boldsymbol v_h \in V_h} \Vert \boldsymbol u - \boldsymbol v_h \Vert_V
 \end{equation}
 If $\boldsymbol w_h \neq \boldsymbol 0$, leading a triangle inequality we have:
@@ -122,7 +122,7 @@ where, using Eqs. \eqref{norm_Q}, \eqref{forms_bc} and considering $\boldsymbol 
 \end{split}
 \end{equation}
 With the combination of Eqs. \eqref{kerp_estimator_1}, \eqref{kerp_estimator_2} and \eqref{kerp_estimator_3}, the approximability of $\ker \mathcal P_h$ for the case of $\boldsymbol w_h \ne \boldsymbol 0$ is given by:
-\begin{equation}
+\begin{equation}\label{kerp_estimator}
 \inf_{\bar{\boldsymbol v}_h \in \ker \mathcal P_h}\Vert \boldsymbol u - \bar{\boldsymbol v}_h \Vert_V \le (1+\frac{C_b}{\beta}) \inf_{\boldsymbol v_h \in V_h} \Vert \boldsymbol u- \boldsymbol v_h \Vert_V
 \end{equation}
 
