@@ -67,6 +67,11 @@ $n_u = 1889$ & $r = n_d$ & $r = r_{opt}$ &
 \caption{Comparison of pressure contour plots for Cook's membrane problem using Quad8--RK}\label{fg:cook_membrane_contour_quad8}
 \end{figure}
 
+An efficiency comparison of different methods for the Cook's membrane problem is presented in Table \ref{tab_condition}.
+This includes the condition number of the global stiffness matrix and the CPU time for shape function construction, system assembly, and system solving.
+The mixed FE--Meshfree formulations spend more time compared to the traditional element--based formulations.
+This is mainly due to the implicit, complicated expression of meshfree shape functions and the larger bandwidth of the stiffness matrix, which results from the larger support size of the meshfree shape functions.
+
 \begin{table}[H]
 \centering
 \caption{Condition number and efficiency comparison for Cook's membrane problem}
@@ -77,16 +82,16 @@ $n_u = 1889$ & $r = n_d$ & $r = r_{opt}$ &
 \shortstack{} & \shortstack{} & Shape function & Assembly & Solving \\
 \midrule
 MINI & 1.11E06 & 0.025 & 0.327 & 0.022 \\
-Tri3--RK($r=n_d$) & 1.89E10 & 1.73 & 4.160 & 0.108 \\
+Tri3--RK($r=n_d$) & 1.89E10 & 1.730 & 4.160 & 0.108 \\
 Tri3--RK($r=r_{opt}$) & 1.13E08 & 1.290 & 1.720 & 0.052 \\
-T6P3 & 1.62E05 & 0.004 & 0.380 & 0.021 \\
-Tri6--RK($r=n_d$) & 2.48E16 & 1.62 & 1.67 & 0.294 \\
+T6C3 & 1.62E05 & 0.004 & 0.380 & 0.021 \\
+Tri6--RK($r=n_d$) & 2.48E16 & 1.620 & 1.670 & 0.294 \\
 Tri6--RK($r=r_{opt}$) & 3.69E10 & 1.110 & 0.634 & 0.077 \\
 Q4P1 & 5.75E12 & 0.011 & 0.344 & 0.021 \\
-Quad4--RK($r=n_d$) & 5.21E10 & 2.1 & 4.89 & 0.122 \\
-Quad4--RK($r=r_{opt}$) & 1.97E08 & 1.5 & 2.14 & 0.057 \\
+Quad4--RK($r=n_d$) & 5.21E10 & 2.100 & 4.890 & 0.122 \\
+Quad4--RK($r=r_{opt}$) & 1.97E08 & 1.500 & 2.140 & 0.057 \\
 Q8P3 & 2.69E07 & 0.005 & 0.373 & 0.015 \\
-Quad8--RK($r=n_d$) & 2.75E15 & 1.17 & 1.18 & 0.184 \\
+Quad8--RK($r=n_d$) & 2.75E15 & 1.170 & 1.180 & 0.184 \\
 Quad8--RK($r=r_{opt}$) & 8.67E10 & 0.847 & 0.471 & 0.065 \\
 \bottomrule
 \end{tabular}

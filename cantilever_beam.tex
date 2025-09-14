@@ -78,6 +78,35 @@ For the strain error, the Quad8--RK method shows stable results regardless of wh
 This may be due to the fact that the Quad8 element with a regular mesh satisfies the relationship of Eq. \eqref{interp_error_0}.
 In this context, the strain error of Eq. \eqref{u_estimator} is independent of the inf-sup value $\beta$ and remains at a low level.
 
+Additionally, a non-uniform discretization version of the study on strain and pressure errors with respect to $n_p$ is conducted shown in Figure \ref{fg:cantilever_irregular_mesh}.
+To avoid the influence of the pressure interpolation error, the pressure nodes are still uniformly distributed, independent of the displacement nodes.
+The results in Figure \ref{fg:cantilever_ns_irregular} show that the pressure errors of linear approximations, Tri3--RK and Quad4--RK, immediately increase when their constraint ratios are outside the optimal range.
+The quadratic approximations, Tri6--RK and Quad8--RK, demonstrate better performance in resisting volumetric locking.
+In this case, the increase in pressure error has a gentler slope when the number of pressure nodes exceeds $n_s$.
+
+\begin{figure}[H]
+\centering
+\begin{subcaptiongroup}
+\parbox[b]{0.6\textwidth}{
+    \includegraphics[width=0.6\textwidth]{png/cantilever_tri3_irregular_385.png}
+    \caption{Tri3--RK with $n_u=376$}
+}
+\parbox[b]{0.6\textwidth}{
+    \includegraphics[width=0.6\textwidth]{png/cantilever_tri6_irregular_1457.png}
+    \caption{Tri6--RK with $n_u=1440$}
+}
+\parbox[b]{0.6\textwidth}{
+    \includegraphics[width=0.6\textwidth]{png/cantilever_quad4_irregular_367.png}
+    \caption{Quad4--RK with $n_u=358$}
+}
+\parbox[b]{0.6\textwidth}{
+    \includegraphics[width=0.6\textwidth]{png/cantilever_quad8_irregular_1059.png}
+    \caption{Quad8--RK with $n_u=1042$}
+}
+\end{subcaptiongroup}
+\caption{Non--uniform discretizations for cantilever beam problem}\label{fg:cantilever_irregular_mesh}
+\end{figure}
+
 \begin{figure}[!hp]
 \centering
 \begin{subcaptiongroup}

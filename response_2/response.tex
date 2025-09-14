@@ -16,11 +16,27 @@
 \begin{document}
 
 \maketitle
-
-Authors appreciate careful reading of the manuscript by the reviewers, and are thankful for helpful suggestions for its improvement. Authors have modified the manuscript substantially in light of the reviewer's comments. All the modifications and changes made are highlighted in the Marked Revised Manuscript. Issues and concerns raised by the reviewers are discussed as follows:
+Authors are grateful to the reviewers for their meticulous review of our manuscript and for their constructive suggestions.
+These comments have been instrumental in enhancing the paper's clarity and rigor.
+We have thoroughly revised the manuscript in response to each point raised.
+A detailed discussion of how we have addressed the reviewers' concerns follows.
+All modifications are highlighted in the marked revised manuscript.
 
 \section*{Reviewer \#1}
 \textit{I find the reviewer responses to be quite "dismissive" to some of my comments and the comments of the other reviewer. Adding a small paragraph here and there will not cut it. Also, putting the table where computational costs grow tenfold and condition numbers increase by orders of magnitude and NOT including it, and the corresponding discussion, in the body of the paper is not acceptable. This was my exact issue: Is the method justified (beyond being a computational math curiosity)? Your new table suggests that you might as well forego FEM and just do Meshfree.}
+
+\textbf{Response:} 
+Authors apologize for any misunderstanding caused by our previous responses,
+and it is the turth that the proposed mixed FE--meshfree formulations indeed have worse condition number and efficiency compared with traditional FEM.
+However, the main purpose of this work is to propose the novel optimal constraint ratio, which is theoretically grounded in the inf--sup condition and thus more precise than the traditional one,
+and provides a tool to justify the satsification of inf--sup condition just by counting the DOFs of displacement and pressure fields.
+The optimal constraint ratio is not only suitable for the proposed FE--meshfree formulation but also for other u--p mixed formulations.
+The proposed mixed FE--meshfree formulation is a means to more flexibly and easily demonstrate the effectiveness of the optimal constraint ratio,
+while the element--based mixed formulation can not justify the constraint ratio to arbitrary value, and the meshfree approximation can place the pressure DOFs independently of the displacement nodes.
+Meanwhile, the mixed FE--meshfree formulation also provides a general framework to construct locking--free formulations, the pressure meshfree approximation can cooperate with various displacement discretizations, like isogeometric analysis etc.
+
+Authors agree that the efficiency issue of mixed FE--meshfree formulation can not be ignored,
+the related condition number and efficiency comparison for Cook's membrane problem in Table 5 and its discussion have been added on Page 35.
 
 \textit{I do appreciate the effort on additional computations. However, while illuminating, these are raising more questions than providing answers. For the cantilever beam, Cook's membrane, and compression block problems the following needs to be addressed:}
 
@@ -46,6 +62,27 @@ The related discussions have also been added in the revised manuscript in Page.
 \textbf{Comment 3.} \textit{Figure 12: Quadratic Quads error is completely insensitive to the number of constraints used. This makes no sense. In addition, as the number of constraints goes to zero, the errors in the strain and pressure do not increase. Why is that? Aren't you losing incompressibility completely in this limit? There must be some "pathology" with this problem, and this may not be a good example.}
 
 \textbf{Response:} 
+Thanks the reviewer to point out these interesting phenomenons.
+Firstly,
+the strain error of the Quad8--RK is indeed insensitive to the number of pressure nodes $n_p$.
+To better explain this phenomenon, we have added the error estimators for mixed formulations in Appendix of the revised manuscript,
+where the strain error estimator, as shown in Eq. (A.10) in revised manuscript, is given by:
+\begin{equation}\label{u_estimator}
+\Vert \boldsymbol u - \boldsymbol u_h \Vert_V \le (1+\frac{C_a}{\alpha}) \inf_{\boldsymbol v_h \in \ker \mathcal P_h} \Vert \boldsymbol u - \boldsymbol v_h \Vert_V + \frac{C_b}{\alpha} \inf_{q_h \in Q_h} \Vert p - q_h \Vert_Q
+\end{equation}
+and the Quad8 element with a regular mesh satisfies the following relationship:
+\begin{equation}\label{interp_error_0}
+\inf_{\bar{\boldsymbol v}_h \in \ker \mathcal P_h} \Vert \boldsymbol u - \bar{\boldsymbol v}_h \Vert_V = \inf_{\boldsymbol v_h \in V_h} \Vert \boldsymbol u - \boldsymbol v_h \Vert_V
+\end{equation}
+In this context, the strain error estimator is independent with the inf-sup value $\beta$, and thus causing the strain error to be insensitive to $n_p$.
+
+Additionally, a non-uniform discretization of displacement field is also tested for the pressure error with respect to $n_p$, where, as shown in Figure 15 in the revised manuscript, unlike the uniform discretization, the strain error is no longer stable, and it increases as $n_p$ out of the optimal range.
+
+Secondly, for the strain and pressure errors not increasing as $n_p$ decreases to 0,
+it is because that, as shown in Eqs. (A.10) and (A.14) in the revised manuscript, the error estimators of strain and pressure are controlled by two terms, and those two terms are dependent on interpolation errors of displacement and pressure fields, respectively.
+In this problem, the exact solution of pressure solution in Eq.(62) is only a second-order polynomial, and thus the interpolation error of pressure is smaller than that of displacement.
+This results in that the strain and pressure errors do not increase as $n_p$ decreases to 0.
+The related statements have been added in Page ... of the revised manuscript.
 
 \textbf{Comment 4.} \textit{
 Figure 15:
@@ -55,10 +92,17 @@ Why is that? Shouldn't you be locking at some point? Tri6, however, seems to beh
 }
 
 \textbf{Response:}
+Authors appreciate the reviewer's observation of this interesting phenomenon.
+Tri3--RK indeed does not show a sharp drop in the strain error when the $n_p$ goes below the optimal value $n_s$.
+To better explain this phenomenon, we have added the error estimators for mixed formulations in Appendix of the revised manuscript,
+where the strain error estimator, as shown in Eq. (A.10) 
 
 \textbf{Comment 5.} \textit{The compression block problem really comes from large-deformation formulations. For a linear problem is does not make sense to do four levels of loading because the displacement results will just linearly scale with the applied load. So, just one load level is enough, unless the authors are willing to develop a large-deformation formulation... From the results it's not clear if the formulation is converging because no comparison is made to anything. Perhaps a computation using B-Bar or Taylor-Hood can be shown for comparison?}
 
 \textbf{Response:} 
+Thanks for the reviewer's suggestion. The convergence study of the compression block problem has been revised back to the original one-load-level setting in Section 5.4 of the revised manuscript.
+Moreover, the convergence results using Tet4--MINI and H8P1 elements have been added for comparsion, as shown in Figure 20,
+where the results show that the proposed mixed formulations using Tet4--RK and H8--RK elements achieve comparable accuracy with Tet4--MINI and H8P1 elements.
 
 \section*{Reviewer \#2}
 
@@ -71,14 +115,29 @@ Why is that? Shouldn't you be locking at some point? Tri6, however, seems to beh
 \textbf{Comment 1.} \textit{ Table 1: Condition number and eﬀiciency comparison for Cook's membrane problem}
 
 \textbf{Response:}
+Thanks for the reviewer's suggestion. The condition number and efficiency comparison for Cook's membrane problem have been added in Table 2 on Page 12 of the revised manuscript, 
+additionally, the related discussions have also been added in Page 12 of the revised manuscript.
 
 \textbf{Comment 2.} \textit{ In the abstract, it should be mentioned that you test only structured meshes}
 
 \textbf{Response:} 
+Thanks, in order to clarify this point, 
+a strain and pressure error sensitivity study repect to $n_p$ using unstructured displacement discretization has been added in Figure 15 on Page 14 of the revised manuscript,
+however, the pressure nodes are still uniformly distributed for eliminating the influence of interpolation error.
+The results also demanstrate the effectiveness of the proposed optimal constraint ratio using unstructured displacement discretization.
+It should be noted that, 
+
+Moreover, 
+the pressure contour plots for cook's membrane problem using unstructured discretization can show the performance of the proposed mixed formulations.
 
 \textbf{Comment 3.} \textit{In the conclusions, it should be mentioned that this method has worse conditioning than mesh-based methods (as many mesh-free methods do)}
 
 \textbf{Response:}
+Thanks, following the reviewer's suggestion,
+the related statements for worse condition number and efficiency of the proposed mixed formulations have been added in conclusions on Page 20:
+``
+However, the implicit expression of shape functions and the larger bandwidth of the stiffness matrix in meshfree approximation also lead to larger condition number and lower efficiency compared with traditional element-based formulations.
+'' 
 
 \textit{I look forward to your updated manuscript.}
 
