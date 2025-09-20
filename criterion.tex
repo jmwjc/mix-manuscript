@@ -5,15 +5,16 @@ To ensure the surjectivity of orthogonal projection and satisfactory results, th
 \begin{equation}\label{infsup}
 \inf_{q_h \in Q_h} \sup_{\boldsymbol{v}_h \in V_h} \frac{|b(q_h, \boldsymbol{v}_h)|}{\|q_h\|_Q \|\boldsymbol{v}_h\|_V} \ge \beta > 0
 \end{equation}
-in which $\beta$, namely the inf-sup value, is a constant independent of the characterized element size $h$. The norms $\|\bullet\|_V$ and $\|\bullet\|_Q$ can be flexibly defined by:
+in which $\beta$, namely the inf-sup value, is a constant independent of the characterized element size $h$.
+The \ref{error} lists the displacement and pressure error estimators for mixed--formulations.
+These estimators imply how the inf--sup value $\beta$ affects solution's accuracy.
+The norms $\|\bullet\|_V$ and $\|\bullet\|_Q$ can be flexibly defined by:
 \begin{align}
 \label{norm_V}
 \|\boldsymbol{v}\|_V^2 &:= \int_\Omega \nabla^d \boldsymbol{v} : \nabla^d \boldsymbol{v} \, d\Omega \\
 \label{norm_Q}
 \|q\|_Q^2 &:= \int_\Omega \frac{1}{3\kappa} q^2 \, d\Omega
 \end{align}
-Additionally, the \ref{error} lists the displacement and pressure error estimators for the mixed-formulations.
-This indicates how the inf-sup value $\beta$ affects the solution accuracy.
 
 To establish the relationship between the inf--sup condition and the constraint ratio, the inf--sup condition is firstly transformed by the following Lemma \ref{lma}:
 
@@ -267,47 +268,46 @@ n &= \left\lfloor
 \right\rfloor
 \end{align}
 
-% Table \ref{tb:inf_sup_condition} lists the effectiveness of the traditional constraint ratio and the proposed optimal constraint ratio for traditional mixed formulation schemes, comparing the constraint ratios with the fulfillment of the inf-sup condition using analytical proof and numerical prediction. The table reveals that the traditional constraint ratio $r \ge n_d$ is not sufficient to guarantee the inf-sup condition, especially for low-order mixed formulations like T3P1 and Q4P1. The proposed optimal constraint ratio $r_{opt} \ge \frac{n_d \times n_u}{n_s}$ is more effective in ensuring the inf-sup condition,
-% since the corresponding results is consistent with numerical prediction or analytical proof of inf--sup condition.
+Table \ref{tb:inf_sup_condition} lists the effectiveness of the traditional constraint ratio and the proposed optimal constraint ratio for traditional mixed formulation schemes, comparing the constraint ratios with the fulfillment of the inf-sup condition using analytical proof and numerical prediction. The table reveals that the traditional constraint ratio $r \ge n_d$ is not sufficient to guarantee the inf-sup condition, especially for Q4P1 and Q8P3. The proposed optimal constraint ratio $r_{opt} \ge \frac{n_d \times n_u}{n_s}$ is more effective in ensuring the inf-sup condition,
+since the corresponding results is consistent with numerical prediction or analytical proof of inf--sup condition.
 
-% \begin{table}[!htb]
-% \centering
-% \caption{Constraint ratio and inf-sup condition for various mixed formulations} \label{tb:inf_sup_condition}
-% \begin{tabular}{ccccc}
-% \hline
-% \multirow{2}{*}{\scriptsize Formulation} & {\scriptsize Constraint Ratio} & \multicolumn{2}{c}{\scriptsize Inf-sup condition} & {\scriptsize Constraint Ratio} \\
-% & {\scriptsize $r \ge n_d$} & {\tiny Numerical prediction} & {\tiny Analytical proof} & {\scriptsize $r = r_{opt}$} \\
-% \hline
-% \parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_T3P1.png}\\[-1.5ex]{\tiny T3P1($r=1$)}\\[1ex]}
-% & $\times$ & $\times$ & $\times$ & $\times$ \\
-% \parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_Q4P1.png}\\[-1.5ex]{\tiny Q4P1($r=2$)}\\[1ex]}
-% & \checkmark & $\times$ & $\times$ & $\times$ \\
-% \parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_Q8P3.png}\\[-1.5ex]{\tiny Q8P3($r=2$)}\\[1ex]}
-% & \checkmark & $\times$ & $\times$ & $\times$ \\
-% \parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_Q8P1.png}\\[-1.5ex]{\tiny Q8P1($r=6$)}\\[1ex]}
-% & \checkmark & \checkmark & \checkmark & \checkmark \\
-% \parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_Q9P3.png}\\[-1.5ex]{\tiny Q9P3($r=\frac{8}{3}$)}\\[1ex]}
-% & \checkmark & \checkmark & \checkmark & \checkmark \\
-% \parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mini.png}\\[-1.5ex]{\tiny MINI($r=\frac{8}{3}$)}\\[1ex]}
-% & \checkmark & \checkmark & \checkmark & \checkmark \\
-% \parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/TaylorHood.png}\\[-1.5ex]{\tiny Taylor--Hood($r=8$)}\\[1ex]}
-% & \checkmark & \checkmark & \checkmark & \checkmark \\
-% \parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_T6C3.png}\\[-1.5ex]{\tiny T6C3($r=\frac{8}{3}$)}\\[1ex]}
+\begin{table}[!htp]
+\centering
+\caption{Inf-sup condition and constraint ratio for various mixed formulations} \label{tb:inf_sup_condition}
+\begin{tabular}{ccccc}
+\hline
+\multirow{2}{*}{\scriptsize Formulation} & \multicolumn{2}{c}{\scriptsize Inf-sup condition} & {\scriptsize Constraint Ratio} & {\scriptsize Constraint Ratio} \\
+& {\tiny Numerical prediction} & {\tiny Analytical proof} & {\scriptsize $r \ge n_d$} & {\scriptsize $r = r_{opt}$} \\
+\hline
+\parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_T3P1.png}\\[-1.5ex]{\tiny T3P1($r=1$)}\\[1ex]}
+& $\times$ & $\times$ & $\times$ & $\times$ \\
+\parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_Q4P1.png}\\[-1.5ex]{\tiny Q4P1($r=2$)}\\[1ex]}
+& $\times$ & $\times$ & \checkmark & $\times$ \\
+\parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_Q8P3.png}\\[-1.5ex]{\tiny Q8P3($r=2$)}\\[1ex]}
+& $\times$ & $\times$ & \checkmark & $\times$ \\
+\parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_Q8P1.png}\\[-1.5ex]{\tiny Q8P1($r=6$)}\\[1ex]}
+& \checkmark & \checkmark & \checkmark & \checkmark \\
+\parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_Q9P3.png}\\[-1.5ex]{\tiny Q9P3($r=\frac{8}{3}$)}\\[1ex]}
+& \checkmark & \checkmark & \checkmark & \checkmark \\
+\parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mini.png}\\[-1.5ex]{\tiny MINI($r=6$)}\\[1ex]}
+& \checkmark & \checkmark & \checkmark & \checkmark \\
+\parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/TaylorHood.png}\\[-1.5ex]{\tiny Taylor--Hood($r=8$)}\\[1ex]}
+& \checkmark & \checkmark & \checkmark & \checkmark \\
+\parbox{0.2\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/mix_T6C3.png}\\[-1.5ex]{\tiny T6C3($r=8$)}\\[1ex]}
+& \checkmark & \checkmark &  & \checkmark \\
+% \parbox{0.25\textwidth}{\centering\includegraphics[width=0.1\textwidth]{CrouzeixRaviart.png}\\[-1.5ex]{\tiny Crouzeix--Raviart($r=4$)}\\[1ex]}
 % & \checkmark & \checkmark &  & \checkmark \\
-% \parbox{0.25\textwidth}{\centering\includegraphics[width=0.1\textwidth]{png/CrouzeixRaviart.png}\\[-1.5ex]{\tiny Crouzeix--Raviart($r=4$)}\\[1ex]}
-% & \checkmark & \checkmark &  & \checkmark \\
-% \hline
-% \multicolumn{5}{c}{
-%     \includegraphics[width=5pt]{png/legend_u.png}
-%     \scriptsize :Displacement node
-%     \quad
-%     \includegraphics[width=5pt]{png/legend_p2.png}
-%     \scriptsize :Discontinuous pressure node
-%     \quad
-%     \includegraphics[width=5pt]{png/legend_p.png}
-%     \scriptsize :Continuous pressure node
-% }\\
-% \hline
-% \end{tabular}
-% \end{table}
+\multicolumn{5}{l}{
+    \includegraphics[width=5pt]{png/legend_u.png}
+    \scriptsize :Displacement node
+    \quad
+    % \includegraphics[width=5pt]{legend_p2.png}
+    % \scriptsize :Discontinuous pressure node
+    % \quad
+    \includegraphics[width=5pt]{png/legend_p.png}
+    \scriptsize :Pressure node
+}\\
+\hline
+\end{tabular}
+\end{table}
 

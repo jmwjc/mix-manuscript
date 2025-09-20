@@ -13,13 +13,13 @@ As shown in Figure \ref{fg:cook_convergence} illustrates, the methods employing 
 Furthermore, to investigate stability, Figures \ref{fg:cook_membrane_contour_tri3}--\ref{fg:cook_membrane_contour_quad8} show the pressure contour plots for non-uniform Tri3--RK, Tri6--RK, Quad4--RK, and Quad8--RK formulations with $r=n_d$ and $r=r_{opt}$, respectively.
 The reproducing kernel meshfree approximations are employed for pressure discretization with characterized support sizes of 1.5 for the linear basis function and 2.5 for the quadratic basis function. The results imply that the pressure contour plots with the optimal constraint ratio $r=r_{opt}$ show a more stable and smooth pressure distribution compared to those with the traditional constraint ratio $r=n_d$.
 
-\begin{figure}[H]
+\begin{figure}[!htp]
 \centering
 \includegraphics[width=\textwidth]{png/cook_convergence.png}
 \caption{Convergence comparison of the vertical displacement at point $A$ for Cook's membrane problem}\label{fg:cook_convergence}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[!htp]
 \centering
 \begin{tabular}{c@{\hspace{5pt}}c@{\hspace{5pt}}c@{\hspace{5pt}}c}
 \includegraphics[width=0.33\textwidth]{png/cook_tri3_2529_msh.png}
@@ -31,7 +31,7 @@ $n_u = 2529$ & $r = n_d$ & $r = r_{opt}$ &
 \caption{Pressure contour plots for Cook's membrane problem using Tri3--RK}\label{fg:cook_membrane_contour_tri3}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[!htp]
 \centering
 \begin{tabular}{c@{\hspace{5pt}}c@{\hspace{5pt}}c@{\hspace{5pt}}c}
 \includegraphics[width=0.33\textwidth]{png/cook_tri6_2529_msh.png}
@@ -43,7 +43,7 @@ $n_u = 2529$ & $r = n_d$ & $r = r_{opt}$ &
 \caption{Comparison of pressure contour plots for Cook's membrane problem using Tri6--RK}\label{fg:cook_membrane_contour_tri6}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[!htp]
 \centering
 \begin{tabular}{c@{\hspace{5pt}}c@{\hspace{5pt}}c@{\hspace{5pt}}c}
 \includegraphics[width=0.33\textwidth]{png/cook_quad_2485_msh.png}
@@ -55,7 +55,7 @@ $n_u = 2485$ & $r = n_d$ & $r = r_{opt}$ &
 \caption{Comparison of pressure contour plots for Cook's membrane problem using Quad4--RK}\label{fg:cook_membrane_contour_quad4}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[!htp]
 \centering
 \begin{tabular}{c@{\hspace{5pt}}c@{\hspace{5pt}}c@{\hspace{5pt}}c}
 \includegraphics[width=0.33\textwidth]{png/cook_quad8_1889_msh.png}
@@ -69,10 +69,10 @@ $n_u = 1889$ & $r = n_d$ & $r = r_{opt}$ &
 
 An efficiency comparison of different methods for the Cook's membrane problem is presented in Table \ref{tab_condition}.
 This includes the condition number of the global stiffness matrix and the CPU time for shape function construction, system assembly, and system solving.
-The mixed FE--Meshfree formulations spend more time compared to the traditional element--based formulations.
+The mixed FE--Meshfree formulations exhibit higher condition number spend more time compared to the traditional element--based formulations.
 This is mainly due to the implicit, complicated expression of meshfree shape functions and the larger bandwidth of the stiffness matrix, which results from the larger support size of the meshfree shape functions.
 
-\begin{table}[H]
+\begin{table}[!htp]
 \centering
 \caption{Condition number and efficiency comparison for Cook's membrane problem}
 \label{tab_condition}

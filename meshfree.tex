@@ -1,6 +1,6 @@
 \section{Mixed FE--meshfree formulation with optimal constraint ratio}
 
-In the proposed mixed--formulation, the displacement is approximated using 3--node (Tri3), 6--node (Tri6) triangular elements and 4--node (Quad4), 8-node (Quad8) quadrilateral elements in 2D, 4--node (Tet4) tetrahedral element and 8--node (Hex8) hexahedral element in 3D \cite{hughes2000}. In order to flexibly adjust to let the DOFs of pressure meet the optimal constraint, the reproducing kernel (RK) meshfree approximation is involved to approximate pressure, namely ``FE''-RK formulation.
+In the proposed mixed--formulation, the displacement is approximated using 3--node (Tri3), 6--node (Tri6) triangular elements and 4--node (Quad4), 8-node (Quad8) quadrilateral elements in 2D, 4--node (Tet4) tetrahedral element and 8--node (Hex8) hexahedral element in 3D \cite{hughes2000}. In order to flexibly adjust to let the DOFs of pressure meet the optimal constraint, the reproducing kernel (RK) meshfree approximation is involved to approximate pressure, namely FE--RK formulation.
 
 \subsection{Reproducing kernel meshfree approximation}\label{subsec:rk_approximation}
 
@@ -69,6 +69,8 @@ Table \ref{tab_gauss} lists the integration schemes used in this work for mixed-
 Methods with linear basis functions use an integration scheme of order 2.
 Those with quadratic basis functions use a scheme of order 4.
 The detailed locations and weights of the Gauss points can be found in Ref. \cite{bathe1996}.
+A sensitivity study on the integration order is carried out in a further numberical example in Section \ref{subsec:plate_with_hole}.
+The results from this study demonstrate the efficacy of these integration schemes.
 
 \begin{table}[H]
 \centering
@@ -107,8 +109,7 @@ In order to avoid the influence of interpolation error, uniform nodal distributi
 
 \begin{figure}[H]
 \centering
-% \includegraphics[width=0.5\textwidth]{png/infsup_mesh.png}
-\includegraphics[width=0.5\textwidth]{pdf/infsup_mesh.pdf}
+\includegraphics[width=0.5\textwidth]{png/infsup_mesh.png}
 \caption{Illustration of uniform nodal distribution for inf--sup test with $n_u=5\times5$, $n_p=4\times3$}\label{fg:infsup_mesh}
 \end{figure}
 

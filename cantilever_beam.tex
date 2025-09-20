@@ -71,18 +71,19 @@ The strain and pressure errors with respect to pressure nodes $n_p$ are displaye
 The vertical dashed lines stand for the stabilized number $n_s$.
 The figures imply that all pressure errors immediately increase when their constraint ratios are out of the optimal range,
 and quadratic elements still have better results than linear elements.
-As $n_p$ becomes very small, the pressure errors do not increase.
-This is because the pressure error estimator in Eq. \eqref{p_estimator} is primarily controlled by the strain error and the inf-sup value $\beta$.
-The exact pressure solution in Eq. \eqref{cantilever_stress} is only a second-order polynomial. As a result, the pressure interpolation error in Eq. \eqref{p_estimator} is either very small or nonexistent.
+It is interesting that the pressure errors do not increase as $n_p$ becomes very small.
+This is because the exact pressure solution for this problem, given in Eq. \eqref{cantilever_stress}, is only a second-order polynomial.
+Consequently, the pressure interpolation error in Eq. \eqref{p_estimator} is either very small or nonexistent.
+In this circumstance, the pressure interpolation error is primarily controlled by strain error and inf--sup value $\beta$.
 For the strain error, the Quad8--RK method shows stable results regardless of whether the constraint ratio is in the optimal range.
 This may be due to the fact that the Quad8 element with a regular mesh satisfies the relationship of Eq. \eqref{interp_error_0}.
 In this context, the strain error of Eq. \eqref{u_estimator} is independent of the inf-sup value $\beta$ and remains at a low level.
 
-Additionally, a non-uniform discretization version of the study on strain and pressure errors with respect to $n_p$ is conducted shown in Figure \ref{fg:cantilever_irregular_mesh}.
-To avoid the influence of the pressure interpolation error, the pressure nodes are still uniformly distributed, independent of the displacement nodes.
-The results in Figure \ref{fg:cantilever_ns_irregular} show that the pressure errors of linear approximations, Tri3--RK and Quad4--RK, immediately increase when their constraint ratios are outside the optimal range.
+To further investigate the performance of proposed methods in unstructured mesh, a non-uniform discretization version of the study on strain and pressure errors with respect to $n_p$ is conducted shown in Figure \ref{fg:cantilever_irregular_mesh}.
+Accordingly, the pressure nodes are also non-uniformly distributed and independent of the displacement nodes.
+The related results, shown in Figure \ref{fg:cantilever_ns_irregular}, imply that all errors increase more rapidly as the constraint ratio falls outside the optimal range.
 The quadratic approximations, Tri6--RK and Quad8--RK, demonstrate better performance in resisting volumetric locking.
-In this case, the increase in pressure error has a gentler slope when the number of pressure nodes exceeds $n_s$.
+In this case, the increase in Tri6--RK's strain and pressure errors has a gentler slope when the number of pressure nodes exceeds $n_s$.
 
 \begin{figure}[H]
 \centering
@@ -118,7 +119,7 @@ $\Vert \boldsymbol{u} - \boldsymbol{u}_h \Vert_V$ & $\Vert p - p_h \Vert_Q$ \\
 & \raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_quad_irregularL2_p.png}} 
 \end{tabular}
 \end{subcaptiongroup}
-\caption{Strain and pressure errors vs. $n_p$ for cantilever beam problem with non--uniform elements}\label{fg:cantilever_ns_irregular}
+\caption{Strain and pressure errors vs. $n_p$ for cantilever beam problem with non--uniform discretizations}\label{fg:cantilever_ns_irregular}
 \end{figure}
 
 

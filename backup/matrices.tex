@@ -1,0 +1,31 @@
+
+\begin{equation}
+\boldsymbol B^v_I =
+\begin{bmatrix}
+    \frac{1}{3}N_{I,x} & \frac{1}{3}N_{I,y} & \frac{1}{3}N_{I,z} \\
+    \frac{1}{3}N_{I,x} & \frac{1}{3}N_{I,y} & \frac{1}{3}N_{I,z} \\
+    \frac{1}{3}N_{I,x} & \frac{1}{3}N_{I,y} & \frac{1}{3}N_{I,z} \\
+    0 & 0 & 0 \\
+    0 & 0 & 0 \\
+    0 & 0 & 0 \\
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+\boldsymbol B^d_I = 
+\begin{bmatrix}
+     \frac{2}{3}N_{I,x} & -\frac{1}{3}N_{I,y} & -\frac{1}{3}N_{I,z} \\
+    -\frac{1}{3}N_{I,x} &  \frac{2}{3}N_{I,y} & -\frac{1}{3}N_{I,z} \\
+    -\frac{1}{3}N_{I,x} & -\frac{1}{3}N_{I,y} &  \frac{2}{3}N_{I,z} \\
+     \frac{1}{2}N_{I,y} &  \frac{1}{2}N_{I,x} & 0 \\
+     \frac{1}{2}N_{I,z} & 0                   &  \frac{1}{2}N_{I,x} \\
+    0                   &  \frac{1}{2}N_{I,z} &  \frac{1}{2}N_{I,y} \\
+\end{bmatrix}
+\end{equation}
+
+\begin{align}
+    \boldsymbol K^{up}_{IK} &= \int_{\Omega} 
+    \begin{Bmatrix}
+    N_{I,x} \\ N_{I,y}
+    \end{Bmatrix} \Psi_K d\Omega \\
+    K^{pp}_{KL} &= \int_\Omega\frac{1}{3\kappa} N_K N_L d\Omega
+\end{align}

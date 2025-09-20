@@ -12,14 +12,15 @@ where $I$ is the beam's moment of inertia, $\bar{E}$ and $\bar{\nu}$ are the mat
 \begin{equation}
 I = \frac{D^3}{12}, \quad \bar{E} = \frac{E}{1-\nu^2}, \quad \bar{\nu} = \frac{\nu}{1-\nu}
 \end{equation}
-And correspondingly, the stress components are evaluated by
-\begin{equation}
-\left\{
-\begin{aligned}
-\sigma_{xx} &= - \frac{P(L-x)y}{I} \\
-\sigma_{yy} &= 0 \\
-\sigma_{xy} &= \frac{P}{2I}(\frac{D^2}{4}-y^2)
-\end{aligned}
+And correspondingly, the stress components \DIFaddbegin \DIFadd{and the pressure }\DIFaddend are evaluated by
+\begin{equation}\DIFaddbegin \label{cantilever_stress}
+\DIFaddend \left\{
+ \DIFaddbegin \begin{aligned}
+&\sigma_{xx} = - \frac{P(L-x)y}{I} \\
+&\sigma_{yy} = 0 \\
+&\sigma_{xy} = \frac{P}{2I}(\frac{D^2}{4}-y^2) \\
+&p = - \frac{P(1+\nu)(L-x)y}{3I}
+\end{aligned}\DIFaddend 
 \right.
 \end{equation}
 
@@ -32,9 +33,28 @@ And correspondingly, the stress components are evaluated by
 \begin{figure}[!hp]
 \centering
 \begin{subcaptiongroup}
+\DIFaddbeginFL 
+\begin{tabular}{c@{\hspace{0pt}}c}
+\DIFaddFL{$\Vert \boldsymbol{u} - \boldsymbol{u}_h \Vert_V$} & \DIFaddFL{$\Vert p - p_h \Vert_Q$} \\
+\DIFaddFL{\raisebox{-0.8\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_Hdev_4.png}}
+}& \DIFaddFL{\raisebox{-0.8\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_L2_p_4.png}} }\\
+\DIFaddFL{\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_Hdev_8.png}}
+}& \DIFaddFL{\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_L2_p_8.png}} }\\
+\DIFaddFL{\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_Hdev_16.png}}
+}& \DIFaddFL{\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_L2_p_16.png}} }\\
+\DIFaddFL{\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_Hdev_32.png}}
+ }& \DIFaddFL{\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_L2_p_32.png}} }\\
+\end{tabular}
+\end{subcaptiongroup}
+\caption{\DIFaddFL{Strain and pressure errors vs. $n_p$ for cantilever beam problem with triangular elements}}\label{fg:cantilever_tri_ns}
+\end{figure}
+
+\begin{figure}[!hp]
+\centering
+\begin{subcaptiongroup}
 \begin{tabular}{c@{\hspace{0pt}}c}
 $\Vert \boldsymbol{u} - \boldsymbol{u}_h \Vert_V$ & $\Vert p - p_h \Vert_Q$ \\
-\raisebox{-0.8\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_Hdev_4.png}}
+\DIFaddendFL \raisebox{-0.8\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_Hdev_4.png}}
 & \raisebox{-0.8\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_L2_p_4.png}} \\
 \raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_Hdev_8.png}}
 & \raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_L2_p_8.png}} \\
@@ -44,28 +64,106 @@ $\Vert \boldsymbol{u} - \boldsymbol{u}_h \Vert_V$ & $\Vert p - p_h \Vert_Q$ \\
  & \raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_L2_p_32.png}} \\
 \end{tabular}
 \end{subcaptiongroup}
-\caption{Strain and pressure errors vs. $n_p$ for cantilever beam problem}\label{fg:cantilever_ns}
+\caption{Strain and pressure errors vs. $n_p$ for cantilever beam problem \DIFaddbeginFL \DIFaddFL{with quadrilateral elements}\DIFaddendFL }\label{fg:cantilever_ns}
 \end{figure}
 
-In this problem, the Quad4 element with $16\times 4$, $32\times 8$, $64\times 16$, $128\times 32$ grids, and Quad8 element with $8\times 2$, $16\times 4$, $32\times 8$, $64\times 16$ grids are employed for displacement discretization. The pressure is discretized by linear and quadratic meshfree approximations with 1.5 and 2.5 characterized support sizes respectively.
-The strain and pressure errors with respect to pressure nodes $n_p$ are displayed in Figure \ref{fg:cantilever_ns}, where \DIFaddbegin \DIFadd{, to avoid the interpolation error, the pressure nodes are uniformly distributed independent with displacement nodes by the same way in Section \ref{subsec:optimal_constraint_ratio}. 
-The }\DIFaddend vertical dashed lines stand for the stabilized number $n_s$. The figure implies that the Quad8 shows better performance than Quad4, since the Quad8's strain results are stable no matter the constraint ratio is in the optimal range or not. And the Quad4's displacement errors increase as soon as $n_p > n_s$. However, both Quad4's and Quad8's pressure errors immediately increase while their constraint ratios are out of the optimal range, and Quad8 still has better results than Quad4.
-Figure \ref{fg:cantilever_convergence} shows the strain and pressure error convergence comparisons \DIFaddbegin \DIFadd{with Quad4--RK, Quad8--RK with $r=n_d$, $r=r_{opt}$ and traditional 4--node quadrilateral displacement element with 1--node piecewisw constant pressure (Q4P1), 8--node quadrilateral displacement element with 3--node piecewise linear pressure (Q8P3) }\DIFaddend for this cantilever beam problem, in which, except Quad8--RK($r=n_d$) for strain error, all formulations with the traditional constraint ratio of $r=n_d$ cannot ensure the optimal error convergence rates. The proposed mixed formulations with $r=r_{opt}$ \DIFaddbegin \DIFadd{and Q4P1, Q8P3 }\DIFaddend can maintain the optimal error convergence ratio \DIFaddbegin \DIFadd{, except the strain error of Quad8--RK is a little larger than that of Q8P3, the proposed approaches show the best performance in }\DIFaddend accuracy.
+In this problem, the \DIFaddbegin \DIFadd{Tri3, }\DIFaddend Quad4  \DIFaddbegin \DIFadd{elements }\DIFaddend with $16\times 4$, $32\times 8$, $64\times 16$, $128\times 32$ grids, and \DIFaddbegin \DIFadd{Tri6, }\DIFaddend Quad8  \DIFaddbegin \DIFadd{elements }\DIFaddend with $8\times 2$, $16\times 4$, $32\times 8$, $64\times 16$ grids are employed for displacement discretization. The pressure is discretized by linear and quadratic meshfree approximations with 1.5 and 2.5 characterized support sizes respectively.
+The strain and pressure errors with respect to pressure nodes $n_p$ are displayed in  \DIFaddbegin \DIFadd{Figures \ref{fg:cantilever_tri_ns}, }\DIFaddend \ref{fg:cantilever_ns}, where, to avoid the interpolation error, the pressure nodes are uniformly distributed independent with displacement nodes by the same way in Section \ref{subsec:optimal_constraint_ratio}. 
+The vertical dashed lines stand for the stabilized number $n_s$.
+The  \DIFaddbegin \DIFadd{figures imply that all pressure errors immediately increase when their constraint ratios are out of the optimal range,
+and quadratic elements still have better results than linear elements.
+It is interesting that the pressure errors do not increase as $n_p$ becomes very small.
+This is because the exact pressure solution for this problem, given in Eq. \eqref{cantilever_stress}, is only a second-order polynomial.
+Consequently, the pressure interpolation error in Eq. \eqref{p_estimator} is either very small or nonexistent.
+In this circumstance, the pressure interpolation error is primarily controlled by strain error and inf--sup value $\beta$.
+For the strain error, the Quad8--RK method shows stable results regardless of whether }\DIFaddend the  constraint ratio is in the optimal range \DIFaddbegin \DIFadd{.
+This may be due to the fact that the }\DIFaddend Quad8  \DIFaddbegin \DIFadd{element with a regular mesh satisfies the relationship of Eq. \eqref{interp_error_0}.
+In this context, the strain error of Eq. \eqref{u_estimator} is independent of the inf-sup value $\beta$ and remains at a low level.
+}
+
+\DIFadd{To further investigate the performance of proposed methods in unstructured mesh, a non-uniform discretization version of the study on strain and pressure errors with respect to $n_p$ is conducted shown in Figure \ref{fg:cantilever_irregular_mesh}.
+Accordingly, the pressure nodes are also non-uniformly distributed and independent of the displacement nodes.
+The related results, shown in Figure \ref{fg:cantilever_ns_irregular}, imply that all errors increase more rapidly as the constraint ratio falls outside the optimal range.
+The quadratic approximations, Tri6--RK and Quad8--RK, demonstrate better performance in resisting volumetric locking.
+In this case, the increase in Tri6--RK's strain and pressure errors has a gentler slope when the number of pressure nodes exceeds $n_s$.
+}
+
+\begin{figure}[H]
+\centering
+\begin{subcaptiongroup}
+\parbox[b]{0.6\textwidth}{
+    \includegraphics[width=0.6\textwidth]{png/cantilever_tri3_irregular_385.png}
+    \caption{\DIFaddFL{Tri3--RK with $n_u=376$}}
+}
+\parbox[b]{0.6\textwidth}{
+    \includegraphics[width=0.6\textwidth]{png/cantilever_tri6_irregular_1457.png}
+    \caption{\DIFaddFL{Tri6--RK with $n_u=1440$}}
+}
+\parbox[b]{0.6\textwidth}{
+    \includegraphics[width=0.6\textwidth]{png/cantilever_quad4_irregular_367.png}
+    \caption{\DIFaddFL{Quad4--RK with $n_u=358$}}
+}
+\parbox[b]{0.6\textwidth}{
+    \includegraphics[width=0.6\textwidth]{png/cantilever_quad8_irregular_1059.png}
+    \caption{\DIFaddFL{Quad8--RK with $n_u=1042$}}
+}
+\end{subcaptiongroup}
+\caption{\DIFaddFL{Non--uniform discretizations for cantilever beam problem}}\label{fg:cantilever_irregular_mesh}
+\end{figure}
+
+\begin{figure}[!hp]
+\centering
+\begin{subcaptiongroup}
+\begin{tabular}{c@{\hspace{0pt}}c}
+\DIFaddFL{$\Vert \boldsymbol{u} - \boldsymbol{u}_h \Vert_V$ }& \DIFaddFL{$\Vert p - p_h \Vert_Q$ }\\
+\DIFaddFL{\raisebox{-0.8\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_irregular_Hdev.png}}
+}& \DIFaddFL{\raisebox{-0.8\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_tri_irregular_L2_p.png}} }\\
+\DIFaddFL{\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_quad_irregular_Hdev.png}}
+}& \DIFaddFL{\raisebox{-0.85\height}{\includegraphics[width=0.48\textwidth]{png/cantilever_quad_irregularL2_p.png}} 
+}\end{tabular}
+\end{subcaptiongroup}
+\caption{\DIFaddFL{Strain and pressure errors vs. $n_p$ for cantilever beam problem with non--uniform discretizations}}\label{fg:cantilever_ns_irregular}
+\end{figure}
+
+
+\DIFadd{Figures \ref{fg:cantilever_convergence_tri}, \ref{fg:cantilever_convergence} are }\DIFaddend the strain and pressure error convergence  \DIFaddbegin \DIFadd{studies for triangular and quadrilateral elements, respectively,
+in which Tri3--RK, Tri6--RK with $r=n_d$, the MINI element \mbox{%DIFAUXCMD
+\cite{auricchio2005}}\hskip0pt%DIFAUXCMD
+, 6–-node triangular displacement element with 3–node continuous triangular pressure element (T6C3) are the comparative methods for Tri3--RK and Tri6--RK with $r=r_{opt}$,
+and }\DIFaddend Quad4--RK, Quad8--RK with $r=n_d$,  4--node quadrilateral displacement element with 1--node piecewise constant pressure (Q4P1), 8--node quadrilateral displacement element with 3--node piecewise linear pressure (Q8P3)  \DIFaddbegin \DIFadd{are employed for comparison with Quad4--RK and }\DIFaddend Quad8--RK  \DIFaddbegin \DIFadd{with $r=r_{opt}$.
+Except Tri3--RK, Quad8--RK with }\DIFaddend $r=n_d$  for strain error, all formulations with the traditional constraint ratio of $r=n_d$ cannot ensure the optimal error convergence rates. The proposed mixed formulations with $r=r_{opt}$  can maintain the optimal error convergence ratio, except the strain error of Quad8--RK is a little larger than that of Q8P3, the proposed approaches show the best performance in accuracy.
 
 \begin{figure}[H]
 \centering
 \begin{subcaptiongroup}
 \centering
 \parbox[b]{0.49\textwidth}{
-     %DIF >  \includegraphics[width=0.49\textwidth]{png/cantilever_Hdev_r1.png}
-    \DIFaddbeginFL \includegraphics[width=0.45\textwidth]{png/cantilever_Hdev_r1.png}
-    \DIFaddendFL \caption{Strain error}\label{fg:cantilever_convergence_strain}
+    %DIF <  \includegraphics[width=0.49\textwidth]{png/cantilever_Hdev_r1.png}
+     \DIFaddbeginFL \includegraphics[width=0.49\textwidth]{png/cantilever_tri_Hdev.png}
+    \DIFaddendFL \caption{Strain error} \DIFaddbeginFL \label{fg:cantilever_convergence_strain_tri}
+\DIFaddendFL }
+\parbox[b]{0.49\textwidth}{
+    %DIF <  \includegraphics[width=0.49\textwidth]{png/cantilever_L2_p_r1.png}
+     \DIFaddbeginFL \includegraphics[width=0.49\textwidth]{png/cantilever_tri_L2_p.png}
+    \DIFaddendFL \caption{Pressure error} \DIFaddbeginFL \label{fg:cantilever_convergence_pressure_tri}
+\DIFaddendFL }
+\end{subcaptiongroup}
+\caption{Error convergence study for cantilever beam problem \DIFaddbeginFL \DIFaddFL{with triangular elements}\DIFaddendFL }\DIFaddbeginFL \label{fg:cantilever_convergence_tri}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\begin{subcaptiongroup}
+\centering
+\parbox[b]{0.49\textwidth}{
+    \includegraphics[width=0.49\textwidth]{png/cantilever_Hdev_r1.png}
+    \caption{\DIFaddFL{Strain error}}\label{fg:cantilever_convergence_strain}
 }
 \parbox[b]{0.49\textwidth}{
-    \DIFaddbeginFL \includegraphics[width=0.45\textwidth]{png/cantilever_L2_p_r1.png}
-    \DIFaddendFL \caption{Pressure error}\label{fg:cantilever_convergence_pressure}
+    \includegraphics[width=0.49\textwidth]{png/cantilever_L2_p_r1.png}
+    \caption{\DIFaddFL{Pressure error}}\label{fg:cantilever_convergence_pressure}
 }
 \end{subcaptiongroup}
-\caption{Error convergence study for cantilever beam problem}\label{fg:cantilever_convergence}
+\caption{\DIFaddFL{Error convergence study for cantilever beam problem with quadrilateral elements}}\DIFaddendFL \label{fg:cantilever_convergence}
 \end{figure}
 

@@ -7,11 +7,11 @@ The Young's modulus and Poisson's ratio are set as $E = 240.56839$ and $\nu = 0.
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{png/block_model_r1.png}
-% \includegraphics[width=\textwidth]{pdf/block.pdf}
 \caption{Illustration of block under compression problem}\label{fg:block_model}
 \end{figure}
 
 The convergence properties of the mixed formulations are evaluated by comparing the compression level at point $A$ under loading condition $P = 80$.
+The 4-node tetrahedron element with the MINI scheme (Tet4--MINI) and the 8-node hexahedron element with piecewise constant pressure formulation (H8P1) are introduced herein as comparison methods.
 As shown in Figure \ref{fg:block_convergence}, all the results exhibit good convergence behavior across different loading levels.
 Figures \ref{fg:block_contour_tet4}, \ref{fg:block_contour_hex8} study the pressure stability of 3D mixed FE-meshfree formulations, Tet4--RK and Hex8--RK, with non-uniform nodal distribution, while the pressure is discretized by linear meshfree approximations with a characterized support size of 1.5. The corresponding results also show the well performance of the proposed optimal constraint ratio $r=r_{opt}$. The mixed formulations with the traditional constraint ratio $r=n_d$ show comparable displacement results, but exhibit significant pressure instability.
 

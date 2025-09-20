@@ -1,0 +1,40 @@
+
+\documentclass{elsarticle}
+\bibliographystyle{elsarticle-num}
+
+% ── Package ───────────────────────────────────────────────────────────
+\usepackage{amsmath,amssymb,amsfonts,amsthm,bm} % mathamatics
+\usepackage{graphicx, float, caption, subcaption} % figures
+\usepackage{booktabs,multirow} % tables
+\usepackage{hyperref} % hyperlinks
+\usepackage{lineno} % line number
+\newtheorem{thm}{Theorem}
+\newtheorem{rmk}{Remark}
+\newtheorem{lma}{Lemma}
+\newproof{pf}{Proof}
+\linenumbers % turn on line number
+
+% ── Main ──────────────────────────────────────────────────────────────
+\begin{document}
+\include{frontmatter}
+
+\input{introduction}
+\input{mix}
+\input{criterion}
+\input{meshfree}
+\section{Numerical examples}
+\input{cantilever_beam}
+\input{plate_with_hole}
+\input{cook_membrane}
+\input{block}
+\input{conclusion}
+
+\section*{Acknowledgment}
+The support of this work by the National Natural Science Foundation of China (12102138), the Natural Science Foundation of Fujian Province of China (2023J01108) and the Fundamental Research Funds
+of Central Universities (ZQN-1014) is gratefully acknowledged.
+\bibliography{references}
+% \appendix
+% \include{hilbert}
+% \include{error}
+
+\end{document}
